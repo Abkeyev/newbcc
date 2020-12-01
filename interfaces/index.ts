@@ -3,14 +3,13 @@ export interface MenuProps {
   inverseParentHeadNavigation: MenuProps[];
   isdropdown: boolean;
   isexternal: boolean;
-  ismuted: boolean;
   link: string;
   title: string;
 }
 
 export interface ButtonProps {
   id: number;
-  buttonColor: string;
+  buttonColor: 'primary' | 'secondary';
   buttonLink: string;
   buttonText: string;
   buttonType: "contained" | "outlined";
@@ -31,6 +30,7 @@ export interface TabProps {
 export interface TabsProps {
   id: number;
   title: string;
+  color: string;
   tabs: TabProps[];
 }
 
@@ -76,18 +76,28 @@ export interface SliderProps {
   slider: SlideProps;
 }
 
-export interface FaqCategoryProps {
-  id: number;
-  name: string;
-}
 
 export interface FaqsProps {
   question: string;
   answer: string;
 }
 
+export interface FaqCatProps {
+  id: number;
+  name: string;
+  faqs: FaqsProps[];
+}
+
 export interface FaqProps {
-  categgory: FaqCategoryProps;
+  id: number;
+  name: string;
+  subcategories: FaqCatProps[];
+}
+
+export interface FaqFilterProps {
+  id: number;
+  name: string;
+  parent: boolean;
   faqs: FaqsProps[];
 }
 

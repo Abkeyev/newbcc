@@ -14,6 +14,7 @@ const useStyles = makeStyles(() =>
       "& a": {
         color: "inherit",
         textDecoration: "inherit",
+        verticalAlign: 'middle'
       },
     },
     p1: {

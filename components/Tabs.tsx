@@ -93,7 +93,7 @@ const Tabs = () => {
   return (
     <div
       className={classes.container}
-      style={{ backgroundColor: "white" }}
+      style={{ backgroundColor: tabs.length > 0 ? tabs[0].color : "white" }}
     >
       <div className={classes.innerContainer}>
         {

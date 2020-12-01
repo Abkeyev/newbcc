@@ -173,9 +173,9 @@ const BccCard = (props: BccCardProps) => {
         {btn?.length > 0 &&
           btn.map((b: ButtonsProps, index: number) => (
             <BccButton
-              variant="outlined"
+              variant={b.button.buttonType}
               fullWidth
-              color="secondary"
+              color={b.button.buttonColor}
               className={classes.cardBtn}
               style={{
                 marginBottom: index === 0 && btn.length > 1 ? 12 : 0,

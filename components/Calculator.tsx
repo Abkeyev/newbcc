@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import {
   BccTypography,
-  BccChip,
   BccInput,
   BccSlider,
   BccButton,
@@ -233,17 +232,6 @@ const Calulator = () => {
           <BccTypography type="h4" block className={classes.calcTitle}>
             Кредитный калькулятор
           </BccTypography>
-          <div className={classes.chip}>
-            <BccChip type="contained" color="secondary" mr="12px">
-              Кредит наличными
-            </BccChip>
-            <BccChip type="outlined" color="secondary" mr="12px">
-              Залоговый кредит
-            </BccChip>
-            <BccChip type="outlined" color="secondary">
-              Рефинансирование кредита
-            </BccChip>
-          </div>
           <Grid
             container
             justify="space-between"

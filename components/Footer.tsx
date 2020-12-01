@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       footIconSocial: {
         display: "block",
         height: 20,
-        width: 20,
+        width: 'auto',
         marginRight: 15,
       },
       footLink: {
@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: 250,
         lineHeight: "20px",
         margin: "30px 0 20px",
+        cursor: 'pointer'
       },
       mobileTitle: {
         color: "#CCCFD1",
@@ -124,7 +125,7 @@ const useStyles = makeStyles((theme: Theme) =>
       footIconSocial: {
         display: "block",
         height: 20,
-        width: 20,
+        width: 'auto',
         marginRight: 15,
       },
       footLink: {
@@ -151,6 +152,7 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "#1F7042",
         lineHeight: "auto",
         margin: "30px 0 20px",
+        cursor: 'pointer'
       },
       mobileTitle: {
         color: "#CCCFD1",
@@ -300,7 +302,7 @@ const Footer = () => {
                     >
                       <img
                         className={classes.footIconSocial}
-                        src={"/img/vk.svg"}
+                        src={"/img/yb.png"}
                       />
                     </a>
                   </Grid>
@@ -311,6 +313,7 @@ const Footer = () => {
                   className={classes.footBtn}
                   variant="outlined"
                   color="primary"
+                  onClick={() => window.open("https://wa.me/77012230228", "_blank")}
                 >
                   Отправить сообщение
                 </BccButton>

@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import {
   BccTypography,
-  BccChip,
   BccInput,
   BccSlider,
   BccButton,
@@ -212,20 +211,6 @@ const CarCreditCalculator = () => {
           <BccTypography type="h4" block className={classes.calcTitle}>
             Калькулятор
           </BccTypography>
-          <div className={classes.chip}>
-            <BccChip type="contained" color="secondary" mr="12px">
-              7-20-25
-            </BccChip>
-            <BccChip type="outlined" color="secondary" mr="12px">
-              Баспана Хит
-            </BccChip>
-            <BccChip type="outlined" color="secondary" mr="12px">
-              Орда
-            </BccChip>
-            <BccChip type="outlined" color="secondary">
-              BI Group
-            </BccChip>
-          </div>
           <Grid
             container
             justify="space-between"

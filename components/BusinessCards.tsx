@@ -405,7 +405,7 @@ const BusinessCards = () => {
                         c.buttons.map((b: ButtonProps) => (
                           <BccButton
                             variant={b.buttonType}
-                            color={'primary'}
+                            color={b.buttonColor}
                             className={classes.orderBtn}
                           >
                             {b.buttonLink.startsWith("https://") ? (
@@ -431,22 +431,6 @@ const BusinessCards = () => {
                             )}
                           </BccButton>
                         ))}
-                      {/* <BccButton
-                        variant="contained"
-                        id="orderIron"
-                        className={classes.orderBtn}
-                      >
-                        Заказать карту
-                      </BccButton>
-                      <BccButton
-                        variant="outlined"
-                        color="secondary"
-                        id="orderIron"
-                        className={classes.orderBtn}
-                        style={{ marginRight: 0 }}
-                      >
-                        Подробнее о карте
-                      </BccButton> */}
                     </Grid>
                   </Grid>
                 </Grid>)

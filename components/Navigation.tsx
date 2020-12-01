@@ -296,6 +296,9 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: 16,
           },
         },
+        '& > div > div': {
+          flexWrap: 'nowrap'
+        }
       },
       mobileApps: {
         display: "flex",
@@ -493,7 +496,6 @@ const Navigation = () => {
       inverseParentHeadNavigation: [],
       isdropdown: false,
       isexternal: false,
-      ismuted: false,
       link: "",
       title: "",
     },
@@ -573,7 +575,7 @@ const Navigation = () => {
                       <a>
                         <img
                           className={classes.logo}
-                          src={"/img/logo.png"}
+                          src={"/img/logo.svg"}
                           alt="logo"
                         />
                       </a>
@@ -699,49 +701,6 @@ const Navigation = () => {
           subMenuIndex === -1 ? classes.none : ""
         }`}
       >
-        {getSubmenu().inverseParentHeadNavigation[subMenuIndex] &&
-        getSubmenu().inverseParentHeadNavigation[subMenuIndex]
-          .inverseParentHeadNavigation[0].ismuted ? (
-          <Grid container wrap="nowrap" justify="space-between">
-            {getSubmenu().inverseParentHeadNavigation[
-              subMenuIndex
-            ].inverseParentHeadNavigation.map((nip: any) => {
-              {
-                return (
-                  <Grid item container direction="column" wrap="nowrap">
-                    <Grid item>
-                      <BccTypography type="p2" weight="medium" mb="20px" block>
-                        {nip.title}
-                      </BccTypography>
-                      {nip.inverseParentHeadNavigation &&
-                        nip.inverseParentHeadNavigation.length > 0 &&
-                        nip.inverseParentHeadNavigation.map((nipp: any) => {
-                          return (
-                            <BccTypography
-                              color="#4D565F"
-                              type="p2"
-                              mb="20px"
-                              block
-                            >
-                              {!nipp.isexternal ? (
-                                <Link shallow href={nipp.link}>
-                                  <a>{nipp.title}</a>
-                                </Link>
-                              ) : (
-                                <BccLink href={nipp.link}>
-                                  {nipp.title}
-                                </BccLink>
-                              )}
-                            </BccTypography>
-                          );
-                        })}
-                    </Grid>
-                  </Grid>
-                );
-              }
-            })}
-          </Grid>
-        ) : (
           <Grid container justify="space-between" wrap="nowrap">
             <Grid item container direction="column" wrap="nowrap">
               {getSubmenu().inverseParentHeadNavigation[subMenuIndex] &&
@@ -849,7 +808,6 @@ const Navigation = () => {
               )}
             </Grid>
           </Grid>
-        )}
       </div>
       <div className={`${classes.mobileContainer} ${menu ? classes.open : ""}`}>
         <div>
@@ -1002,13 +960,9 @@ const Navigation = () => {
                                 >
                                   <Grid item>
                                     <BccTypography
-                                      color={
-                                        subSubMenu.ismuted
-                                          ? "#80868C"
-                                          : "initial"
-                                      }
+                                      color="#80868C"
                                       type={subSubMenu.ismuted ? "p4" : "p2"}
-                                      mb="8px"
+                                      mb="12px"
                                       block
                                     >
                                       {!subSubMenu.isexternal ? (
@@ -1247,7 +1201,7 @@ const Navigation = () => {
                   href="https://www.youtube.com/user/bcckz"
                   target="_blank"
                 >
-                  <img src={"/img/vk_m.svg"} />
+                  <img src={"/img/yb_m.svg"} />
                 </BccLink>
               </BccTypography>
             </div>

@@ -2,7 +2,7 @@ import Layout from "../../components/Layout";
 import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { MenuItem } from "@material-ui/core";
-import { FaqProps, FaqsProps } from "../../interfaces";
+import { FaqProps, FaqsProps, FaqCatProps } from "../../interfaces";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   BccTypography,
@@ -136,7 +136,7 @@ const FaqPage = () => {
               id="faqcat"
               name="faqcat"
               value={faqCategory}
-              onChange={(e: any) => setFaqCategory(e.target.value)}
+              onChange={(e: any) => e.target.value && setFaqCategory(e.target.value)}
               variant="outlined"
               className={classes.input}
               margin="normal"
@@ -144,24 +144,33 @@ const FaqPage = () => {
             >
               {faqs.length > 0 &&
                 (faqs as FaqProps[]).map(
-                  (faq: FaqProps, index: number) =>
-                    faq.categgory && (
-                      <MenuItem value={index}>{faq.categgory.name}</MenuItem>
-                    )
-                )}
+                  (faq: FaqProps, index: number) => <MenuItem value={index}>{faq.name}</MenuItem>)
+              }
             </BccInput>
           </div>
           <div className={classes.outerContent}>
             <div className={classes.mapContainer}>
               {faqs[faqCategory] &&
-                faqs[faqCategory].faqs.length > 0 &&
-                faqs[faqCategory].faqs.map((f: FaqsProps) => (
+                faqs[faqCategory].subcategories.length > 0 &&
+                faqs[faqCategory].subcategories.map((f: FaqCatProps) => (
                   <BccCollapsePanel>
                     <BccCollapseTitle expandIcon={<ExpandMoreIcon />}>
-                      <BccTypography type="p2">{f.question}</BccTypography>
+                      <BccTypography type="p2">{f.name}</BccTypography>
                     </BccCollapseTitle>
-                    <BccCollapseDetails>
-                      <BccTypography type="p2">{f.answer}</BccTypography>
+                    <BccCollapseDetails style={{ display: 'block' }}>
+                    {f.faqs.length > 0 &&
+                    f.faqs.map((f: FaqsProps) => (
+                      <BccCollapsePanel>
+                        <BccCollapseTitle expandIcon={<ExpandMoreIcon />}>
+                          <BccTypography type="p2">{f.question}</BccTypography>
+                        </BccCollapseTitle>
+                        <BccCollapseDetails>
+                          <BccTypography type="p2">
+                            <span dangerouslySetInnerHTML={{ __html: f.answer}} />
+                          </BccTypography>
+                        </BccCollapseDetails>
+                      </BccCollapsePanel>
+                    ))}
                     </BccCollapseDetails>
                   </BccCollapsePanel>
                 ))}

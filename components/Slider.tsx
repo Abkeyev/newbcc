@@ -376,11 +376,7 @@ const Slider = () => {
                           <BccButton
                             variant={slide.button.buttonType}
                             key={`sliderBtn${slide.button.id}`}
-                            color={
-                              slide.button.buttonColor === "#27AE60"
-                                ? "primary"
-                                : "secondary"
-                            }
+                            color={slide.button.buttonColor}
                             className={classes.sliderBtn}
                             href={slide.button.buttonLink}
                           >
