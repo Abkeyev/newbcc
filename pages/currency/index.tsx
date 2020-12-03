@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       contents: {
         position: "relative",
         margin: "0 auto 64px",
-        padding: "80px 24px 0",
+        padding: "80px 20px 0",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
       date: {
-        marginBottom: "24px!important",
+        marginBottom: "20px!important",
       },
       input: {
         width: "100%",
@@ -209,7 +209,7 @@ const CurrencyPage = () => {
               type="h2"
               block
               mt="72px"
-              mb="24px"
+              mb="20px"
             >
               Курсы конвертации
             </BccTypography>

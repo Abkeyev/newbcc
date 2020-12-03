@@ -175,7 +175,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
       card: {
-        padding: 24,
+        padding: 20,
       },
       orderBtn: {
         marginRight: 16,
@@ -200,8 +200,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       container: {
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingLeft: 20,
+        paddingRight: 20,
       },
       cards: {
         width: "calc((100vw - 48px) * 3)",

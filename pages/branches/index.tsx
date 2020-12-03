@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../../components/Layout";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import MenuItem from '@material-ui/core/MenuItem'
+import { Grid } from '@material-ui/core'
 import {
   BccTypography,
   BccChip,
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
       contents: {
         position: "relative",
         margin: "0 auto",
-        padding: "80px 24px 32px",
+        padding: "80px 20px 32px",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: 1280,
         margin: "0 auto",
         boxSizing: "border-box",
-        padding: "0 24px",
+        padding: "0 20px",
       },
       tab: { position: "relative", bottom: -1 },
       city: {
@@ -91,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
       mapContainer: {
         position: "relative",
         margin: "0 auto",
-        padding: "32px 24px 32px",
+        padding: "32px 20px 32px",
         maxWidth: 1280,
         boxSizing: "border-box",
         "& > img": {
@@ -127,7 +128,14 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     info: {
-      backgroundColor: 'red'
+      backgroundColor: 'white',
+      boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04)',
+      position: 'absolute',
+      right: '5%',
+      top: '13%',
+      height: 300,
+      width: 500,
+      padding: '32px',
     }
   })
 );
@@ -177,14 +185,56 @@ const cities = [
   "Аксу",
 ];
 
+interface LatitudeProps {
+  latitude: number;
+  longitude: number;
+}
+
+interface GeographicCoordinatesProps {
+  geographicCoordinates: LatitudeProps;
+}
+
+interface AddressProps {
+  addressLine: string[]
+}
+
+interface DaysProps {
+  closingTime: string;
+  dayCode: "01" | "02" | "03" | "04" | "05" | "06" | "07";
+  openingTime: string;
+}
+
+interface DayProps {
+  days: DaysProps[];
+}
+
+interface StandardAvailabilityProps {
+  standardAvailability: DayProps
+}
+
+interface ATMProps {
+  geolocation: GeographicCoordinatesProps;
+  atmId: number;
+  type: string;
+  address: AddressProps;
+  availability: StandardAvailabilityProps;
+}
+
 const BranchesPage = () => {
   const [index, setIndex] = React.useState<number>(0);
-  const [data, setData] = React.useState([]);
+  const [atms, setAtms] = React.useState<ATMProps[] | []>([]);
+  const [branches, setBranches] = React.useState<ATMProps[] | []>([]);
+  const [item, setItem] = React.useState<ATMProps | null>(null);
   const [city, setCity] = React.useState("Алматы")
   const [switchBtn, setSwitchBtn] = React.useState(true);
   const classes = useStyles({});
   React.useEffect(() => {
-    api.main.getBranches(index === 1 ? 'branches' : 'atms').then((res) => res.Data && setData(res.Data))
+    if(index === 0) {
+      api.main.getBranches('branches').then((res) => res.Data && setBranches(res.Data))
+    }else {
+      api.main.getBranches('atms').then((res) => res.Data && setAtms(res.Data))
+    }
+    
   }, [index]);
   return (
     <Layout title="Офисы и банкоматы">
@@ -192,7 +242,7 @@ const BranchesPage = () => {
         <div className="container">
           <div className={classes.outerContent}>
             <div className={classes.contents}>
-              <BccTypography type="h2" block mb="24px">
+              <BccTypography type="h2" block mb="20px">
                 Офисы и банкоматы
               </BccTypography>
               <BccChip type="contained" color="secondary" mr="16px">
@@ -261,10 +311,11 @@ const BranchesPage = () => {
                 controls: [],
                 center: city === 'Алматы' ? [43.2360659,76.893174] : city === 'Нур-Султан' ? [51.1480774,71.3393073] : [42.341926,69.5197658],
               }}
+              onClick={() => setItem(null)}
             >
               <FullscreenControl />
               <ZoomControl options={{ float: "right" }} />
-              {data.length > 0 && data.map((d: any) => (
+              {(index === 0 && branches.length > 0 ? branches : atms as ATMProps[]).map((d: ATMProps) => (
                 <Placemark
                   geometry={[d.geolocation.geographicCoordinates.latitude, d.geolocation.geographicCoordinates.longitude]}
                   options={{
@@ -272,13 +323,32 @@ const BranchesPage = () => {
                     iconImageSize: [25, 39],
                     iconLayout: "default#image",
                   }}
+                  onClick={() => setItem(d)}
                 />
               ))}
-              {/* {item !== null && (<div className={classes.info}>
-                <BccTypography type="p2">
-                  {item !== null && item.address.addressLine}
+              {item !== null && (<div className={classes.info}>
+                <BccTypography type="h5" weight="bold" block mb="16px">
+                  {item.type} #{item.atmId}
                 </BccTypography>
-              </div>)} */}
+                <BccTypography type="p2" block mb="26px">
+                  {item.address.addressLine[0]}
+                </BccTypography>
+                {item.availability && item.availability && item.availability.standardAvailability && item.availability.standardAvailability.days && (
+                <Grid container>
+                  <Grid item><img src="/img/time.svg"/></Grid>
+                  <Grid item>
+                  <BccTypography type="p2" color="#4D565F" block ml="8px" mb="12px">
+                    пн-пт: {item.availability.standardAvailability.days[0].openingTime.substr(0, 5)}-{item.availability.standardAvailability.days[0].closingTime.substr(0, 5)}
+                    </BccTypography>
+                  <BccTypography type="p2" color="#4D565F" block ml="8px" mb="12px">
+                    сб: {item.availability.standardAvailability.days[5].openingTime.substr(0, 5)}-{item.availability.standardAvailability.days[5].closingTime.substr(0, 5)}<br/>
+                    </BccTypography>
+                  <BccTypography type="p2" color="#4D565F" block ml="8px" mb="12px">
+                    вс: {item.availability.standardAvailability.days[6].openingTime.substr(0, 5)}-{item.availability.standardAvailability.days[6].closingTime.substr(0, 5)}
+                  </BccTypography>
+                  </Grid>
+                </Grid>)}
+              </div>)}
               </Maps>
               </YMaps>
             </div>

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
         "& > div": {},
       },
       cards: {
-        marginBottom: 24,
+        marginBottom: 20,
         "& > div": {
           width: "calc(33% - 16px)",
         },
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
       cards: {
-        marginBottom: 24,
+        marginBottom: 20,
         "& > div": {
           width: "calc(33% - 8px)",
         },
@@ -99,8 +99,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       container: {
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingLeft: 20,
+        paddingRight: 20,
       },
       cards: {
         "& > div": {
@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
       title: {
-        marginBottom: 24,
+        marginBottom: 20,
       },
     },
   })

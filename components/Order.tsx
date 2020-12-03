@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: 1280,
         margin: "0 auto",
         boxSizing: "border-box",
-        padding: "24px",
+        padding: "20px",
       },
       orderNum: {
         color: "#249052",
@@ -144,14 +144,14 @@ const useStyles = makeStyles((theme: Theme) =>
       orderForm: {
         width: "100%",
         maxWidth: "100%",
-        padding: 24,
+        padding: 20,
       },
       checkboxText: {
         textAlign: "left",
         marginBottom: 12,
       },
       inputStyle: {
-        marginBottom: 24,
+        marginBottom: 20,
       },
       btnWrap: {
         width: "100%",

@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.down("sm")]: {},
     [theme.breakpoints.down("xs")]: {
       innerContainer: {
-        padding: 24,
+        padding: 20,
       },
     },
   })

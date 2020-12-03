@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const BccCollapsePanel = withStyles({
   root: {
-    marginBottom: 24,
+    marginBottom: 20,
     backgroundColor: "#FAFAFA",
     borderRadius: 4,
     minWidth: 350,

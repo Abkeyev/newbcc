@@ -269,12 +269,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       container: {
-        padding: 24,
+        padding: 20,
         paddingBottom: 56,
       },
       cards: {
         width: "calc((((100vw - 48px)) * 5) + (4 * 12px))",
-        marginBottom: 24,
+        marginBottom: 34,
         marginLeft: 0,
         transition: "margin-left .5s ease-in-out",
         "& > div": {
@@ -306,25 +306,6 @@ const Useful = (props: UserfulProps) => {
       return cards.slider;
     } else return [];
   };
-
-  const steps = [
-    {
-      title: "Онлайн переводы",
-      desc: "Удобные и безопасные переводы с карты на карту",
-      btnText: "Перевести деньги",
-      img: "/img/slide1.svg",
-    },
-    {
-      title: "Баспана Хит1",
-      desc: "Собственное жильё – это легко!",
-      img: "/img/slide1.svg",
-    },
-    {
-      title: "Баспана Хит2",
-      desc: "Собственное жильё – это легко!",
-      img: "/img/slide1.svg",
-    },
-  ];
 
   const slideArrow = (isNext: boolean) => {
     if (isNext) {
@@ -408,7 +389,7 @@ const Useful = (props: UserfulProps) => {
         </Grid>
 
         <div className={classes.sliderSteps}>
-          {steps.map((step: any, index: number) => {
+          {(cardsList() as CardsProps[]).map((step: any, index: number) => {
             return (
               <div
                 key={`key${step.title}`}

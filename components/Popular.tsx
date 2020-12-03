@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       cards: {
         width: "calc((380px * 5) + (4 * 22px))",
-        marginBottom: 24,
+        marginBottom: 20,
         marginLeft: 0,
         transition: "margin-left .5s ease-in-out",
         "& > div": {
@@ -161,7 +161,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       cards: {
         width: "calc((((100vw - 120px) / 3) * 5) + (4 * 12px))",
-        marginBottom: 24,
+        marginBottom: 20,
         marginLeft: 0,
         transition: "margin-left .5s ease-in-out",
         "& > div": {
@@ -277,13 +277,13 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.down("xs")]: {
       container: {
         paddingTop: 32,
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingLeft: 20,
+        paddingRight: 20,
         paddingBottom: 56,
       },
       cards: {
         width: "calc((((100vw - 48px)) * 5) + (4 * 12px))",
-        marginBottom: 24,
+        marginBottom: 20,
         marginLeft: 0,
         transition: "margin-left .5s ease-in-out",
         "& > div": {
@@ -342,7 +342,7 @@ const Popular = () => {
 
   const marginLeft = () => {
     if (vSmall) return `calc(((100vw - 48px) + 12px) * ${slide * -1})`;
-    else if (small) return `calc(((100vw - 108px) + 24px) * ${slide * -1})`;
+    else if (small) return `calc(((100vw - 108px) + 20px) * ${slide * -1})`;
     else if (md) return `calc(((100vw - 120px) / 3 + 12px) * ${slide * -1})`;
     else if (lg) return `-${402 * slide}px`;
     else return 0;

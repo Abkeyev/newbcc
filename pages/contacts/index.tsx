@@ -149,7 +149,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
       email: {
-        marginBottom: "24px!important",
+        marginBottom: "20px!important",
       },
       contacts: {
         flexWrap: "wrap",
@@ -166,7 +166,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("sm")]: {
       contents: {
-        padding: "24px 24px 0",
+        padding: "20px 20px 0",
       },
     },
   })

@@ -11,7 +11,7 @@ const BccButton = withStyles({
     boxShadow: "none",
     height: 56,
     fontSize: 16,
-    padding: "0 24px",
+    padding: "0 20px",
     lineHeight: "56px",
     letterSpacing: 0,
     ["@media (max-width:1060px)"]: {
@@ -69,9 +69,9 @@ const BccButton = withStyles({
       },
     },
     "&.MuiButton-sizeSmall": {
-      height: 48,
+      height: '40px!important',
       fontSize: 16,
-      lineHeight: "48px",
+      lineHeight: "40px!important",
     },
     "&.MuiButton-sizeLarge": {
       height: 64,

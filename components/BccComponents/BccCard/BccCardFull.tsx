@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
       container: {
         maxWidth: 1280,
         boxSizing: "border-box",
-        padding: 24,
+        padding: 20,
         margin: "0 auto",
       },
       mobileApp: {
@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       container: {
-        padding: 24
+        padding: 20
       },
       mobMA: {
         width: "auto",
@@ -192,7 +192,7 @@ const BccCardFull = (props: BccCardFullProps) => {
             <BccTypography
               type="h2"
               mb="12px"
-              mt="24px"
+              mt="20px"
               block
               className={classes.mobMA}
             >

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: "0 auto",
         alignItems: "center",
         display: "flex",
-        padding: "24px 48px",
+        padding: "20px 48px",
       },
       tab: { position: "relative", bottom: -1 },
       city: {
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
       contents: {
         position: "relative",
         margin: "0 auto",
-        padding: "84px 24px 32px",
+        padding: "84px 20px 32px",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: "0 auto",
         alignItems: "center",
         display: "flex",
-        padding: "24px",
+        padding: "20px",
       },
       tab: { position: "relative", bottom: -1 },
       city: {
@@ -87,14 +87,14 @@ const useStyles = makeStyles((theme: Theme) =>
       switch: { color: "#B3B6BA" },
       active: { color: "#27AE60" },
       mapContainer: {
-        padding: "32px 24px",
+        padding: "32px 20px",
         position: "relative",
         margin: "0 auto",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
       input: {
-        minWidth: 'auto',
+        minWidth: '0',
         margin: 0,
       },
       table: {
@@ -129,7 +129,7 @@ const FaqPage = () => {
             </div>
           </div>
           <div className={classes.tabsBranch}>
-            <BccTypography type="p1" mr="24px">
+            <BccTypography type="p1" mr="20px">
               Раздел
             </BccTypography>
             <BccInput
@@ -174,6 +174,20 @@ const FaqPage = () => {
                     </BccCollapseDetails>
                   </BccCollapsePanel>
                 ))}
+                {faqs[faqCategory] &&
+                faqs[faqCategory].faqs.length > 0 && faqs[faqCategory].faqs.map((f: FaqsProps) => (
+                  <BccCollapsePanel>
+                        <BccCollapseTitle expandIcon={<ExpandMoreIcon />}>
+                          <BccTypography type="p2">{f.question}</BccTypography>
+                        </BccCollapseTitle>
+                        <BccCollapseDetails>
+                          <BccTypography type="p2">
+                            <span dangerouslySetInnerHTML={{ __html: f.answer}} />
+                          </BccTypography>
+                        </BccCollapseDetails>
+                      </BccCollapsePanel>
+                ))
+                }
             </div>
           </div>
         </div>

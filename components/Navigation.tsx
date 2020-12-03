@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Select, MenuItem } from "@material-ui/core";
+import { Grid, Select, MenuItem, InputAdornment } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import {
   BccButton,
@@ -7,6 +7,7 @@ import {
   BccTabs,
   BccTab,
   BccLink,
+  BccInput
 } from "./BccComponents";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -182,7 +183,7 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: 170,
         position: "relative",
         bottom: -2,
-        marginRight: 24,
+        marginRight: 20,
         ["@media (max-width:1060px)"]: {
           maxWidth: 150,
         },
@@ -191,7 +192,7 @@ const useStyles = makeStyles((theme: Theme) =>
         position: "relative",
         bottom: -2,
         "& button": {
-          marginRight: 24,
+          marginRight: 20,
         },
         "& > div > div": { flexWrap: "wrap" },
       },
@@ -254,6 +255,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginRight: 0,
         "& > div": {
           fontSize: 16,
+          fontWeight: 500,
           color: "#000D1A",
           opacity: 1,
         },
@@ -289,7 +291,7 @@ const useStyles = makeStyles((theme: Theme) =>
         position: "relative",
         bottom: -2,
         "& button": {
-          marginRight: 24,
+          marginRight: 20,
           height: 64,
           "& a": {
             padding: 0,
@@ -333,13 +335,23 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: "space-between",
             height: 56,
             width: "100%",
-            padding: "12px 24px",
+            padding: "12px 20px",
             boxSizing: "border-box",
             position: "relative",
             zIndex: 99,
             boxShadow:
               "0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04)",
+            "& > div": {
+              width: '33%',
+              textAlign: 'center'
+            },
             "& > div:first-child": {
+              textAlign: 'left'
+            },
+            "& > div:last-child": {
+              textAlign: 'right'
+            },
+            "& > div:first-child > div:first-child": {
               position: "relative",
               width: 20,
               height: 12,
@@ -371,7 +383,7 @@ const useStyles = makeStyles((theme: Theme) =>
               background: "none",
               marginBottom: 0,
               marginTop: 0,
-              padding: "0 24px",
+              padding: "0 20px",
               "& > div": {
                 width: "auto",
                 height: "auto",
@@ -408,12 +420,12 @@ const useStyles = makeStyles((theme: Theme) =>
             },
             "& > div:nth-child(2)": {
               borderBottom: "1px solid #CCCFD1",
-              padding: "0 24px",
+              padding: "0 20px",
             },
             "& > div:nth-child(3)": {
               backgroundColor: "white",
               "& > span": {
-                padding: "20px 24px",
+                padding: "20px 20px",
                 borderBottom: "1px solid #F3F3F3",
               },
               "& > span:last-child": {
@@ -421,7 +433,7 @@ const useStyles = makeStyles((theme: Theme) =>
               },
             },
             "& > div:last-child": {
-              padding: "24px",
+              padding: "20px",
               backgroundColor: "white",
               width: "100%",
               boxSizing: "border-box",
@@ -468,6 +480,21 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: 12,
         verticalAlign: "middle",
       },
+      searchInput: {
+        boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04)',
+        borderRadius: 8,
+        '& > div': {
+          border: '0!important',
+          borderRadius: '8px!important',
+        },
+        '& > div > div': {
+          marginTop: '0!important',
+          opacity: .6
+        },
+        '& input': {
+          padding: '10px 12px'
+        }
+      }
     },
     [theme.breakpoints.down("xs")]: {},
     creditCard: {
@@ -812,9 +839,11 @@ const Navigation = () => {
       <div className={`${classes.mobileContainer} ${menu ? classes.open : ""}`}>
         <div>
           <div>
-            <div onClick={() => openMenu(!menu)}>
-              <img src={"/img/menu-item.svg"} />
-              <img src={"/img/menu-item.svg"} />
+            <div>
+              <div onClick={() => openMenu(!menu)}>
+                <img src={"/img/menu-item.svg"} />
+                <img src={"/img/menu-item.svg"} />
+              </div>
             </div>
             <div>
               <Link shallow href="/">
@@ -824,7 +853,13 @@ const Navigation = () => {
               </Link>
             </div>
             <div>
-              <img className={classes.searchIcon} src={"/img/search-mob.svg"} />
+              <BccButton
+                variant="outlined"
+                color="secondary"
+                size="small"
+              >
+                Войти
+              </BccButton>
             </div>
           </div>
           <div>
@@ -835,19 +870,27 @@ const Navigation = () => {
               alignContent="center"
             >
               <Grid item>
-                <BccLink
-                  href="https://m.bcc.kz/prelogin?path=/home"
-                  target="_blank"
-                >
-                  <BccButton
+                <BccInput
+                  variant="filled"
+                  size="small"
+                  placeholder="Поиск"
+                  className={classes.searchInput}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <img src={"/img/search.svg"} />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                  {/* <BccButton
                     size="small"
                     variant="contained"
                     color="primary"
                     startIcon={<img src={"/img/ib-mob.svg"} />}
                   >
                     Интернет-банк
-                  </BccButton>
-                </BccLink>
+                  </BccButton> */}
               </Grid>
               <Grid item>
                 <Select className={classes.select} value="ru">
@@ -1128,7 +1171,7 @@ const Navigation = () => {
                 weight="medium"
                 block
                 mt="12px"
-                mb="24px"
+                mb="20px"
               >
                 Частным лицам
               </BccTypography>
@@ -1173,7 +1216,7 @@ const Navigation = () => {
                 weight="medium"
                 block
                 mt="12px"
-                mb="24px"
+                mb="20px"
                 className={classes.mobileApps}
               >
                 Доступно в{" "}
@@ -1183,7 +1226,7 @@ const Navigation = () => {
                 />
                 <img src={"/img/gp.svg"} />
               </BccTypography>
-              <BccTypography type="p1" mr="24px">
+              <BccTypography type="p1" mr="20px">
                 <BccLink
                   href="https://www.instagram.com/centercreditkz"
                   target="_blank"
@@ -1191,7 +1234,7 @@ const Navigation = () => {
                   <img src={"/img/ig_m.svg"} />
                 </BccLink>
               </BccTypography>
-              <BccTypography type="p1" mr="24px">
+              <BccTypography type="p1" mr="20px">
                 <BccLink href="https://facebook.com/bcc.kz" target="_blank">
                   <img src={"/img/fb_m.svg"} />
                 </BccLink>

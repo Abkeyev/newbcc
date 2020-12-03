@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       contents: {
         position: "relative",
         margin: "0 auto",
-        padding: "24px 24px 48px",
+        padding: "20px 20px 48px",
         paddingTop: 96,
         maxWidth: 1280,
         boxSizing: "border-box",
@@ -158,7 +158,7 @@ const CallCenterPage = () => {
                 </Grid>
               </Grid>
               <Grid item>
-                <BccTypography type="p2l" block mb="24px" color="#4D565F">
+                <BccTypography type="p2l" block mb="20px" color="#4D565F">
                   {callCenter.length > 0 && (<span dangerouslySetInnerHTML={{ __html: callCenter[active].content }} />)}
                 </BccTypography>
                 </Grid>

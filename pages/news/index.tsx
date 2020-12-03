@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
         boxSizing: "border-box",
         alignItems: "center",
         display: "flex",
-        padding: "24px 48px",
+        padding: "20px 48px",
       },
       tab: { position: "relative", bottom: -1 },
       city: {
@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme: Theme) =>
       modalTitle: {
         "& h3": {
           marginTop: 0,
-          fontSize: 24,
+          fontSize: 20,
           color: "#141414",
         },
         "& p": {
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme: Theme) =>
       contents: {
         position: "relative",
         margin: "0 auto",
-        padding: "84px 24px 32px",
+        padding: "84px 20px 32px",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
@@ -149,7 +149,7 @@ const useStyles = makeStyles((theme: Theme) =>
         boxSizing: "border-box",
         alignItems: "center",
         display: "flex",
-        padding: "24px 24px",
+        padding: "20px 20px",
       },
       tab: { position: "relative", bottom: -1 },
       city: {
@@ -159,14 +159,14 @@ const useStyles = makeStyles((theme: Theme) =>
       switch: { color: "#B3B6BA" },
       active: { color: "#27AE60" },
       mapContainer: {
-        padding: "0 24px 32px",
+        padding: "0 20px 32px",
         position: "relative",
         margin: "0 auto",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
       input: {
-        minWidth: 360,
+        minWidth: 0,
         margin: 0,
       },
       table: {
@@ -220,7 +220,7 @@ const NewsPage = () => {
             </div>
           </div>
           <div className={classes.tabsBranch}>
-            <BccTypography type="p1" mr="24px">
+            <BccTypography type="p1" mr="20px">
               Показать
             </BccTypography>
             <BccInput

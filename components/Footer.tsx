@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
             color: "white",
             textDecoration: "none",
             fontSize: 16,
-            marginBottom: 24,
+            marginBottom: 20,
             "&:hover": {
               textDecoration: "underline",
             },
@@ -183,7 +183,7 @@ const useStyles = makeStyles((theme: Theme) =>
             color: "white",
             textDecoration: "none",
             fontSize: 16,
-            marginBottom: 24,
+            marginBottom: 20,
             "&:hover": {
               textDecoration: "underline",
             },
@@ -199,7 +199,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       innerContainer: {
-        padding: 24,
+        padding: 20,
       },
       foot: {
         flexDirection: "column",

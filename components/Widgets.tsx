@@ -7,6 +7,7 @@ import {
   BccSlider,
   BccButton,
   BccCheckbox,
+  BccChip
 } from "./BccComponents";
 import api from '../api/Api'
 
@@ -109,7 +110,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       currency: {
         "& > p:first-child": {
-          marginBottom: 40,
+          marginBottom: 16,
         },
       },
       checkboxText: {
@@ -206,8 +207,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       container: {
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingLeft: 20,
+        paddingRight: 20,
       },
       calc: {
         "& > div:nth-child(2)": {
@@ -433,18 +434,18 @@ const Calulator = () => {
           <Grid container justify="space-between" className={classes.cardsText}>
             <Grid item>
               <BccTypography type="p4" block>
-                Ставка
+                Ежемесячный платёж
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
-              {calculateRate(period)}%
+                {period && sum ? `~ ${Math.round((((calculateRate(period) * sum) / 100) + sum) / period)}` : 0} ₸
               </BccTypography>
             </Grid>
             <Grid item>
               <BccTypography type="p4" block>
-                Общая сумма
+                Ставка
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
-                {period && sum ? `~ ${Math.round((((calculateRate(period) * sum) / 100) + sum) / period)}` : 0} ₸
+              {calculateRate(period)}%
               </BccTypography>
             </Grid>
           </Grid>
@@ -496,6 +497,7 @@ const Currency = () => {
   const classes = useStyles({});
   const [token, setToken] = React.useState<string>("")
   const [currency, setCurrency] = React.useState<CurrencyProps[]>([])
+  const [isGold, setGold] = React.useState<boolean>(false)
   React.useEffect(() => {
     api.main.getToken().then(r => {
       if(r.access_token) {
@@ -507,12 +509,28 @@ const Currency = () => {
     console.log(token)
     token && api.main.getCurrency(token).then((res) => res.Rates && setCurrency(res.Rates)).catch((err) => console.log(err))
   }, [token])
+
+  const formatDate = (date: string): string => {
+    const dateArr = date.substr(0,16).split(' ')
+    const dateArr2 = dateArr[0].split('-')
+    return `на ${dateArr2[2]}.${dateArr2[1]}.${dateArr2[0]} ${dateArr[1]}`
+  }
+
   return (
+    <>
     <div className={classes.currency}>
       <BccTypography type="p2" block>
-        {currency.length > 0 && currency[0] && currency[0].dateTime.substr(0,16)}
+        {currency.length > 0 && currency[0] && currency[5] && formatDate(isGold ? currency[0].dateTime : currency[5].dateTime)}
       </BccTypography>
+      <BccChip type={!isGold ? "contained" : "outlined"} onClick={() => setGold(false)} color="secondary" mb="16px" mr="16px">
+        Валюты
+      </BccChip>
+      <BccChip type={isGold ? "contained" : "outlined"} onClick={() => setGold(true)} mb="16px" color="secondary">
+        Золото
+      </BccChip>
       <Grid container justify="space-between" wrap="nowrap">
+      {!isGold ? (
+        <>
         <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block>
             Валюта
@@ -527,7 +545,7 @@ const Currency = () => {
             RUB
           </BccTypography>
         </Grid>
-        <Grid item className={classes.currencyBlock}>
+          <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block>
             Покупка
           </BccTypography>
@@ -541,7 +559,7 @@ const Currency = () => {
             {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.purchase}
           </BccTypography>
         </Grid>
-        <Grid item className={classes.currencyBlock}>
+          <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block>
             Продажа
           </BccTypography>
@@ -555,8 +573,58 @@ const Currency = () => {
             {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.sell}
           </BccTypography>
         </Grid>
-      </Grid>
+        </>
+      ) : (
+        <>
+        <Grid item className={classes.currencyBlock}>
+          <BccTypography type="p2" block>
+            Вес
+          </BccTypography>
+          <BccTypography type="p2" block>
+            1 грамм
+          </BccTypography>
+          <BccTypography type="p2" block>
+            2 грамм
+          </BccTypography>
+          <BccTypography type="p2" block>
+            4 грамм
+          </BccTypography>
+          <BccTypography type="p2" block>
+            10 грамм
+          </BccTypography>
+          <BccTypography type="p2" block>
+            20 грамм
+          </BccTypography>
+        </Grid>
+        <Grid item className={classes.currencyBlock}>
+          <BccTypography type="p2" block align="right">
+            Покупка
+          </BccTypography>
+          {
+            currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
+              <BccTypography type="p2" block align="right">
+                {c.purchase.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+              </BccTypography>
+            ))
+          }
+        </Grid>
+        <Grid item className={classes.currencyBlock}>
+          <BccTypography type="p2" block align="right">
+            Продажа
+          </BccTypography>
+          {
+            currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
+              <BccTypography type="p2" block align="right">
+                {c.sell.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+              </BccTypography>
+            ))
+          }
+        </Grid>
+        </>
+      )}</Grid>
     </div>
+    {!isGold && (<BccButton variant="outlined" color="secondary" onClick={() => window.open('https://www.bcc.kz/about/kursy-valyut/')}>Все валюты</BccButton>)}
+    </>
   );
 };
 
@@ -581,7 +649,6 @@ const Widgets = () => {
                   Курсы валют
                 </BccTypography>
                 <Currency />
-                <BccButton variant="outlined" color="secondary" onClick={() => window.open('https://www.bcc.kz/about/kursy-valyut/')}>Все валюты</BccButton>
               </div>
             </div>
           </Grid>

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: "0 auto",
       },
       cards: {
-        marginBottom: 24,
+        marginBottom: 20,
         "& > div": {
           width: "calc(33% - 16px)",
         },
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       cards: {
         flexWrap: "wrap",
-        marginBottom: 24,
+        marginBottom: 20,
         "& > div": {
           width: "calc(50% - 16px)",
           marginBottom: 12,
@@ -47,14 +47,14 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.down("xs")]: {
       cards: {
         flexWrap: "wrap",
-        marginBottom: 24,
+        marginBottom: 20,
         "& > div": {
           width: "100%",
           marginBottom: 12,
         },
       },
       container: {
-        padding: 24,
+        padding: 20,
       },
     },
   })

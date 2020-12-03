@@ -91,6 +91,7 @@ export interface FaqCatProps {
 export interface FaqProps {
   id: number;
   name: string;
+  faqs: FaqsProps[];
   subcategories: FaqCatProps[];
 }
 

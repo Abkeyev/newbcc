@@ -14,7 +14,7 @@ const BccTabs = withStyles({
     },
     "& span a": {
       height: "auto",
-      padding: "24px 0",
+      padding: "20px 0",
     },
   },
 })((props: any) => <Tabs {...props} />);

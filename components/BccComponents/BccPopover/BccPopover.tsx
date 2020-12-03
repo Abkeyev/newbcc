@@ -5,7 +5,7 @@ import React from 'react'
 const BccPopover = withStyles({
   root: {},
   paper: {
-    padding: '0 24px',
+    padding: '0 20px',
   },
 })((props: any) => <Popover {...props} />)
 

@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
         maxWidth: 1280,
         margin: "0 auto",
         boxSizing: "border-box",
-        padding: "24px",
+        padding: "20px",
       },
       title: {
         marginBottom: 40,

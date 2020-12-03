@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme: Theme) =>
       contents: {
         position: "relative",
         margin: "0 auto",
-        padding: "86px 24px 32px",
+        padding: "86px 20px 32px",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme: Theme) =>
         alignItems: "center",
         maxWidth: 1280,
         boxSizing: "border-box",
-        padding: "0 24px",
+        padding: "0 20px",
         margin: "0 auto",
       },
       tab: { position: "relative", bottom: -1 },
@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme: Theme) =>
         position: "relative",
         margin: "0 auto",
         maxWidth: 1280,
-        padding: "24px",
+        padding: "20px",
         boxSizing: "border-box",
         "& > img": {
           width: "100%",
@@ -203,7 +203,7 @@ const FaqPage = () => {
         <div className="container">
           <div className={classes.outerContent}>
             <div className={classes.contents}>
-              <BccTypography type="h1" block mb="24px">
+              <BccTypography type="h1" block mb="20px">
                 Реквизиты АО “Банк Центркредит”
               </BccTypography>
               <div className={classes.chip}>

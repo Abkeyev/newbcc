@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.between("lg", "xl")]: {
       outerContainer: {
         backgroundSize: "cover!important",
-        paddingBottom: "24px",
+        paddingBottom: "20px",
       },
       container: {
         position: "relative",
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
         boxSizing: "border-box",
       },
       slderTitle: {
-        marginBottom: 24,
+        marginBottom: 20,
       },
       sliderSubTitle: {
         marginBottom: 136,
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       slider: {
         width: "100%",
         overflow: "hidden",
-        paddingTop: 24,
+        paddingTop: 20,
         "& > div": {
           width: "100%",
           transition: "all .7s ease-in-out",
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme: Theme) =>
       outerContainer: {
         backgroundSize: "cover!important",
         backgroundPositionX: "center!important",
-        paddingBottom: "24px"
+        paddingBottom: "20px"
       },
       container: {
         position: "relative",
@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme: Theme) =>
         boxSizing: "border-box",
       },
       slderTitle: {
-        marginBottom: 24,
+        marginBottom: 20,
       },
       sliderSubTitle: {
         marginBottom: 136,
@@ -134,7 +134,7 @@ const useStyles = makeStyles((theme: Theme) =>
       slider: {
         width: "100%",
         overflow: "hidden",
-        paddingTop: 24,
+        paddingTop: 20,
         "& > div": {
           width: "100%",
           transition: "all .7s ease-in-out",
@@ -215,13 +215,13 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       container: {
         height: "auto",
-        padding: "0 24px",
+        padding: "0 20px",
       },
     },
     [theme.breakpoints.down("xs")]: {
       container: {
         height: "auto",
-        padding: "0 24px",
+        padding: "0 20px",
       },
       sliderBtn: {
         height: 56,

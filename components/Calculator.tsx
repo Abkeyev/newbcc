@@ -186,7 +186,7 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.down("sm")]: {
       container: {
         maxWidth: 1280,
-        padding: "0 24px 24px",
+        padding: "0 20px 20px",
       },
       calcContent: {
         "& > div:first-child": {
@@ -201,7 +201,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       container: {
-        padding: "24px",
+        padding: "20px",
       },
       calcBtn: {
         lineHeight: "normal",

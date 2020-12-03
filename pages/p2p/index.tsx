@@ -36,14 +36,14 @@ const useStyles = makeStyles((theme: Theme) =>
         boxSizing: "border-box",
       },
       fromCard: {
-        padding: 24,
+        padding: 20,
         backgroundColor: "#F3F3F3",
         borderRadius: 16,
         minHeight: 180,
         textAlign: "left",
       },
       toCard: {
-        padding: 24,
+        padding: 20,
         backgroundColor: "#F3F3F3",
         borderRadius: 16,
         minHeight: 180,
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme: Theme) =>
       innerContainer: {
         maxWidth: 1280,
         margin: "0 auto",
-        padding: "0 24px",
+        padding: "0 20px",
         boxSizing: "border-box",
       },
       fromCard: {

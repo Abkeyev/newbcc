@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("md")]: {
       document: {
-        padding: "20px 24px 48px",
+        padding: "20px 20px 48px",
       },
       subTitle: {
         marginBottom: 48,
@@ -101,10 +101,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       contents: {
-        padding: "32px 24px 0",
+        padding: "32px 20px 0",
       },
       subTitle: {
-        marginBottom: 24,
+        marginBottom: 20,
       },
       docText: {
         width: "100%",

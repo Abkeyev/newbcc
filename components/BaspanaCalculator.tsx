@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       container: {
         maxWidth: 1280,
-        padding: 24,
+        padding: 20,
         boxSizing: "border-box",
         margin: "0 auto",
       },

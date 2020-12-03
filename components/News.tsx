@@ -243,9 +243,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {
       innerContainer: {
-        padding: 24,
+        padding: 20,
         "& > div": {
-          marginBottom: 24,
+          marginBottom: 20,
         },
       },
       items: {
