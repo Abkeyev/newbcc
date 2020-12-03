@@ -1,4 +1,5 @@
 import { server } from "./axios";
+var qs = require('qs');
 
 export class MainController {
   async getMenu(): Promise<any> {
@@ -6,7 +7,7 @@ export class MainController {
       baseURL: "http://188.227.84.200:3005",
     });
   }
-  async getSlider(path: string): Promise<any> {
+   getSlider(path: string): Promise<any> {
     return server.get(`/content/slider${path}`, {
       baseURL: "http://188.227.84.200:3005",
     });
@@ -36,7 +37,7 @@ export class MainController {
       baseURL: "http://188.227.84.200:3005",
     });
   }
-  async getCards(path: string): Promise<any> {
+  getCards(path: string): Promise<any> {
     return server.get(`/content/cards${path}`, {
       baseURL: "http://188.227.84.200:3005",
     });
@@ -50,5 +51,29 @@ export class MainController {
     return server.get(`/content/news/${page}`, {
       baseURL: "http://188.227.84.200:3005",
     });
+  }
+  async getBranches(type: 'atms' | 'branches'): Promise<any> {
+    return server.get(`/${type}?client_id=3e7434c4-c80b-4c15-b288-438e10f1545a`, {
+      baseURL: "https://api.bcc.kz/bcc/production/open-banking/v1.0",
+    });
+  }
+  async getToken(): Promise<any> {
+    return server.post(`/auth/token`, qs.stringify({
+      grant_type: "client_credentials",
+      scope: "bcc.application.public"
+    }), {
+      baseURL: "https://api.bcc.kz/bcc/production/v1",
+      headers: {
+        Authorization: "Basic OTZhYmZhMDktYTBhNi00YWVmLWIzYzktNzk4ZDE1MDlmMzJmOlYwY1A0ZUgwZlUwb0s3Z1g3bUs4ZVAzcko0aEIyZVg1aVE2YVI3bkU2cEMxYkY1aEQ0"
+      }
+    });
+  }
+  async getCurrency(token: string): Promise<any> {
+    return server.get(`/public/rates`, {
+        baseURL: "https://api.bcc.kz/bcc/production/v1",
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
   }
 }

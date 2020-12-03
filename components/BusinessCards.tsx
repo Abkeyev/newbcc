@@ -250,7 +250,6 @@ const BusinessCards = () => {
   React.useEffect(() => {
     const path = window.location.pathname;
     api.main.getCardsFull(path).then((res: CardsFullProps[]) => {
-      console.log(res)
       res && setCardsFull(res);
     });
   }, [])
@@ -272,11 +271,6 @@ const BusinessCards = () => {
   };
 
   const marginLeft = () => {
-    console.log(slide)
-    console.log(xs)
-    console.log(sm)
-    console.log(md)
-    console.log(xl)
     if (xs) return `calc((100vw - 48px) * ${slide * -1})`;
     else if (sm) return `calc((100vw - 96px) * ${slide * -1})`;
     else if (md) return `calc((100vw - 96px) * ${slide * -1})`;

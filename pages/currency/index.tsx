@@ -125,6 +125,9 @@ const CurrencyPage = () => {
   const [cur1, setCur1] = React.useState("");
   const [cur2, setCur2] = React.useState("");
 
+  React.useEffect(() => {
+  }, [])
+
   return (
     <Layout title="Business">
       <div className="main-page">

@@ -363,7 +363,7 @@ const Footer = () => {
                 <a
                   href="https://www.bcc.kz/about/compliance-control/"
                 >
-                  Косплаенс–контроль
+                  Комплаенс-контроль
                 </a>
                 <a
                   href="https://www.bcc.kz/about/informaciya_dlya_investorov/"

@@ -108,7 +108,7 @@ interface BccTypographyProps extends React.HTMLAttributes<HTMLDivElement> {
   mr?: string | "0";
   mb?: string | "0";
   ml?: string | "0";
-  td?: "underline" | "";
+  td?: "underline" | "none";
   type:
     | "h1"
     | "h2"

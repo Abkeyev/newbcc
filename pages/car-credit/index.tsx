@@ -7,67 +7,17 @@ import {
   CarCreditCalculator,
   Tabs,
 } from "../../components";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import {
   BccTypography,
-  BccBreadcrumbs,
   BccCardFull,
 } from "../../components/BccComponents";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    [theme.breakpoints.between("md", "xl")]: {
-      container: {
-        position: "relative",
-        backgroundColor: "white",
-        padding: "16px 0",
-        boxSizing: "border-box",
-        marginTop: 16,
-        paddingBottom: 16,
-        "& > nav": {
-          maxWidth: 1280,
-          boxSizing: "border-box",
-          padding: "0 48px",
-          margin: "0 auto",
-        },
-      },
-    },
-    [theme.breakpoints.down("sm")]: {
-      container: {
-        position: "relative",
-        backgroundColor: "white",
-        padding: "16px 0",
-        boxSizing: "border-box",
-        marginTop: 16,
-        paddingBottom: 16,
-        "& > nav": {
-          display: "none",
-        },
-      },
-    },
-    [theme.breakpoints.down("xs")]: {},
-  })
-);
-
 const CarCreditPage = () => {
-  const classes = useStyles({});
-
   return (
     <Layout title="Business">
       <div className="main-page">
         <div className="container">
-          <div className={classes.container}>
-            <BccBreadcrumbs>
-              <BccTypography type="p3" td="underline">
-                Частным лицам
-              </BccTypography>
-              <BccTypography type="p3" td="underline">
-                Кредиты
-              </BccTypography>
-            </BccBreadcrumbs>
-          </div>
-
-          <Slider />
+          <Slider breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: "/crediting", isExternal: false}]} />
           <Benefits/>
           <CarCreditCalculator />
           <Order title="Оставьте заявку на автокредит" />

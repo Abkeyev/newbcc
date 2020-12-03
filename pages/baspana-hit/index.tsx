@@ -7,59 +7,18 @@ import {
   BaspanaCalculator,
   Tabs,
 } from "../../components";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import {
   BccTypography,
-  BccCardFull,
-  BccBreadcrumbs,
+  BccCardFull
 } from "../../components/BccComponents";
-import Link from "next/link";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    [theme.breakpoints.between("md", "xl")]: {
-      container: {
-        position: "relative",
-        backgroundColor: "white",
-        padding: "16px 0",
-        boxSizing: "border-box",
-        marginTop: 16,
-        paddingBottom: 16,
-        "& > nav": {
-          maxWidth: 1280,
-          margin: "0 auto",
-          boxSizing: "border-box",
-          padding: "0 48px",
-        },
-      },
-    },
-    [theme.breakpoints.down("sm")]: {
-      container: {
-        display: "none",
-      },
-    },
-    [theme.breakpoints.down("xs")]: {},
-  })
-);
 
 const BaspanaHitPage = () => {
-  const classes = useStyles({});
 
   return (
     <Layout title="Business">
       <div className="main-page">
         <div className="container">
-          <div className={classes.container}>
-            <BccBreadcrumbs>
-              <BccTypography type="p3" td="underline">
-                <Link href="/">Частным лицам</Link>
-              </BccTypography>
-              <BccTypography type="p3" td="underline">
-                <Link href="https://www.bcc.kz/fizical/kreditovanie/ipotechnoe-kreditovanie/">Ипотека</Link>
-              </BccTypography>
-            </BccBreadcrumbs>
-          </div>
-          <Slider />
+          <Slider breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Ипотека", link: "https://www.bcc.kz/fizical/kreditovanie/ipotechnoe-kreditovanie", isExternal: true}]} />
           <Benefits />
           <BaspanaCalculator />
           <Order title="Оформить ипотеку" />

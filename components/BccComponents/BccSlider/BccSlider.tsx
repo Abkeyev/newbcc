@@ -10,7 +10,7 @@ const BccSlider = withStyles({
       height: 8,
       top: -5,
       marginLeft: -5,
-      color: '#27AE60',
+      color: '#CCCFD1',
       border: '2px solid white',
       borderRadius: '50%',
     },

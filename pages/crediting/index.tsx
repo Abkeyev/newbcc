@@ -48,7 +48,7 @@ const CreditingPage = () => {
     <Layout title="Business">
       <div className="main-page">
         <div className="container">
-          <Slider />
+          <Slider breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: null, isExternal: false}]} />
           <Crediting />
           <BccCardFull
             title={

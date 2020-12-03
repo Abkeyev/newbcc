@@ -8,6 +8,7 @@ import {
   BccButton,
   BccCheckbox,
 } from "./BccComponents";
+import api from '../api/Api'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -120,6 +121,7 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "100%",
         height: "100%",
         display: "flex",
+        backgroundColor: 'white',
         flexDirection: "column",
         boxShadow:
           "0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)",
@@ -159,6 +161,7 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        backgroundColor: 'white',
         boxShadow:
           "0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)",
         borderRadius: 8,
@@ -237,11 +240,91 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const marks = [{
+  value: 0,
+  label: ''
+}, {
+  value: 6,
+  label: ''
+}, {
+  value: 9,
+  label: ''
+}, {
+  value: 12,
+  label: ''
+}, {
+  value: 18,
+  label: ''
+}, {
+  value: 24,
+  label: ''
+}, {
+  value: 36,
+  label: ''
+}, {
+  value: 48,
+  label: ''
+}, {
+  value: 60,
+  label: ''
+},]
+
+const data = [{
+  id: 0,
+  percent: 0,
+  percentZP: 0,
+  period: 0
+}, {
+  id: 1,
+  percent: 1,
+  percentZP: 0.8,
+  period: 6
+}, {
+  id: 2,
+  percent: 6,
+  percentZP: 4,
+  period: 9
+}, {
+  id: 3,
+  percent: 11,
+  percentZP: 9,
+  period: 12
+}, {
+  id: 4,
+  percent: 15,
+  percentZP: 13,
+  period: 18
+}, {
+  id: 5,
+  percent: 17,
+  percentZP: 15,
+  period: 24
+}, {
+  id: 6,
+  percent: 19,
+  percentZP: 17,
+  period: 36
+}, {
+  id: 7,
+  percent: 21,
+  percentZP: 19,
+  period: 48
+}, {
+  id: 8,
+  percent: 22,
+  percentZP: 20,
+  period: 60
+},]
+
 const Calulator = () => {
   const classes = useStyles({});
-  const [sum, setSum] = React.useState(1500000);
+  const [sum, setSum] = React.useState(5000000);
   const [agree, setAgree] = React.useState(true);
-  const [period, setPeriod] = React.useState(24);
+  const [period, setPeriod] = React.useState(0);
+  function calculateRate(period: number) {
+    const rate = data.filter(d => d.period === period).splice(0, 1)
+    return (rate[0] && rate[0].percent && rate[0].percentZP) ? (agree ? rate[0].percentZP : rate[0].percent) : 0
+  }
   return (
     <div className={classes.calc}>
       <BccTypography type="h4" block className={classes.calcTitle}>
@@ -266,8 +349,8 @@ const Calulator = () => {
                   shrink: true,
                 }}
                 onChange={(e: any) =>
-                  +e.target.value.slice(0, -2) > 5000000
-                    ? setSum(5000000)
+                  +e.target.value.slice(0, -2) > 7000000
+                    ? setSum(7000000)
                     : setSum(e.target.value.slice(0, -2))
                 }
                 className={classes.input}
@@ -282,8 +365,8 @@ const Calulator = () => {
                   position: "absolute",
                 }}
                 min={0}
-                max={3000000}
-                step={1000}
+                max={7000000}
+                step={20000}
                 value={sum}
                 valueLabelDisplay="off"
                 defaultValue={sum}
@@ -294,7 +377,7 @@ const Calulator = () => {
               />
               <div className={classes.sliderRange}>
                 <span>0</span>
-                <span>3 000 000</span>
+                <span>7 000 000</span>
               </div>
             </div>
           </div>
@@ -324,9 +407,10 @@ const Calulator = () => {
                   padding: 0,
                   position: "absolute",
                 }}
+                marks={marks}
                 min={0}
-                max={48}
-                step={1}
+                max={60}
+                step={null}
                 value={period}
                 valueLabelDisplay="off"
                 defaultValue={sum}
@@ -337,7 +421,7 @@ const Calulator = () => {
               />
               <div className={classes.sliderRange}>
                 <span>0</span>
-                <span>48</span>
+                <span>60</span>
               </div>
             </div>
           </div>
@@ -349,10 +433,10 @@ const Calulator = () => {
           <Grid container justify="space-between" className={classes.cardsText}>
             <Grid item>
               <BccTypography type="p4" block>
-                Ежемесячный платёж
+                Ставка
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
-                100 000 ₸
+              {calculateRate(period)}%
               </BccTypography>
             </Grid>
             <Grid item>
@@ -360,7 +444,7 @@ const Calulator = () => {
                 Общая сумма
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
-                3 011 000 ₸
+                {period && sum ? `~ ${Math.round((((calculateRate(period) * sum) / 100) + sum) / period)}` : 0} ₸
               </BccTypography>
             </Grid>
           </Grid>
@@ -369,6 +453,7 @@ const Calulator = () => {
             fullWidth
             color="primary"
             className={classes.calcBtn}
+            onClick={() => window.open('https://www.bcc.kz/credit-loan/')}
           >
             Оформить кредит
           </BccButton>
@@ -400,12 +485,32 @@ const Calulator = () => {
   );
 };
 
+interface CurrencyProps {
+  currency: string;
+  dateTime: string;
+  purchase: number;
+  sell: number;
+}
+
 const Currency = () => {
   const classes = useStyles({});
+  const [token, setToken] = React.useState<string>("")
+  const [currency, setCurrency] = React.useState<CurrencyProps[]>([])
+  React.useEffect(() => {
+    api.main.getToken().then(r => {
+      if(r.access_token) {
+        setToken(r.access_token)
+      }
+    })
+  }, [])
+  React.useEffect(() => {
+    console.log(token)
+    token && api.main.getCurrency(token).then((res) => res.Rates && setCurrency(res.Rates)).catch((err) => console.log(err))
+  }, [token])
   return (
     <div className={classes.currency}>
       <BccTypography type="p2" block>
-        15 янв 2020 09:00
+        {currency.length > 0 && currency[0] && currency[0].dateTime.substr(0,16)}
       </BccTypography>
       <Grid container justify="space-between" wrap="nowrap">
         <Grid item className={classes.currencyBlock}>
@@ -427,13 +532,13 @@ const Currency = () => {
             Покупка
           </BccTypography>
           <BccTypography type="p2" block>
-            388.7
+            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.purchase}
           </BccTypography>
           <BccTypography type="p2" block>
-            427.7
+            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.purchase}
           </BccTypography>
           <BccTypography type="p2" block>
-            6.01
+            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.purchase}
           </BccTypography>
         </Grid>
         <Grid item className={classes.currencyBlock}>
@@ -441,13 +546,13 @@ const Currency = () => {
             Продажа
           </BccTypography>
           <BccTypography type="p2" block>
-            391.4
+            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.sell}
           </BccTypography>
           <BccTypography type="p2" block>
-            431.7
+            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.sell}
           </BccTypography>
           <BccTypography type="p2" block>
-            6.62
+            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.sell}
           </BccTypography>
         </Grid>
       </Grid>
@@ -475,9 +580,8 @@ const Widgets = () => {
                 <BccTypography type="h5" block className={classes.title}>
                   Курсы валют
                 </BccTypography>
-                <BccTypography type="h5" block className={classes.text}>
-                  <Currency />
-                </BccTypography>
+                <Currency />
+                <BccButton variant="outlined" color="secondary" onClick={() => window.open('https://www.bcc.kz/about/kursy-valyut/')}>Все валюты</BccButton>
               </div>
             </div>
           </Grid>

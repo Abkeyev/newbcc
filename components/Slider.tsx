@@ -1,9 +1,10 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { BccButton, BccTypography } from "../components/BccComponents";
+import { BccButton, BccTypography, BccBreadcrumbs } from "../components/BccComponents";
 import { SliderProps } from "../interfaces";
 import api from '../api/Api'
+import Link from "next/link";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       slider: {
         width: "100%",
-        overflowX: "hidden",
+        overflow: "hidden",
         paddingTop: 24,
         "& > div": {
           width: "100%",
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
       slide: {
         "& > div:first-child": {
           width: "calc(50% - 16px)",
-          padding: "80px 0 92px",
+          padding: "46px 0 64px",
         },
         "& > div:last-child": {
           position: "relative",
@@ -104,7 +105,7 @@ const useStyles = makeStyles((theme: Theme) =>
       outerContainer: {
         backgroundSize: "cover!important",
         backgroundPositionX: "center!important",
-        paddingBottom: "24px",
+        paddingBottom: "24px"
       },
       container: {
         position: "relative",
@@ -132,7 +133,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       slider: {
         width: "100%",
-        overflowX: "hidden",
+        overflow: "hidden",
         paddingTop: 24,
         "& > div": {
           width: "100%",
@@ -145,7 +146,7 @@ const useStyles = makeStyles((theme: Theme) =>
       slide: {
         "& > div:first-child": {
           width: "calc(50% - 16px)",
-          padding: "80px 0 92px",
+          padding: "46px 0 64px",
         },
         "& > div:last-child": {
           position: "relative",
@@ -261,10 +262,24 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    breadcrumbs: {
+      paddingTop: 46
+    }
   })
 );
 
-const Slider = () => {
+interface Breadcrumbs {
+  title: string;
+  link: string | null;
+  isExternal: boolean;
+}
+
+interface SliderPageProps {
+  breadcrumbs?: Breadcrumbs[];
+}
+
+const Slider = (props: SliderPageProps) => {
+  const { breadcrumbs } = props
   const [slideIndex, setSlideIndex] = React.useState(0);
   const [slider, setSlider] = React.useState<SliderProps[] | []>([]);
 
@@ -309,8 +324,19 @@ const Slider = () => {
     <div
       className={classes.outerContainer}
       style={bgStyle}
-    >{console.log(slider[slideIndex] && slider[slideIndex].slider.image)}
+    >
       <div className={classes.container}>
+        {breadcrumbs && breadcrumbs.length > 0 && (<div className={classes.breadcrumbs}>
+          <BccBreadcrumbs>
+            {
+              breadcrumbs.map((b: Breadcrumbs) => (
+                <BccTypography type="p3" td={b.link === null ? "none" : "underline"} color={b.link === null ? '#80868C' : 'inherit'}>
+                  {b.link === null ? b.title : b.isExternal ? <a href={b.link}>{b.title}</a> : <Link href={b.link}>{b.title}</Link>}
+                </BccTypography>
+              ))
+            }
+          </BccBreadcrumbs>
+        </div>)}
         <div className={classes.sliderSteps}>
           {slider.length > 1 && (
             <img

@@ -13,9 +13,9 @@ export class Server {
   public get(url: string, config = {} as any): any {
     config = config || {};
     config.headers = config.headers || {};
-    var userContext = JSON.parse(localStorage.getItem("userContext") || "{}");
-    config.headers.Authorization =
-      "Bearer " + (userContext.token || {}).accessToken;
+    // var userContext = JSON.parse(localStorage && localStorage.getItem("userContext") || "{}");
+    // config.headers.Authorization =
+    //   "Bearer " + (userContext.token || {}).accessToken;
     config.baseURL = config.baseURL || webConfigEnv.SERVER_URL;
     return axios.get(url, config).then((r) => r?.data);
   }

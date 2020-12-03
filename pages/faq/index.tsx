@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
         boxSizing: "border-box",
       },
       input: {
-        minWidth: 360,
+        minWidth: 'auto',
         margin: 0,
       },
       table: {
