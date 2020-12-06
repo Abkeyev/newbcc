@@ -7,6 +7,9 @@ import {
   BccTypography,
   BccButton,
 } from "../../components/BccComponents";
+import api from '../../api/Api'
+import { NextPageContext } from 'next';
+import { MenuProps, CardsPageProps, SliderProps, TabsProps } from '../../interfaces'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -41,15 +44,23 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const CreditingPage = () => {
+interface CreditingPageProps {
+  slider: SliderProps[];
+  cards: CardsPageProps;
+  tabs: TabsProps[];
+  nav: MenuProps[];
+}
+
+const CreditingPage = (props: CreditingPageProps) => {
+  const { slider, cards, tabs, nav } = props
   const classes = useStyles({});
 
   return (
-    <Layout title="Business">
+    <Layout title="Business" nav={nav}>
       <div className="main-page">
         <div className="container">
-          <Slider breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: null, isExternal: false}]} />
-          <Crediting />
+          <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: null, isExternal: false}]} />
+          <Crediting title="Кредитование частных лиц" cards={cards} />
           <BccCardFull
             title={
               <BccTypography block type="h4" className={classes.ezT} mb="16px">
@@ -94,10 +105,26 @@ const CreditingPage = () => {
             }
             bgImg="/img/mobile-app.svg"
           />
-          <Tabs/>
+          <Tabs tabs={tabs}/>
         </div>
       </div>
     </Layout>
   );
 };
+
+CreditingPage.getInitialProps = async (ctx: NextPageContext) => {
+  const slider = await api.main.getSlider(ctx.pathname)
+  const cards = await api.main.getCards(ctx.pathname)
+  const tabs = await api.main.getTabs(ctx.pathname)
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { slider, tabs, cards, nav }
+}
+
 export default CreditingPage;

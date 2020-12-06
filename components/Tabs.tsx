@@ -2,7 +2,6 @@ import React from "react";
 import { BccTypography, BccTabs, BccTab } from "./BccComponents";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { TabsProps, TabProps } from "../interfaces";
-import api from '../api/Api'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,25 +78,23 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Tabs = () => {
+interface TabsComponentProps {
+  tabs: TabsProps[];
+}
+
+const Tabs = (props: TabsComponentProps) => {
+  const { tabs } = props
   const classes = useStyles({});
   const [index, setIndex] = React.useState(0);
-  const [tabs, setTabs] = React.useState<TabsProps[] | []>([]);
-  
-  React.useEffect(() => {
-    api.main.getTabs(window.location.pathname).then((res: TabsProps[]) => {
-      setTabs(res);
-    });
-  }, [])
 
   return (
     <div
       className={classes.container}
-      style={{ backgroundColor: tabs.length > 0 ? tabs[0].color : "white" }}
+      style={{ backgroundColor: tabs && tabs.length > 0 ? tabs[0].color : "white" }}
     >
       <div className={classes.innerContainer}>
         {
-          tabs.length > 0 && (
+          tabs && tabs.length > 0 && (
             <>
             <BccTypography type="h2" block mb="30px">
               {tabs[0].title}

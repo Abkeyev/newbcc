@@ -11,7 +11,6 @@ import {
 } from "./BccComponents";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import api from "../api/Api";
 import { MenuProps } from "../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -516,46 +515,43 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Navigation = () => {
-  const [nav, setNav] = React.useState<MenuProps[]>([
-    {
-      id: 0,
-      inverseParentHeadNavigation: [],
-      isdropdown: false,
-      isexternal: false,
-      link: "",
-      title: "",
-    },
-  ]);
+interface NavigationProps {
+  nav: MenuProps[];
+}
+
+const Navigation = (props: NavigationProps) => {
+  let { nav } = props
+  if(nav && nav.length === 0)
+    nav = [{
+        id: 0,
+        inverseParentHeadNavigation: [],
+        isdropdown: false,
+        isexternal: false,
+        link: "",
+        title: "",
+    }]
   const [index, setIndex] = React.useState(0);
   const [menu, openMenu] = React.useState(false);
   const [subMenuIndex, setSubMenuIndex] = React.useState(-1);
   const [subSubSubMenuIndex, setSubSubSubMenuIndex] = React.useState(-1);
   const classes = useStyles({});
   const router = useRouter();
-
-  const getMenu = () => {
-    api.main
-      .getMenu()
-      .then((res: any) => {
-        setNav(res);
-        localStorage.setItem("menu", JSON.stringify(res));
-      })
-      .catch((err: any) => {
-        console.error(err);
-      });
-  };
-
+  
   const getSubmenu = (): MenuProps => {
-    const sub = nav.find((n: MenuProps) => n.link === router.pathname);
-    return sub !== undefined ? sub : nav[0];
+    const sub = nav && nav.find((n: MenuProps) => n.link === router.pathname);
+    if(sub !== undefined)
+      return sub
+    else if(nav && nav[0]) {
+      return nav[0]
+    } else return {
+      id: 0,
+      inverseParentHeadNavigation: [],
+      isdropdown: false,
+      isexternal: false,
+      link: "",
+      title: "",
+  }
   };
-
-  React.useEffect(() => {
-    if (Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      setNav(JSON.parse(localStorage.getItem("menu") || "{}"));
-    else getMenu();
-  }, []);
 
   const goToLink = (index: number, isSub: boolean) => {
     setSubMenuIndex(-1);
@@ -569,7 +565,7 @@ const Navigation = () => {
 
   const getIndex = () => {
     let i = 0;
-    nav.map((n: MenuProps, index: number) => {
+    nav && nav.length > 0 && nav.map((n: MenuProps, index: number) => {
       router.pathname === n.link ? (i = index) : "";
     });
     return i;

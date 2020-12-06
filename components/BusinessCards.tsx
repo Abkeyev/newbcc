@@ -10,7 +10,6 @@ import Link from "next/link";
 import { BccTypography, BccChip, BccButton, BccLink } from "./BccComponents";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { CardsFullProps, ChipProps, ButtonProps } from "../interfaces";
-import api from "../api/Api";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -233,27 +232,25 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chip: {
       marginRight: 8
-    }
+    },
+    textInner: {}
   })
 );
 
-const BusinessCards = () => {
+interface BusinessCardsProps {
+  cardsFull: CardsFullProps[];
+}
+
+const BusinessCards = (props: BusinessCardsProps) => {
+  const { cardsFull } = props
   const classes = useStyles({});
   const [slide, setSlide] = React.useState(0);
-  const [cardsFull, setCardsFull] = React.useState<CardsFullProps[] | []>([]);
   const theme = useTheme();
   const xl = useMediaQuery(theme.breakpoints.down("xl"));
   const md = useMediaQuery(theme.breakpoints.down("md"));
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
   const xs = useMediaQuery(theme.breakpoints.down("xs"));
-
-  React.useEffect(() => {
-    const path = window.location.pathname;
-    api.main.getCardsFull(path).then((res: CardsFullProps[]) => {
-      res && setCardsFull(res);
-    });
-  }, [])
-
+  
   const slideArrow = (isNext: boolean) => {
     if (isNext) {
       if (slide + 1 === 3) {
@@ -394,7 +391,7 @@ const BusinessCards = () => {
                       <BccTypography block type="p2" mb="16px">
                         {c.card.subtitle}
                       </BccTypography>
-                      <span className={classes.textInner} dangerouslySetInnerHTML={{ __html: c.card.content }} />
+                      <div className={classes.textInner} dangerouslySetInnerHTML={{ __html: c.card.content }} />
                       {c.buttons.length > 0 &&
                         c.buttons.map((b: ButtonProps) => (
                           <BccButton

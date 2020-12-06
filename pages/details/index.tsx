@@ -12,6 +12,9 @@ import {
   BccTableRow,
   BccTableBody,
 } from "../../components/BccComponents";
+import { NextPageContext } from 'next'
+import { MenuProps } from '../../interfaces'
+import api from '../../api/Api'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -190,7 +193,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const FaqPage = () => {
+interface FaqPageProps {
+  nav: MenuProps[];
+}
+
+const FaqPage = (props: FaqPageProps) => {
+  const { nav } = props
   const classes = useStyles({});
 
   const openLink = () => {
@@ -198,7 +206,7 @@ const FaqPage = () => {
   }
 
   return (
-    <Layout title="Business">
+    <Layout title="Business" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -456,4 +464,17 @@ const FaqPage = () => {
     </Layout>
   );
 };
+
+FaqPage.getInitialProps = async (ctx: NextPageContext) => {
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { nav }
+}
+
 export default FaqPage;

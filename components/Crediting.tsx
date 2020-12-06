@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { BccTypography, BccCard } from "./BccComponents";
 import { CardsPageProps, CardsProps } from "../interfaces";
-import api from "../api/Api";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,21 +59,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Crediting = () => {
-  const classes = useStyles({});
-  const [cards, setCards] = React.useState<CardsPageProps>();
-  React.useEffect(() => {
-    api.main.getCards(window.location.pathname).then((res: CardsPageProps) => {
-      setCards(res);
-    });
-  }, []);
+interface CreditingProps {
+  title: string;
+  cards: CardsPageProps;
+}
 
+const Crediting = (props: CreditingProps) => {
+  const { title, cards } = props
+  const classes = useStyles({});
   
   return (
     <div className={classes.outerContainer}>
       <div className={classes.container}>
         <BccTypography type="h2" block mb="32px">
-          Кредитование частных лиц
+          {title}
         </BccTypography>
         <Grid
           container

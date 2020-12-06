@@ -19,6 +19,8 @@ import {
   FullscreenControl,
 } from "react-yandex-maps";
 import api from '../../api/Api'
+import { NextPageContext } from 'next'
+import { MenuProps } from '../../interfaces'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -220,24 +222,23 @@ interface ATMProps {
   availability: StandardAvailabilityProps;
 }
 
-const BranchesPage = () => {
+interface BranchesPageProps {
+  branches: any;
+  atms: any;
+  nav: MenuProps[];
+}
+
+const BranchesPage = (props: BranchesPageProps) => {
+  let { branches, atms, nav } = props
+  branches = branches.Data && branches.Data
+  atms = atms.Data && atms.Data
   const [index, setIndex] = React.useState<number>(0);
-  const [atms, setAtms] = React.useState<ATMProps[] | []>([]);
-  const [branches, setBranches] = React.useState<ATMProps[] | []>([]);
   const [item, setItem] = React.useState<ATMProps | null>(null);
   const [city, setCity] = React.useState("Алматы")
   const [switchBtn, setSwitchBtn] = React.useState(true);
   const classes = useStyles({});
-  React.useEffect(() => {
-    if(index === 0) {
-      api.main.getBranches('branches').then((res) => res.Data && setBranches(res.Data))
-    }else {
-      api.main.getBranches('atms').then((res) => res.Data && setAtms(res.Data))
-    }
-    
-  }, [index]);
   return (
-    <Layout title="Офисы и банкоматы">
+    <Layout title="Офисы и банкоматы" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -358,4 +359,20 @@ const BranchesPage = () => {
     </Layout>
   );
 };
+
+BranchesPage.getInitialProps = async (ctx: NextPageContext) => {
+  const branches = await api.main.getBranches('branches')
+  console.log(ctx)
+  const atms = await api.main.getBranches('atms')
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { branches, atms, nav }
+}
+
 export default BranchesPage;

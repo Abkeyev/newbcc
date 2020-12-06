@@ -6,7 +6,8 @@ import {
   BccTypography
 } from "../../components/BccComponents";
 import api from '../../api/Api'
-import { CallCenterProps } from '../../interfaces'
+import { NextPageContext } from 'next';
+import { CallCenterProps, MenuProps } from '../../interfaces';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -117,7 +118,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CallCenterPage = () => {
+
+interface CallCenterPageProps {
+  nav: MenuProps[]
+}
+
+const CallCenterPage = (props: CallCenterPageProps) => {
+  const { nav } = props
   const classes = useStyles({});
   const [active, setActive] = React.useState(0);
   const [callCenter, setCallCenter] = React.useState<CallCenterProps[] | []>([]);
@@ -129,7 +136,7 @@ const CallCenterPage = () => {
   }, [])
 
   return (
-    <Layout title="Business">
+    <Layout title="Business" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.contents}>
@@ -159,7 +166,7 @@ const CallCenterPage = () => {
               </Grid>
               <Grid item>
                 <BccTypography type="p2l" block mb="20px" color="#4D565F">
-                  {callCenter.length > 0 && (<span dangerouslySetInnerHTML={{ __html: callCenter[active].content }} />)}
+                  {callCenter.length > 0 && (<div dangerouslySetInnerHTML={{ __html: callCenter[active].content }} />)}
                 </BccTypography>
                 </Grid>
             </Grid>
@@ -169,4 +176,17 @@ const CallCenterPage = () => {
     </Layout>
   );
 };
+
+CallCenterPage.getInitialProps = async (ctx: NextPageContext) => {
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { nav }
+}
+
 export default CallCenterPage;

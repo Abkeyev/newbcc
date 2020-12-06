@@ -45,11 +45,6 @@ export class Server {
   public post(url: string, data: any, config = {} as any): any {
     config = config || {};
     config.headers = config.headers || {};
-    var userContext = JSON.parse(localStorage.getItem("userContext") || "{}");
-    if (!!(userContext.token || {}).accessToken) {
-      config.headers.Authorization =
-        "Bearer " + (userContext.token || {}).accessToken;
-    }
     config.baseURL = config.baseURL || webConfigEnv.SERVER_URL;
     return axios.post(url, data, config).then((r) => r.data);
   }

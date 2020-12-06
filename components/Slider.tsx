@@ -1,9 +1,9 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { BccButton, BccTypography, BccBreadcrumbs } from "../components/BccComponents";
-import { SliderProps } from "../interfaces";
-import api from '../api/Api'
+import { SliderPageProps, SliderProps, Breadcrumbs } from "../interfaces";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from "next/link";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme: Theme) =>
       outerContainer: {
         backgroundSize: "cover!important",
         paddingBottom: "20px",
+      },
+      mobileSliderImg: {
+        display: 'none'
       },
       container: {
         position: "relative",
@@ -100,12 +103,21 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: 48,
         cursor: "pointer",
       },
+      breadcrumbs: {
+        paddingTop: 46,
+        '& > nav': {
+          minHeight: 25
+        }
+      }
     },
     [theme.breakpoints.down("md")]: {
       outerContainer: {
         backgroundSize: "cover!important",
         backgroundPositionX: "center!important",
         paddingBottom: "20px"
+      },
+      mobileSliderImg: {
+        display: 'none'
       },
       container: {
         position: "relative",
@@ -195,10 +207,20 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: 48,
         cursor: "pointer",
       },
+      breadcrumbs: {
+        paddingTop: 46,
+        '& > nav': {
+          minHeight: 25
+        }
+      }
     },
     [theme.breakpoints.down("sm")]: {
       outerContainer: {
-        marginTop: 56
+        marginTop: 56,
+        backgroundColor: 'white'
+      },
+      mobileSliderImg: {
+        display: 'none'
       },
       sliderBtn: {
         minWidth: 250,
@@ -217,11 +239,25 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "auto",
         padding: "0 20px",
       },
+      breadcrumbs: {
+        display: 'none'
+      }
     },
     [theme.breakpoints.down("xs")]: {
       container: {
         height: "auto",
-        padding: "0 20px",
+        padding: "0",
+      },
+      outerContainer: {
+        padding: 0
+      },
+      mobileSliderImg: {
+        display: 'block',
+        height: 190,
+        backgroundSize: 'cover!important'
+      },
+      slider: {
+        padding: '0 20px',
       },
       sliderBtn: {
         height: 56,
@@ -235,6 +271,7 @@ const useStyles = makeStyles((theme: Theme) =>
       sliderSteps: {
         width: 94,
         left: "calc(50% - 47px)",
+        bottom: 28
       },
       sliderSubTitle: {
         marginBottom: 16,
@@ -246,10 +283,10 @@ const useStyles = makeStyles((theme: Theme) =>
         flexWrap: "wrap",
         "& > div:first-child": {
           width: "100%",
-          padding: "16px 0 0",
+          padding: "0 0 62px",
         },
         "& > div:last-child": {
-          marginTop: 46,
+          marginTop: 24,
           width: "100%",
           "& > img": {
             position: "relative",
@@ -262,35 +299,36 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
-    breadcrumbs: {
-      paddingTop: 46
-    }
   })
 );
 
-interface Breadcrumbs {
-  title: string;
-  link: string | null;
-  isExternal: boolean;
-}
-
-interface SliderPageProps {
-  breadcrumbs?: Breadcrumbs[];
-}
 
 const Slider = (props: SliderPageProps) => {
-  const { breadcrumbs } = props
+  const { slider, breadcrumbs } = props
   const [slideIndex, setSlideIndex] = React.useState(0);
-  const [slider, setSlider] = React.useState<SliderProps[] | []>([]);
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down("xs"));
 
-  React.useEffect(() => {
-    api.main.getSlider(window.location.pathname).then((res: SliderProps[]) => {
-      setSlider(res);
-    }).catch((err) => console.error(err));
-  }, [])
+  const [touchStart, setTouchStart] = React.useState(0)
+  const [touchEnd, setTouchEnd] = React.useState(0)
+
+  const handleTouchStart = (e: any) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  }
+  const handleTouchMove = (e: any) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  }
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 150) {
+      slideArrow(true)
+    }
+    if (touchStart - touchEnd < -150) {
+      slideArrow(false)
+    }
+  }
 
   const minSlide = 0;
-  const maxSlide = slider.length - 1;
+  const maxSlide = slider && slider.length - 1;
 
   const slideArrow = (isNext: boolean) => {
     if (isNext) {
@@ -309,43 +347,60 @@ const Slider = (props: SliderPageProps) => {
   };
   const classes = useStyles({});
   let bgStyle = {}
-  if(slider[slideIndex]) {
-    if(slider[slideIndex].slider.isFull) {
-      bgStyle = {
-        background: `url(http://188.227.84.200:3005/images/${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat ${slider[slideIndex].slider.backgroundColor}`,
+  let bgSmallStyle = {}
+  if(slider && slider[slideIndex]) {
+    if(small){
+      bgSmallStyle = {
+        background: `url(http://188.227.84.200:3005/images/${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat right center`,
       }
-    }else {
-      bgStyle = {
-        backgroundColor: slider[slideIndex].slider.backgroundColor
+    }else{
+      if(slider[slideIndex].slider.isFull) {
+        bgStyle = {
+          background: `url(http://188.227.84.200:3005/images/${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat ${slider[slideIndex].slider.backgroundColor}`,
+        }
+      }else {
+        bgStyle = {
+          backgroundColor: slider[slideIndex].slider.backgroundColor
+        }
       }
     }
   }
+
   return (
     <div
       className={classes.outerContainer}
       style={bgStyle}
     >
-      <div className={classes.container}>
-        {breadcrumbs && breadcrumbs.length > 0 && (<div className={classes.breadcrumbs}>
+      <div className={classes.container}
+        onTouchStart={e => handleTouchStart(e)}
+        onTouchMove={e => handleTouchMove(e)}
+        onTouchEnd={() => handleTouchEnd()}
+        // onMouseDown={e => handleMouseDown(e)}
+        // onMouseMove={e => handleMouseMove(e)}
+        // onMouseUp={() => handleMouseUp()}
+        // onMouseLeave={() => handleMouseLeave()}
+      >
+        <div className={classes.breadcrumbs} style={{ opacity: breadcrumbs && breadcrumbs.length > 0 ? 1 : 0 }}>
           <BccBreadcrumbs>
             {
-              breadcrumbs.map((b: Breadcrumbs) => (
+              breadcrumbs && breadcrumbs.length > 0 && breadcrumbs.map((b: Breadcrumbs) => (
                 <BccTypography type="p3" td={b.link === null ? "none" : "underline"} color={b.link === null ? '#80868C' : 'inherit'}>
                   {b.link === null ? b.title : b.isExternal ? <a href={b.link}>{b.title}</a> : <Link href={b.link}>{b.title}</Link>}
                 </BccTypography>
               ))
             }
           </BccBreadcrumbs>
-        </div>)}
+        </div>
+        <div className={classes.mobileSliderImg} style={bgSmallStyle}/>
         <div className={classes.sliderSteps}>
-          {slider.length > 1 && (
+          {slider && slider.length > 1 && (
             <img
               className={classes.slideLeft}
               src={"/img/slide-left.svg"}
               onClick={() => slideArrow(false)}
             />
           )}
-          {slider.length > 1
+          {slider && slider.length > 1
             ? (slider as SliderProps[]).map((slide: SliderProps, index: number) => {
                 return (
                   <div
@@ -359,7 +414,7 @@ const Slider = (props: SliderPageProps) => {
               })
             : ""}
 
-          {slider.length > 1 && (
+          {slider && slider.length > 1 && (
             <img
               className={classes.slideRight}
               src={"/img/slide-right.svg"}
@@ -369,7 +424,7 @@ const Slider = (props: SliderPageProps) => {
         </div>
         <div className={classes.slider}>
           <div>
-            {slider.length > 0 &&
+            {slider && slider.length > 0 &&
               (slider as SliderProps[]).map((slide: SliderProps, index: number) => {
                 return slideIndex === index ? (
                   <div
@@ -410,7 +465,7 @@ const Slider = (props: SliderPageProps) => {
                           </BccButton>
                         )}
                       </Grid>
-                      {!slide.slider.isFull && (<Grid item>
+                      {!slide.slider.isFull && !small && (<Grid item>
                         <img
                           src={`http://188.227.84.200:3005/images/${slide.slider.image}`}
                           alt="slide1"

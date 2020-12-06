@@ -295,12 +295,13 @@ const Useful = (props: UserfulProps) => {
   const classes = useStyles({});
   const [slide, setSlide] = React.useState(0);
   const theme = useTheme();
+  const xl = useMediaQuery(theme.breakpoints.down("xl"));
   const lg = useMediaQuery(theme.breakpoints.down("lg"));
   const md = useMediaQuery(theme.breakpoints.down("md"));
   const small = useMediaQuery(theme.breakpoints.down("sm"));
   const vSmall = useMediaQuery(theme.breakpoints.down("xs"));
   const { cards } = props;
-
+  
   const cardsList = () => {
     if (cards && cards.slider.length > 0) {
       return cards.slider;
@@ -327,7 +328,7 @@ const Useful = (props: UserfulProps) => {
     if (vSmall) return `calc(((100vw - 48px) + 12px) * ${slide * -1})`;
     else if (small) return `calc(((100vw - 108px) + 24px) * ${slide * -1})`;
     else if (md) return `calc(((100vw - 120px) / 3 + 12px) * ${slide * -1})`;
-    else if (lg) return `-${402 * slide}px`;
+    else if (lg || xl) return `-${402 * slide}px`;
     else return 0;
   };
 

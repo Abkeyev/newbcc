@@ -221,7 +221,7 @@ const BccTypography = (props: BccTypographyProps) => {
           className={
             classes.typographyTitle +
             " " +
-            classes.h3 +
+            classes.h4 +
             " " +
             weightClass +
             " " +
@@ -239,7 +239,7 @@ const BccTypography = (props: BccTypographyProps) => {
           className={
             classes.typographyTitle +
             " " +
-            classes.h4 +
+            classes.h5 +
             " " +
             weightClass +
             " " +
@@ -257,7 +257,7 @@ const BccTypography = (props: BccTypographyProps) => {
           className={
             classes.typographyTitle +
             " " +
-            classes.h5 +
+            classes.h6 +
             " " +
             weightClass +
             " " +

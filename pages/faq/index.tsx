@@ -2,7 +2,7 @@ import Layout from "../../components/Layout";
 import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { MenuItem } from "@material-ui/core";
-import { FaqProps, FaqsProps, FaqCatProps } from "../../interfaces";
+import { FaqProps, FaqsProps, FaqCatProps, MenuProps } from "../../interfaces";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   BccTypography,
@@ -11,6 +11,7 @@ import {
   BccCollapsePanel,
   BccCollapseDetails,
 } from "../../components/BccComponents";
+import { NextPageContext } from 'next';
 import api from "../../api/Api";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,18 +108,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const FaqPage = () => {
+interface FaqPageProps {
+  faqs: FaqProps[];
+  nav: MenuProps[];
+}
+
+const FaqPage = (props: FaqPageProps) => {
+  const { faqs, nav } = props
   const classes = useStyles({});
   const [faqCategory, setFaqCategory] = React.useState(0);
-  const [faqs, setFaqs] = React.useState<FaqProps[] | []>([]);
-  React.useEffect(() => {
-    api.main.getFaq().then((res: FaqProps[]) => {
-      setFaqs(res);
-    });
-  }, []);
 
   return (
-    <Layout title="Business">
+    <Layout title="Business" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -142,7 +143,7 @@ const FaqPage = () => {
               margin="normal"
               select
             >
-              {faqs.length > 0 &&
+              {faqs && faqs.length > 0 &&
                 (faqs as FaqProps[]).map(
                   (faq: FaqProps, index: number) => <MenuItem value={index}>{faq.name}</MenuItem>)
               }
@@ -150,7 +151,7 @@ const FaqPage = () => {
           </div>
           <div className={classes.outerContent}>
             <div className={classes.mapContainer}>
-              {faqs[faqCategory] &&
+              {faqs && faqs[faqCategory] &&
                 faqs[faqCategory].subcategories.length > 0 &&
                 faqs[faqCategory].subcategories.map((f: FaqCatProps) => (
                   <BccCollapsePanel>
@@ -166,7 +167,7 @@ const FaqPage = () => {
                         </BccCollapseTitle>
                         <BccCollapseDetails>
                           <BccTypography type="p2">
-                            <span dangerouslySetInnerHTML={{ __html: f.answer}} />
+                            <div dangerouslySetInnerHTML={{ __html: f.answer}} />
                           </BccTypography>
                         </BccCollapseDetails>
                       </BccCollapsePanel>
@@ -174,7 +175,7 @@ const FaqPage = () => {
                     </BccCollapseDetails>
                   </BccCollapsePanel>
                 ))}
-                {faqs[faqCategory] &&
+                {faqs && faqs[faqCategory] &&
                 faqs[faqCategory].faqs.length > 0 && faqs[faqCategory].faqs.map((f: FaqsProps) => (
                   <BccCollapsePanel>
                         <BccCollapseTitle expandIcon={<ExpandMoreIcon />}>
@@ -182,7 +183,7 @@ const FaqPage = () => {
                         </BccCollapseTitle>
                         <BccCollapseDetails>
                           <BccTypography type="p2">
-                            <span dangerouslySetInnerHTML={{ __html: f.answer}} />
+                            <div dangerouslySetInnerHTML={{ __html: f.answer}} />
                           </BccTypography>
                         </BccCollapseDetails>
                       </BccCollapsePanel>
@@ -195,4 +196,19 @@ const FaqPage = () => {
     </Layout>
   );
 };
+
+FaqPage.getInitialState = async (ctx: NextPageContext) => {
+  const faqs = await api.main.getFaq()
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { faqs, nav }
+}
+
+
 export default FaqPage;

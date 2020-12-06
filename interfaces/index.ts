@@ -7,6 +7,12 @@ export interface MenuProps {
   title: string;
 }
 
+export interface TarifsProps {
+  title: string;
+  date: string;
+  url: string;
+}
+
 export interface ButtonProps {
   id: number;
   buttonColor: 'primary' | 'secondary';
@@ -74,6 +80,24 @@ export interface SliderProps {
   button: ButtonProps;
   button2: ButtonProps;
   slider: SlideProps;
+}
+
+export interface CurrencyProps {
+  currency: string;
+  dateTime: string;
+  purchase: number;
+  sell: number;
+}
+
+export interface Breadcrumbs {
+  title: string;
+  link: string | null;
+  isExternal: boolean;
+}
+
+export interface SliderPageProps {
+  slider: SliderProps[] | [];
+  breadcrumbs?: Breadcrumbs[];
 }
 
 

@@ -3,22 +3,27 @@ import Layout from "../components/Layout";
 import { Slider, Featured, Widgets, Useful, News } from "../components";
 import { BccCardFull, BccTypography } from "../components/BccComponents";
 import api from "../api/Api";
-import { CardsPageProps } from "../interfaces";
+import { NextPageContext } from 'next';
+import { CardsPageProps, SliderProps, NewsProps, MenuProps } from "../interfaces";
 
-const IndexPage = () => {
-  const [cards, setCards] = React.useState<CardsPageProps>();
-  React.useEffect(() => {
-    api.main.getCards(window.location.pathname).then((res: CardsPageProps) => {
-      setCards(res);
-    });
-  }, []);
+interface IndexPageProps {
+  cards: CardsPageProps;
+  slider: SliderProps[];
+  currency: any;
+  news: NewsProps[];
+  nav: MenuProps[];
+}
+
+const IndexPage = (props: IndexPageProps) => {
+  const { cards, slider, currency, news, nav } = props
+  console.log(props)
   return (
-    <Layout title={'АО "Банк ЦентрКредит"'}>
+    <Layout title={'АО "Банк ЦентрКредит"'} nav={nav}>
       <div className="main-page">
         <div className="container">
-          <Slider />
-          <Featured />
-          <Widgets />
+          <Slider slider={slider} />
+          <Featured title="Лучшее от банка" cards={cards} />
+          <Widgets currency={currency && currency.Rates} />
           <Useful cards={cards} />
           <BccCardFull
             chips={[
@@ -41,11 +46,28 @@ const IndexPage = () => {
             }
             bgImg="/img/mobile-app.svg"
           />
-          <News />
+          <News news={news} />
         </div>
       </div>
     </Layout>
   );
 };
+
+IndexPage.getInitialProps = async (ctx: NextPageContext) => {
+  const cards = await api.main.getCards(ctx.pathname)
+  const slider = await api.main.getSlider(ctx.pathname)
+  const c = await api.main.getToken()
+  const currency = await api.main.getCurrency(c.access_token)
+  const news = await api.main.getNewsShort()
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { cards, slider, currency, news, nav }
+}
 
 export default IndexPage;

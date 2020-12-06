@@ -1,9 +1,7 @@
 import Link from "next/link";
-import Layout from "../components/Layout";
 
 export default function Custom404() {
   return (
-    <Layout >
       <section
         className="flex flex-row items-center justify-center px-4 py-12 text-center"
         style={{ minHeight: "calc(100vh - 150px)" }}
@@ -26,6 +24,5 @@ export default function Custom404() {
           </Link>
         </div>
       </section>
-    </Layout>
   );
 }

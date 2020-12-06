@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { BccTypography, BccChip, BccCard } from "./BccComponents";
 import { CategoryProps, CardsProps, CardsPageProps } from "../interfaces";
-import api from "../api/Api";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,18 +87,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface BestProps {
+  cards: CardsPageProps;
+  title: string;
+}
 
-const Featured = () => {
+const Best = (props: BestProps) => {
+  const { cards, title } = props
   const [selected, setSelected] = React.useState<CategoryProps | null>(null);
-  const [cards, setCards] = React.useState<CategoryProps[] | []>([]);
   const classes = useStyles({});
-
-  React.useEffect(() => {
-    api.main.getCards(window.location.pathname).then((res: CardsPageProps) => {
-      setCards(res.withCategories);
-      res.withCategories.length > 0 && setSelected(res.withCategories[0])
-    });
-  }, [])
+  
   return (
     <div className={classes.outerContainer}>
       <div className={classes.container}>
@@ -116,17 +113,25 @@ const Featured = () => {
               block
               className={classes.title}
             >
-              Лучшее от банка
+              {title}
             </BccTypography>
           </Grid>
           <Grid item className={classes.titleChip}>
-            {cards.length > 0 &&
-              (cards as CategoryProps[]).map((c: CategoryProps, index: number) => (
+            <BccChip
+              type={selected === null ? "contained" : "outlined"}
+              color="secondary"
+              onClick={() => setSelected(null)}
+              mr={"16px"}
+            >
+              Все
+            </BccChip>
+            {cards.withCategories.length > 0 &&
+              (cards.withCategories as CategoryProps[]).map((c: CategoryProps, index: number) => (
                 <BccChip
                   type={selected !== null && c.categoryId === selected.categoryId ? "contained" : "outlined"}
                   color="secondary"
                   onClick={() => setSelected(c)}
-                  mr={index === cards.length - 1 ? "0" : "16px"}
+                  mr={index === cards.withCategories.length - 1 ? "0" : "16px"}
                 >
                   {c.name}
                 </BccChip>
@@ -138,8 +143,21 @@ const Featured = () => {
           wrap="wrap"
           className={classes.cards}
         >
-          {selected !== null &&
-            (selected.cards as CardsProps[]).map((cc: CardsProps) => (
+          {selected === null ? (
+            (cards.withCategories as CategoryProps[]).map((c: CategoryProps) => 
+            (c.cards as CardsProps[]).map((cc: CardsProps) => (
+              <Grid item>
+                <BccCard
+                  title={cc.card.title}
+                  btn={cc.buttons}
+                  variant={cc.card.cardType}
+                  img={`http://188.227.84.200:3005/images/${cc.card.image}`}
+                  chips={cc.chips}
+                  text={cc.card.content}
+                />
+              </Grid>
+            )))
+          ) : ((selected.cards as CardsProps[]).map((cc: CardsProps) => (
                 <Grid item>
                   <BccCard
                     title={cc.card.title}
@@ -150,11 +168,11 @@ const Featured = () => {
                     text={cc.card.content}
                   />
                 </Grid>
-              ))}
+              )))}
         </Grid>
       </div>
     </div>
   );
 };
 
-export default Featured;
+export default Best;

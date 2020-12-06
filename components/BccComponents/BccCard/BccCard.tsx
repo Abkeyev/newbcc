@@ -168,7 +168,7 @@ const BccCard = (props: BccCardProps) => {
             variant === "horizontal" ? classes.horizontalText : classes.text
           }
         >
-          <span className={classes.textInner} dangerouslySetInnerHTML={{ __html: text }} />
+          <div className={classes.textInner} dangerouslySetInnerHTML={{ __html: text }} />
         </BccTypography>
         {btn?.length > 0 &&
           btn.map((b: ButtonsProps, index: number) => (

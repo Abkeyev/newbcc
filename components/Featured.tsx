@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { BccTypography, BccCard } from "./BccComponents";
 import { CardsPageProps, CardsProps } from "../interfaces";
-import api from '../api/Api'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -124,17 +123,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Featured = () => {
+interface FeaturedProps {
+  cards?: CardsPageProps;
+  title: string;
+}
+
+const Featured = (props: FeaturedProps) => {
+  const { cards, title } = props
   const classes = useStyles({});
-  const [cards, setCards] = React.useState<CardsPageProps>();
-  React.useEffect(() => {
-    api.main.getCards(window.location.pathname).then((res: CardsPageProps) => {
-      setCards(res);
-    });
-  }, []);
 
   const cardsList = (type: string) => {
-    if (cards && cards.withoutCategories.length > 0) {
+    if (cards && cards.withoutCategories && cards.withoutCategories.length > 0) {
       return cards.withoutCategories.filter(
         (c: CardsProps) => c.card.cardType === type
       );
@@ -145,7 +144,7 @@ const Featured = () => {
     <div className={classes.outerContainer}>
       <div className={classes.container}>
         <BccTypography type="h2" block className={classes.title}>
-          Рекомендуемые продукты
+        {title}
         </BccTypography>
         <Grid
           container

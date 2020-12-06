@@ -9,7 +9,7 @@ import {
   BccCheckbox,
   BccChip
 } from "./BccComponents";
-import api from '../api/Api'
+import { CurrencyProps } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -486,29 +486,14 @@ const Calulator = () => {
   );
 };
 
-interface CurrencyProps {
-  currency: string;
-  dateTime: string;
-  purchase: number;
-  sell: number;
+interface CurrencyPageProps {
+  currency: CurrencyProps[];
 }
 
-const Currency = () => {
+const Currency = (props: CurrencyPageProps) => {
+  const { currency } = props
   const classes = useStyles({});
-  const [token, setToken] = React.useState<string>("")
-  const [currency, setCurrency] = React.useState<CurrencyProps[]>([])
   const [isGold, setGold] = React.useState<boolean>(false)
-  React.useEffect(() => {
-    api.main.getToken().then(r => {
-      if(r.access_token) {
-        setToken(r.access_token)
-      }
-    })
-  }, [])
-  React.useEffect(() => {
-    console.log(token)
-    token && api.main.getCurrency(token).then((res) => res.Rates && setCurrency(res.Rates)).catch((err) => console.log(err))
-  }, [token])
 
   const formatDate = (date: string): string => {
     const dateArr = date.substr(0,16).split(' ')
@@ -520,7 +505,7 @@ const Currency = () => {
     <>
     <div className={classes.currency}>
       <BccTypography type="p2" block>
-        {currency.length > 0 && currency[0] && currency[5] && formatDate(isGold ? currency[0].dateTime : currency[5].dateTime)}
+        {currency && currency.length > 0 && currency[0] && currency[5] && formatDate(isGold ? currency[0].dateTime : currency[5].dateTime)}
       </BccTypography>
       <BccChip type={!isGold ? "contained" : "outlined"} onClick={() => setGold(false)} color="secondary" mb="16px" mr="16px">
         Валюты
@@ -550,13 +535,13 @@ const Currency = () => {
             Покупка
           </BccTypography>
           <BccTypography type="p2" block>
-            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.purchase}
+            {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.purchase}
           </BccTypography>
           <BccTypography type="p2" block>
-            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.purchase}
+            {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.purchase}
           </BccTypography>
           <BccTypography type="p2" block>
-            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.purchase}
+            {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.purchase}
           </BccTypography>
         </Grid>
           <Grid item className={classes.currencyBlock}>
@@ -564,13 +549,13 @@ const Currency = () => {
             Продажа
           </BccTypography>
           <BccTypography type="p2" block>
-            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.sell}
+            {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.sell}
           </BccTypography>
           <BccTypography type="p2" block>
-            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.sell}
+            {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.sell}
           </BccTypography>
           <BccTypography type="p2" block>
-            {currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.sell}
+            {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.sell}
           </BccTypography>
         </Grid>
         </>
@@ -601,7 +586,7 @@ const Currency = () => {
             Покупка
           </BccTypography>
           {
-            currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
+            currency && currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
               <BccTypography type="p2" block align="right">
                 {c.purchase.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
               </BccTypography>
@@ -613,7 +598,7 @@ const Currency = () => {
             Продажа
           </BccTypography>
           {
-            currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
+            currency && currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
               <BccTypography type="p2" block align="right">
                 {c.sell.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
               </BccTypography>
@@ -628,7 +613,13 @@ const Currency = () => {
   );
 };
 
-const Widgets = () => {
+
+interface WidgetsPageProps {
+  currency: CurrencyProps[] | [];
+}
+
+const Widgets = (props: WidgetsPageProps) => {
+  const { currency } = props
   const classes = useStyles({});
   return (
     <div className={classes.outerContainer}>
@@ -648,7 +639,7 @@ const Widgets = () => {
                 <BccTypography type="h5" block className={classes.title}>
                   Курсы валют
                 </BccTypography>
-                <Currency />
+                <Currency currency={currency} />
               </div>
             </div>
           </Grid>

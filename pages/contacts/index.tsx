@@ -12,6 +12,9 @@ import {
   BccTableRow,
   BccTableBody,
 } from "../../components/BccComponents";
+import { MenuProps } from "../../interfaces"
+import api from "../../api/Api"
+import { NextPageContext } from 'next'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -172,11 +175,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ContactsPage = () => {
+interface ContactsPageProps {
+  nav: MenuProps[];
+}
+
+const ContactsPage = (props: ContactsPageProps) => {
+  const { nav } = props
   const classes = useStyles({});
 
   return (
-    <Layout title="Контакты">
+    <Layout title="Контакты" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.contents}>
@@ -294,4 +302,17 @@ const ContactsPage = () => {
     </Layout>
   );
 };
+
+ContactsPage.getInitialProps = async (ctx: NextPageContext) => {
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { nav }
+}
+
 export default ContactsPage;

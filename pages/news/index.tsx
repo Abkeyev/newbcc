@@ -13,7 +13,8 @@ import {
 } from "../../components/BccComponents";
 import CloseIcon from "@material-ui/icons/Close";
 import api from "../../api/Api";
-import { NewsProps } from "../../interfaces";
+import { NewsProps, MenuProps } from "../../interfaces";
+import { NextPageContext } from 'next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -183,11 +184,15 @@ const Icon = withStyles({})((props: any) => (
   <IconButton {...props} disableFocusRipple disableRipple disableTouchRipple />
 ));
 
-const NewsPage = () => {
+interface NewsPageProps {
+  news: NewsProps[];
+  nav: MenuProps[];
+}
+
+const NewsPage = (props: NewsPageProps) => {
+  const { news, nav } = props
   const classes = useStyles({});
   const [period, setPeriod] = React.useState("0");
-  const [page] = React.useState(0);
-  const [news, setNews] = React.useState<NewsProps[] | []>([]);
   const [selected, setSelected] = React.useState<NewsProps | null>(null);
 
   const readMore = (item: NewsProps) => {
@@ -201,15 +206,9 @@ const NewsPage = () => {
     setSelected(null);
   };
 
-  React.useEffect(() => {
-    api.main.getNews(page).then((res: NewsProps[]) => {
-      setNews(res);
-    });
-  }, []);
-
   return (
     <>
-    <Layout title="Business">
+    <Layout title="Новости" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -314,4 +313,18 @@ const NewsPage = () => {
     </>
   );
 };
+
+NewsPage.getInitialProps = async (ctx: NextPageContext) => {
+  const news = await api.main.getNews(0)
+  let nav
+  if(ctx.req) {
+    nav = await api.main.getMenu()
+  }else {
+    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
+      nav = JSON.parse(localStorage.getItem("menu") || "{}")
+    else nav = await api.main.getMenu()
+  }
+  return { news, nav }
+}
+
 export default NewsPage;

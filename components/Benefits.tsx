@@ -2,8 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { BccTypography } from "./BccComponents";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { BenefitsProps, BenefitItemProps } from '../interfaces'
-import api from '../api/Api'
+import { BenefitsProps, BenefitItemProps } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: "center",
             "& > img": {
               width: "100%",
+              maxWidth: 40,
               height: "auto",
             },
           },
@@ -83,30 +83,31 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: 40,
       },
       item: {
-        "& > div:last-child": {
-          marginBottom: 0,
-        },
+        flexWrap: 'nowrap',
+        overflowX: 'scroll',
         "& > div": {
           background: "#FFFFFF",
-          width: "100%",
-          marginBottom: 20,
+          width: "calc(33.33% - 12px)",
+          marginBottom: 30,
+          marginRight: 18,
+          minWidth: 200,
           boxShadow:
             "0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)",
           borderRadius: 8,
           padding: 20,
-          justifyContent: "flex-start",
-          flexWrap: "nowrap",
+          justifyContent: 'flex-start',
+          flexDirection: 'column',
           "& > div:first-child": {
-            width: "auto",
+            width: 36,
             textAlign: "center",
-            marginRight: 20,
+            marginBottom: 20,
             "& > img": {
-              maxHeight: 48,
-              width: "auto",
+              width: "100%",
+              height: "auto",
             },
           },
           "& > div:nth-child(2)": {
-            width: "calc(80% - 10px)",
+            width: "100%",
             textAlign: "left",
           },
         },
@@ -123,7 +124,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       item2: {
         "& > div": {
-          width: "100%",
+          width: "calc(50% - 9px)",
         },
         "& > div:nth-child(3n)": {
           marginRight: 18,
@@ -136,20 +137,23 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: 10,
       },
     },
+    escapeDiv: {
+      '& > p': {
+        margin: 0
+      }
+    }
   })
 );
 
-const Benefits = () => {
-  const classes = useStyles({});
-  const [benefits, setBenefits] = React.useState<BenefitsProps[] | []>([]);
-  React.useEffect(() => {
-    api.main.getBenefits(window.location.pathname).then((res: any) => {
-      setBenefits(res);
-    });
-  }, []);
+interface BenefitsComponentProps {
+  benefits: BenefitsProps[];
+}
 
+const Benefits = (props: BenefitsComponentProps) => {
+  const { benefits } = props
+  const classes = useStyles({});
   return (
-    benefits.length > 0 ? 
+    benefits && benefits.length > 0 ? 
     <>{(benefits as BenefitsProps[]).map((b: BenefitsProps) => (
       <div style={{ backgroundColor: b.color }}>
       <div className={classes.innerContainer}>
@@ -165,7 +169,7 @@ const Benefits = () => {
             (b.benefitItems.length === 2 || b.benefitItems.length === 4) ? classes.item2 : ""
           }`}
         >
-          {b.benefitItems.map((i: BenefitItemProps) => (
+          {b.benefitItems.length > 0 && b.benefitItems.map((i: BenefitItemProps) => (
             <Grid
               container
               justify="space-between"
@@ -184,14 +188,14 @@ const Benefits = () => {
                 </BccTypography>
                 {i.image !== "" && (
                   <BccTypography type="p2" block mt="10px">
-                    <span dangerouslySetInnerHTML={{ __html: i.content} }/>
+                    <div className={classes.escapeDiv} dangerouslySetInnerHTML={{ __html: i.content }}/>
                   </BccTypography>
                 )}
               </Grid>
               {i.image === "" && (
                 <Grid item style={{ width: "100%" }}>
                   <BccTypography type="p2" block mt="10px">
-                    <span dangerouslySetInnerHTML={{ __html: i.content} }/>
+                    <div className={classes.escapeDiv} dangerouslySetInnerHTML={{ __html: i.content} }/>
                   </BccTypography>
                 </Grid>
               )}

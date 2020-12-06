@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import Link from "next/link";
-import api from "../api/Api";
 import { NewsProps } from "../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -277,10 +276,14 @@ const Icon = withStyles({})((props: any) => (
   <IconButton {...props} disableFocusRipple disableRipple disableTouchRipple />
 ));
 
-const News = () => {
+interface NewsPageProps {
+  news: NewsProps[];
+}
+
+const News = (props: NewsPageProps) => {
+  const { news } = props
   const classes = useStyles({});
   const [seleced, setSeleced] = React.useState<NewsProps | null>(null);
-  const [news, setNews] = React.useState<NewsProps[] | []>([]);
 
   const readMore = (item: any) => {
     document.body.style.overflowY = "hidden";
@@ -291,12 +294,6 @@ const News = () => {
     document.body.style.overflowY = "scroll";
     setSeleced(null);
   };
-
-  React.useEffect(() => {
-    api.main.getNewsShort().then((res: NewsProps[]) => {
-      setNews(res);
-    });
-  }, []);
 
   return (
     <div className={classes.container}>
@@ -328,15 +325,15 @@ const News = () => {
           direction="row"
           className={classes.items}
         >
-          {(news as NewsProps[]).map((item: NewsProps, index: number) => (
+          {news && news.length > 0 && (news as NewsProps[]).map((item: NewsProps, index: number) => (
             <Grid item className={classes.item} key={`news${index}`}>
               <BccTypography type="p2" block className={classes.date}>
                 {new Date(item.publishDate).toLocaleDateString()}
               </BccTypography>
               <BccTypography type="p2" block className={classes.text}>
-                <span
+                <div
                   dangerouslySetInnerHTML={{
-                    __html: item && item.contentShort,
+                    __html: item.contentShort,
                   }}
                 />
               </BccTypography>
@@ -370,9 +367,9 @@ const News = () => {
                 </BccTypography>
                 <div className={classes.scroll}>
                   <BccTypography type="p2" block className={classes.text}>
-                    <span
+                    <div
                       dangerouslySetInnerHTML={{
-                        __html: seleced ? seleced.content : '',
+                        __html: seleced ? seleced.content : ''
                       }}
                     />
                   </BccTypography>
