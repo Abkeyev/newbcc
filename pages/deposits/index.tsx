@@ -17,7 +17,7 @@ interface BusinessPageProps {
 const DepositesPage = (props: BusinessPageProps) => {
   const { slider, tabs, cards, benefits, nav } = props
   return (
-    <Layout title="Допозиты" nav={nav}>
+    <Layout title="Депозиты" nav={nav}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
