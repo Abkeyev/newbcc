@@ -1,19 +1,20 @@
 import React from "react";
 import Layout from "../../../components/Layout";
-import { Slider, Tabs, BaspanaCalculator, Order } from "../../../components";
+import { Slider, Tabs, BaspanaCalculator, Order, Benefits } from "../../../components";
 import { BccCardFull, BccTypography } from '../../../components/BccComponents'
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, TabsProps, MenuProps } from "../../../interfaces";
+import { SliderProps, TabsProps, MenuProps, BenefitsProps } from "../../../interfaces";
 
 interface EtalonPlusPageProps {
   slider: SliderProps[];
   tabs: TabsProps[];
   nav: MenuProps[];
+  benefits: BenefitsProps[];
 }
 
 const EtalonPlusPage = (props: EtalonPlusPageProps) => {
-  const { slider, tabs, nav } = props
+  const { slider, tabs, nav, benefits } = props
   return (
     <Layout title="Депозит “Эталон+”" nav={nav}>
       <div className="main-page">
@@ -23,7 +24,7 @@ const EtalonPlusPage = (props: EtalonPlusPageProps) => {
               {title: "Депозиты", link: "/deposits", isExternal: false},
               {title: "Депозит “Эталон+”", link: null, isExternal: false}
             ]}/>
-          <Tabs tabs={tabs} />
+          <Benefits benefits={benefits} />
           <BaspanaCalculator />
           <Order title="Открыть депозит" />
           <BccCardFull
@@ -47,6 +48,7 @@ const EtalonPlusPage = (props: EtalonPlusPageProps) => {
             }
             bgImg="/img/mobile-app.svg"
           />
+          <Tabs tabs={tabs} />
         </div>
       </div>
     </Layout>
@@ -59,6 +61,7 @@ EtalonPlusPage.getInitialProps = async (ctx: NextPageContext) => {
     path = '/' + path[path.length - 1]
   const slider = await api.main.getSlider(path)
   const tabs = await api.main.getTabs(path)
+  const benefits = await api.main.getBenefits(path)
   let nav
   if(ctx.req) {
     nav = await api.main.getMenu()
@@ -67,7 +70,7 @@ EtalonPlusPage.getInitialProps = async (ctx: NextPageContext) => {
       nav = JSON.parse(localStorage.getItem("menu") || "{}")
     else nav = await api.main.getMenu()
   }
-  return { slider, tabs, nav }
+  return { slider, tabs, benefits, nav }
 }
 
 export default EtalonPlusPage;

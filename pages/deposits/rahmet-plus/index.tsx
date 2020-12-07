@@ -1,19 +1,20 @@
 import React from "react";
 import Layout from "../../../components/Layout";
-import { Slider, Tabs, BaspanaCalculator, Order } from "../../../components";
+import { Slider, Tabs, BaspanaCalculator, Order, Benefits } from "../../../components";
 import { BccCardFull, BccTypography } from '../../../components/BccComponents'
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, TabsProps, MenuProps } from "../../../interfaces";
+import { SliderProps, TabsProps, MenuProps, BenefitsProps } from "../../../interfaces";
 
 interface RahmetPlusPageProps {
   slider: SliderProps[];
+  benefits: BenefitsProps[];
   tabs: TabsProps[];
   nav: MenuProps[];
 }
 
 const RahmetPlusPage = (props: RahmetPlusPageProps) => {
-  const { slider, tabs, nav } = props
+  const { slider, tabs, nav, benefits } = props
   return (
     <Layout title="Депозит “Рахмет+”" nav={nav}>
       <div className="main-page">
@@ -23,7 +24,7 @@ const RahmetPlusPage = (props: RahmetPlusPageProps) => {
               {title: "Депозиты", link: "/deposits", isExternal: false},
               {title: "Депозит “Рахмет+”", link: null, isExternal: false}
             ]}/>
-          <Tabs tabs={tabs} />
+          <Benefits benefits={benefits} />
           <BaspanaCalculator />
           <Order title="Открыть депозит" />
           <BccCardFull
@@ -47,6 +48,7 @@ const RahmetPlusPage = (props: RahmetPlusPageProps) => {
             }
             bgImg="/img/mobile-app.svg"
           />
+          <Tabs tabs={tabs} />
         </div>
       </div>
     </Layout>
@@ -58,6 +60,7 @@ RahmetPlusPage.getInitialProps = async (ctx: NextPageContext) => {
     path = path.split('/')
     path = '/' + path[path.length - 1]
   const slider = await api.main.getSlider(path)
+  const benefits = await api.main.getBenefits(ctx.pathname)
   const tabs = await api.main.getTabs(path)
   let nav
   if(ctx.req) {
@@ -67,7 +70,7 @@ RahmetPlusPage.getInitialProps = async (ctx: NextPageContext) => {
       nav = JSON.parse(localStorage.getItem("menu") || "{}")
     else nav = await api.main.getMenu()
   }
-  return { slider, tabs, nav }
+  return { slider, tabs, benefits, nav }
 }
 
 export default RahmetPlusPage;
