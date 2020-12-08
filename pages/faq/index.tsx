@@ -119,7 +119,7 @@ const FaqPage = (props: FaqPageProps) => {
   const [faqCategory, setFaqCategory] = React.useState(0);
 
   return (
-    <Layout title="Business" nav={nav}>
+    <Layout title="Часто задаваемые вопросы" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>

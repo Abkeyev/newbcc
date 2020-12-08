@@ -206,7 +206,7 @@ const FaqPage = (props: FaqPageProps) => {
   }
 
   return (
-    <Layout title="Business" nav={nav}>
+    <Layout title="Реквизиты АО “Банк Центркредит”" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>

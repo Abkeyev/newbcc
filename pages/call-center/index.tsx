@@ -136,7 +136,7 @@ const CallCenterPage = (props: CallCenterPageProps) => {
   }, [])
 
   return (
-    <Layout title="Business" nav={nav}>
+    <Layout title="Центр обслуживания вызовов" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.contents}>

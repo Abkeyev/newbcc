@@ -25,7 +25,7 @@ interface BaspanaHitPageProps {
 const BaspanaHitPage = (props: BaspanaHitPageProps) => {
   const { slider, nav, benefits, tabs } = props
   return (
-    <Layout title="Business" nav={nav}>
+    <Layout title="Баспана Хит" nav={nav}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Ипотека", link: "https://www.bcc.kz/fizical/kreditovanie/ipotechnoe-kreditovanie", isExternal: true}]} />

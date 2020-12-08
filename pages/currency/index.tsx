@@ -134,7 +134,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
   const [cur2, setCur2] = React.useState("");
 
   return (
-    <Layout title="Business" nav={nav}>
+    <Layout title="Курсы валют" nav={nav}>
       <div className="main-page">
         <div className="container">
           <div className={classes.contents}>
