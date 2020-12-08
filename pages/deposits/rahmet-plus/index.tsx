@@ -60,7 +60,7 @@ RahmetPlusPage.getInitialProps = async (ctx: NextPageContext) => {
     path = path.split('/')
     path = '/' + path[path.length - 1]
   const slider = await api.main.getSlider(path)
-  const benefits = await api.main.getBenefits(ctx.pathname)
+  const benefits = await api.main.getBenefits(path)
   const tabs = await api.main.getTabs(path)
   let nav
   if(ctx.req) {

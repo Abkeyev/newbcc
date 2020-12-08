@@ -44,8 +44,7 @@ interface BusinessPageProps {
 
 const MortgagePage = (props: BusinessPageProps) => {
   const { slider, tabs, cards, nav } = props
-
-  console.log(slider)
+  
   const classes = useStyles({});
   return (
     <Layout title="Ипотека" nav={nav}>
