@@ -1,23 +1,24 @@
 import Layout from "../../../components/Layout";
 import React from "react";
-import { Slider, Calculator, Tabs, Benefits } from "../../../components";
+import { Slider, Calculator, Tabs, Benefits, Order } from "../../../components";
 import {
   BccCardFull,
   BccTypography
 } from "../../../components/BccComponents";
 import api from '../../../api/Api'
 import { NextPageContext } from 'next'
-import { MenuProps, SliderProps, TabsProps, BenefitsProps } from '../../../interfaces'
+import { MenuProps, SliderProps, TabsProps, BenefitsProps, OrderProps } from '../../../interfaces'
 
 interface RefinancingPageProps {
   slider: SliderProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
   nav: MenuProps[];
+  order: OrderProps[];
 }
 
 const RefinancingPage = (props: RefinancingPageProps) => {
-  const { slider, benefits, tabs, nav } = props
+  const { slider, benefits, tabs, nav, order } = props
   
   return (
     <Layout title="Рефинансирование кредитов" nav={nav}>
@@ -30,6 +31,7 @@ const RefinancingPage = (props: RefinancingPageProps) => {
             ]}/>
           <Benefits benefits={benefits} />
           <Calculator />
+          <Order order={order} />
           <BccCardFull
             chips={[
               {
@@ -65,6 +67,7 @@ RefinancingPage.getInitialProps = async (ctx: NextPageContext) => {
     const slider = await api.main.getSlider(path)
     const benefits = await api.main.getBenefits(path)
     const tabs = await api.main.getTabs(path)
+    const order = await api.main.getOrder(path)
     let nav
     if(ctx.req) {
         nav = await api.main.getMenu()
@@ -73,7 +76,7 @@ RefinancingPage.getInitialProps = async (ctx: NextPageContext) => {
         nav = JSON.parse(localStorage.getItem("menu") || "{}")
         else nav = await api.main.getMenu()
     }
-    return { slider, tabs, benefits, nav }
+    return { slider, tabs, benefits, order, nav }
 }
 
 export default RefinancingPage;

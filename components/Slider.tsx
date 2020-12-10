@@ -302,7 +302,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
 const Slider = (props: SliderPageProps) => {
   const { slider, breadcrumbs } = props
   const [slideIndex, setSlideIndex] = React.useState(0);
@@ -375,10 +374,6 @@ const Slider = (props: SliderPageProps) => {
         onTouchStart={e => handleTouchStart(e)}
         onTouchMove={e => handleTouchMove(e)}
         onTouchEnd={() => handleTouchEnd()}
-        // onMouseDown={e => handleMouseDown(e)}
-        // onMouseMove={e => handleMouseMove(e)}
-        // onMouseUp={() => handleMouseUp()}
-        // onMouseLeave={() => handleMouseLeave()}
       >
         <div className={classes.breadcrumbs} style={{ opacity: breadcrumbs && breadcrumbs.length > 0 ? 1 : 0 }}>
           <BccBreadcrumbs>

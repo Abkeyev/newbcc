@@ -1,4 +1,4 @@
-import Layout from "../../components/Layout";
+import Layout from "../../../components/Layout";
 import React from "react";
 import {
   Slider,
@@ -6,13 +6,13 @@ import {
   Order,
   CarCreditCalculator,
   Tabs,
-} from "../../components";
+} from "../../../components";
 import {
   BccTypography,
   BccCardFull,
-} from "../../components/BccComponents";
-import { SliderProps, MenuProps, BenefitsProps, TabsProps } from '../../interfaces';
-import api from '../../api/Api';
+} from "../../../components/BccComponents";
+import { SliderProps, MenuProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
+import api from '../../../api/Api';
 import { NextPageContext } from 'next';
 
 interface CarCreditPageProps {
@@ -20,18 +20,23 @@ interface CarCreditPageProps {
   nav: MenuProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
+  order: OrderProps[];
 }
 
 const CarCreditPage = (props: CarCreditPageProps) => {
-  const { slider, nav, benefits, tabs } = props
+  const { slider, nav, benefits, tabs, order } = props
   return (
     <Layout title="Автокредитование" nav={nav}>
       <div className="main-page">
         <div className="container">
-          <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: "/crediting", isExternal: false}]} />
+          <Slider slider={slider}  breadcrumbs={[
+            {title: "Частным лицам", link: "/", isExternal: false}, 
+            {title: "Кредиты", link: "/crediting", isExternal: false},
+            {title: "Автокредитование", link: null, isExternal: false}
+          ]}/>
           <Benefits benefits={benefits} />
           <CarCreditCalculator />
-          <Order title="Оставьте заявку на автокредит" />
+          <Order order={order} />
           <BccCardFull
             chips={[
               {
@@ -61,9 +66,13 @@ const CarCreditPage = (props: CarCreditPageProps) => {
 };
 
 CarCreditPage.getInitialProps = async (ctx: NextPageContext) => {
-  const slider = await api.main.getSlider(ctx.pathname)
-  const benefits = await api.main.getBenefits(ctx.pathname)
-  const tabs = await api.main.getTabs(ctx.pathname)
+  let path: any = ctx.pathname
+  path = path.split('/')
+  path = '/' + path[path.length - 1]
+  const slider = await api.main.getSlider(path)
+  const benefits = await api.main.getBenefits(path)
+  const tabs = await api.main.getTabs(path)
+  const order = await api.main.getOrder(path)
   let nav
   if(ctx.req) {
     nav = await api.main.getMenu()
@@ -72,7 +81,7 @@ CarCreditPage.getInitialProps = async (ctx: NextPageContext) => {
       nav = JSON.parse(localStorage.getItem("menu") || "{}")
     else nav = await api.main.getMenu()
   }
-  return { slider, benefits, tabs, nav }
+  return { slider, benefits, tabs, nav, order }
 }
 
 export default CarCreditPage;

@@ -18,4 +18,5 @@ export { default as Tabs } from "./Tabs";
 export { default as Calculator } from "./Calculator";
 export { default as Benefits } from "./Benefits";
 export { default as BaspanaCalculator } from "./BaspanaCalculator";
+export { default as MortgageCalculator } from "./MortgageCalculator";
 export { default as CarCreditCalculator } from "./CarCreditCalculator";

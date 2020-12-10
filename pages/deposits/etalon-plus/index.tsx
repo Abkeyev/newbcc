@@ -4,17 +4,18 @@ import { Slider, Tabs, BaspanaCalculator, Order, Benefits } from "../../../compo
 import { BccCardFull, BccTypography } from '../../../components/BccComponents'
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, TabsProps, MenuProps, BenefitsProps } from "../../../interfaces";
+import { SliderProps, TabsProps, MenuProps, BenefitsProps, OrderProps } from "../../../interfaces";
 
 interface EtalonPlusPageProps {
   slider: SliderProps[];
   tabs: TabsProps[];
   nav: MenuProps[];
   benefits: BenefitsProps[];
+  order: OrderProps[];
 }
 
 const EtalonPlusPage = (props: EtalonPlusPageProps) => {
-  const { slider, tabs, nav, benefits } = props
+  const { slider, tabs, nav, benefits, order } = props
   return (
     <Layout title="Депозит “Эталон+”" nav={nav}>
       <div className="main-page">
@@ -26,7 +27,7 @@ const EtalonPlusPage = (props: EtalonPlusPageProps) => {
             ]}/>
           <Benefits benefits={benefits} />
           <BaspanaCalculator />
-          <Order title="Открыть депозит" />
+          <Order order={order} />
           <BccCardFull
             chips={[
               {
@@ -62,6 +63,7 @@ EtalonPlusPage.getInitialProps = async (ctx: NextPageContext) => {
   const slider = await api.main.getSlider(path)
   const tabs = await api.main.getTabs(path)
   const benefits = await api.main.getBenefits(path)
+  const order = await api.main.getOrder(path)
   let nav
   if(ctx.req) {
     nav = await api.main.getMenu()
@@ -70,7 +72,7 @@ EtalonPlusPage.getInitialProps = async (ctx: NextPageContext) => {
       nav = JSON.parse(localStorage.getItem("menu") || "{}")
     else nav = await api.main.getMenu()
   }
-  return { slider, tabs, benefits, nav }
+  return { slider, tabs, benefits, order, nav }
 }
 
 export default EtalonPlusPage;

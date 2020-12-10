@@ -4,17 +4,18 @@ import { Slider, Tabs, BaspanaCalculator, Order, Benefits } from "../../../compo
 import { BccCardFull, BccTypography } from '../../../components/BccComponents'
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, TabsProps, MenuProps, BenefitsProps } from "../../../interfaces";
+import { SliderProps, TabsProps, MenuProps, BenefitsProps, OrderProps } from "../../../interfaces";
 
-interface RahmetPageProps {
+interface RakhmetPageProps {
   slider: SliderProps[];
   tabs: TabsProps[];
   nav: MenuProps[];
   benefits: BenefitsProps[];
+  order: OrderProps[];
 }
 
-const RahmetPage = (props: RahmetPageProps) => {
-  const { slider, tabs, nav, benefits } = props
+const RakhmetPage = (props: RakhmetPageProps) => {
+  const { slider, order, tabs, nav, benefits } = props
   return (
     <Layout title="Депозит “Рахмет”" nav={nav}>
       <div className="main-page">
@@ -26,7 +27,7 @@ const RahmetPage = (props: RahmetPageProps) => {
             ]}/>
           <Benefits benefits={benefits} />
           <BaspanaCalculator />
-          <Order title="Открыть депозит" />
+          <Order order={order} />
           <BccCardFull
             chips={[
               {
@@ -55,13 +56,14 @@ const RahmetPage = (props: RahmetPageProps) => {
   );
 };
 
-RahmetPage.getInitialProps = async (ctx: NextPageContext) => {
+RakhmetPage.getInitialProps = async (ctx: NextPageContext) => {
     let path: any = ctx.pathname
     path = path.split('/')
     path = '/' + path[path.length - 1]
   const slider = await api.main.getSlider(path)
   const tabs = await api.main.getTabs(path)
   const benefits = await api.main.getBenefits(path)
+  const order = await api.main.getOrder(path)
   let nav
   if(ctx.req) {
     nav = await api.main.getMenu()
@@ -70,7 +72,7 @@ RahmetPage.getInitialProps = async (ctx: NextPageContext) => {
       nav = JSON.parse(localStorage.getItem("menu") || "{}")
     else nav = await api.main.getMenu()
   }
-  return { slider, tabs, benefits, nav }
+  return { slider, tabs, benefits, order, nav }
 }
 
-export default RahmetPage;
+export default RakhmetPage;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, MenuItem } from "@material-ui/core";
 import {
   BccTypography,
   BccCheckbox,
@@ -8,7 +8,12 @@ import {
   BccButton,
 } from "./BccComponents";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import MaskedInput from "react-maskedinput";
+import InputMask from "react-input-mask";
+import BlockUi from "react-block-ui";
+import "react-block-ui/style.css";
+import api from "../api/Api";
+import { animateScroll } from "react-scroll";
+import { OrderProps } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -75,6 +80,24 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "19px",
       },
       garant: { textAlign: "left" },
+      code: {
+        margin: 0,
+        "& input": {
+          height: 62,
+          boxSizing: "border-box",
+        },
+      },
+      successForm: {
+        backgroundColor: "rgba(125, 206, 160, 0.1)",
+        borderRadius: 8,
+        textAlign: "center",
+        padding: "56px 64px 112px",
+        "& > img": {
+          display: "block",
+          margin: "0 auto",
+          marginBottom: 24,
+        },
+      },
     },
     [theme.breakpoints.down("sm")]: {
       outerContainer: {
@@ -139,6 +162,24 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "19px",
       },
       garant: { textAlign: "left" },
+      code: {
+        margin: 0,
+        "& input": {
+          height: 62,
+          boxSizing: "border-box",
+        },
+      },
+      successForm: {
+        backgroundColor: "rgba(125, 206, 160, 0.1)",
+        borderRadius: 8,
+        textAlign: "center",
+        padding: "56px 64px 112px",
+        "& > img": {
+          display: "block",
+          margin: "0 auto",
+          marginBottom: 24,
+        },
+      },
     },
     [theme.breakpoints.down("xs")]: {
       orderForm: {
@@ -165,139 +206,366 @@ const useStyles = makeStyles((theme: Theme) =>
 interface TextMaskCustomProps {
   inputRef: (ref: HTMLInputElement | null) => void;
 }
-
 const BccMaskedInput = (props: TextMaskCustomProps) => {
   const { inputRef, ...other } = props;
 
   return (
-    <MaskedInput
+    <InputMask
       {...other}
       ref={(ref: any) => inputRef(ref ? ref.inputElement : null)}
-      mask="7(111) 111 11 11"
-      placeholder={"7(707) 707 77 77"}
+      mask="+7(999) 999 99 99"
+      placeholder={"+7(707) 707 77 77"}
     />
   );
 };
+const BccMaskedIinInput = (props: TextMaskCustomProps) => {
+  const { inputRef, ...other } = props;
 
-interface OrderProps {
-  title: string;
+  return (
+    <InputMask
+      {...other}
+      ref={(ref: any) => inputRef(ref ? ref.inputElement : null)}
+      mask="999 999 999 999"
+      placeholder={"000 000 000 000"}
+    />
+  );
+};
+const cityList = [
+  "Нур-Султан",
+  "Алматы",
+  "Шымкент",
+  "Актау",
+  "Актобе",
+  "Атырау",
+  "Жезказган",
+  "Караганда",
+  "Кокшетау",
+  "Костанай",
+  "Кызылорда",
+  "Павлодар",
+  "Петропавловск",
+  "Семей",
+  "Талдыкорган",
+  "Тараз",
+  "Уральск",
+  "Усть-Каменогорск",
+];
+
+interface OrderPageProps {
+  order: OrderProps[];
 }
 
-const Order = (props: OrderProps) => {
+const Order = (props: OrderPageProps) => {
+  const { order } = props
   const classes = useStyles({});
-  const [name, setName] = React.useState("");
+  const [step, setStep] = React.useState(0);
+  const [timer, setTimer] = React.useState(0);
+  const [code, setCode] = React.useState("");
   const [phone, setPhone] = React.useState("");
+  const [fio, setFio] = React.useState("");
   const [agree, setAgree] = React.useState<boolean>(true);
+  const [iin, setIin] = React.useState("");
+  const [city, setCity] = React.useState("");
+  const [phoneError, setPhoneError] = React.useState<boolean>(false);
+  const [iinError] = React.useState<boolean>(false);
+  const [isLoading, setLoading] = React.useState(false);
 
+  const orderRef: any = React.useRef(null);
+  const scrollToOrderRef = () => {
+    animateScroll.scrollTo(orderRef.current.offsetTop);
+  };
+  
   const isValid = () => {
-    console.log(phone.replace("_", "").length);
-    return name.length > 1 && phone.replace("_", "").length === 16 && agree;
+    return fio.length > 1 && city.length > 1 && iin.replace(/ /g, "").length === 12 && 
+            phone.replace("_", "").length === 17 && agree;
+  };
+
+  React.useEffect(() => {
+    let timeOut = setInterval(() => {
+      if (timer !== 0) {
+        setTimer(timer - 1);
+      }
+    }, 1000);
+    return () => clearInterval(timeOut);
+  }, [timer]);
+
+  const formatPhoneNumber = () => {
+    let res = phone;
+    if (phone.slice(0, 1) === "8") res = "7" + phone.slice(1);
+    return res.replace(/\(|\)|\+| /g, "");
+  };
+
+  const getOtp = () => {
+    if (phone.substr(3, 1) !== "7") {
+      setPhoneError(true);
+      return;
+    } else setPhoneError(false);
+    setLoading(true);
+    setTimer(60);
+    api.main
+      .sendOtp(formatPhoneNumber())
+      .then(() => {
+        setStep(1);
+        scrollToOrderRef()
+        setLoading(false);
+      })
+      .catch((e: any) => {
+        console.error(e);
+        scrollToOrderRef()
+        setLoading(false);
+      });
+  };
+
+  const onSubmitOtp = () => {
+    setLoading(true);
+    api.main
+      .sendOrder({
+        client: {
+          fio,
+          iin: iin.replace(/ /g, ""),
+          phone: formatPhoneNumber(),
+          city
+        },
+        productCode: order[0] && order[0].productCode,
+        secretSms: code,
+        markId: 1
+      })
+      .then(() => {
+        scrollToOrderRef()
+        setStep(2);
+        setLoading(false);
+      })
+      .catch((e: any) => {
+        scrollToOrderRef()
+        console.error(e);
+        setLoading(false);
+      });
   };
 
   return (
-    <div className={classes.outerContainer}>
+    <div className={classes.outerContainer} ref={orderRef} id="order">
       <div className={classes.container}>
         <div className={classes.orderForm}>
           <Grid direction="column" container className={classes.innerOrderForm}>
             <Grid item>
               <BccTypography type="h2" weight="medium" block mb="16px">
-                {props.title}
+                {(order && order.length > 0 && order[0]) ? order[0].productName : 'Оставить заявку'}
               </BccTypography>
               <BccTypography type="p1" block color="#4D565F" mb="46px">
-                Оставте заявку и наш менеджер перезвонит Вам
+                Оставьте заявку и наш менеджер перезвонит Вам
               </BccTypography>
             </Grid>
-            <Grid item>
-              <BccInput
-                className={classes.inputStyle}
-                fullWidth
-                label="Имя"
-                variant="filled"
-                id="name"
-                name="name"
-                value={name}
-                onChange={(e: any) => setName(e.target.value)}
-              />
-            </Grid>
-            <Grid item>
-              <BccInput
-                variant="filled"
-                fullWidth
-                label="Номер телефона"
-                onChange={(e: any) => setPhone(e.target.value)}
-                className={classes.inputStyle}
-                id="phone"
-                name="phone"
-                value={phone}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                InputProps={{
-                  inputComponent: BccMaskedInput as any,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Grid
-                container
-                justify="flex-start"
-                wrap="nowrap"
-                className={classes.checkboxText}
-              >
-                <Grid item>
-                  <BccCheckbox
-                    value="remember"
-                    color="primary"
-                    checked={agree}
-                    onChange={() => setAgree(!agree)}
-                  />
-                </Grid>
-                <Grid item>
-                  <BccTypography type="p3" ml="10px">
-                    Соглашаюсь с обработкой данных и с{" "}
-                    <BccLink href="https://www.bcc.kz/">
-                      условиями передачи информации
-                    </BccLink>
-                  </BccTypography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container justify="space-between">
-                <Grid item className={classes.btnWrap}>
-                  <Grid container spacing={2}>
-                    <Grid item>
-                      <img
-                        src={"/img/safety.svg"}
-                        className={classes.icon}
-                        alt="order_security"
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      xl={true}
-                      lg={true}
-                      md={true}
-                      sm={true}
-                      xs={true}
+            <BlockUi tag="div" blocking={isLoading}>
+            {
+              step === 0 ? (
+                <>
+                  <Grid item>
+                    <BccInput
+                      className={classes.inputStyle}
+                      fullWidth
+                      label="ФИО"
+                      variant="filled"
+                      id="fio"
+                      name="fio"
+                      value={fio}
+                      onChange={(e: any) => setFio(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <BccInput
+                      className={classes.inputStyle}
+                      fullWidth
+                      label={"ИИН"}
+                      variant="filled"
+                      id="iin"
+                      name="iin"
+                      value={iin}
+                      onChange={(e: any) => setIin(e.target.value)}
+                      helperText={iinError ? "Неверный формат ИИН" : ""}
+                      error={iinError ? true : false}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      InputProps={{
+                        inputComponent: BccMaskedIinInput as any,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <BccInput
+                      variant="filled"
+                      fullWidth
+                      label="Номер телефона"
+                      onChange={(e: any) => setPhone(e.target.value)}
+                      className={classes.inputStyle}
+                      helperText={phoneError ? "Неверный формат номера телефона" : ""}
+                      error={phoneError ? true : false}
+                      id="phone"
+                      name="phone"
+                      value={phone}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      InputProps={{
+                        inputComponent: BccMaskedInput as any,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <BccInput
+                      fullWidth={true}
+                      className={classes.inputStyle}
+                      label={"Город"}
+                      id="city"
+                      name="city"
+                      value={city}
+                      onChange={(e: any) => setCity(e.target.value)}
+                      variant="outlined"
+                      select
                     >
-                      <BccTypography type="p3" className={classes.garant}>
-                        Мы гарантируем безопасность и сохранность ваших данных
-                      </BccTypography>
+                      {cityList.map((b: any, index: number) => {
+                        return (
+                          <MenuItem key={index} value={b}>
+                            {b}
+                          </MenuItem>
+                        );
+                      })}
+                    </BccInput>
+                  </Grid>
+                  <Grid item>
+                    <Grid
+                      container
+                      justify="flex-start"
+                      wrap="nowrap"
+                      className={classes.checkboxText}
+                    >
+                      <Grid item>
+                        <BccCheckbox
+                          value="remember"
+                          color="primary"
+                          checked={agree}
+                          onChange={() => setAgree(!agree)}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <BccTypography type="p3" ml="10px">
+                          Соглашаюсь с обработкой данных и с{" "}
+                          <BccLink href="https://www.bcc.kz/">
+                            условиями передачи информации
+                          </BccLink>
+                        </BccTypography>
+                      </Grid>
                     </Grid>
                   </Grid>
+                  <Grid item>
+                    <Grid container justify="space-between">
+                      <Grid item className={classes.btnWrap}>
+                        <Grid container spacing={2}>
+                          <Grid item>
+                            <img
+                              src={"/img/safety.svg"}
+                              className={classes.icon}
+                              alt="order_security"
+                            />
+                          </Grid>
+                          <Grid
+                            item
+                            xl={true}
+                            lg={true}
+                            md={true}
+                            sm={true}
+                            xs={true}
+                          >
+                            <BccTypography type="p3" className={classes.garant}>
+                              Мы гарантируем безопасность и сохранность ваших данных
+                            </BccTypography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item className={classes.btnWrap}>
+                        <BccButton
+                          variant="contained"
+                          disabled={!isValid()}
+                          onClick={() => getOtp()}
+                          color="primary"
+                        >
+                          Отправить заявку
+                        </BccButton>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </>
+              ) : step === 1 ? (
+                <Grid
+                  item
+                  container
+                  justify="space-between"
+                  alignItems="center"
+                  spacing={4}
+                >
+                  <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                    <BccInput
+                      variant="outlined"
+                      className={classes.code}
+                      margin="normal"
+                      fullWidth
+                      id="code"
+                      name="code"
+                      value={code}
+                      onChange={(e: any) =>
+                        setCode(
+                          e.target.value.replace(/\D/g, "").substr(0, 6)
+                        )
+                      }
+                      label="Код подтверждения"
+                    />
+                  </Grid>
+                  <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                    <BccButton
+                      onClick={() => onSubmitOtp()}
+                      variant="contained"
+                      fullWidth
+                      disabled={!isValid()}
+                    >
+                      Подтвердить
+                    </BccButton>
+                  </Grid>
+                  {timer !== 0 ? (
+                    <Grid item>
+                      <BccTypography type="p3" className={classes.timer}>
+                        {`Отправить повторно СМС через 00:${timer}`}
+                      </BccTypography>
+                    </Grid>
+                  ) : (
+                    <Grid item>
+                      <BccButton
+                        variant="text"
+                        className={classes.linkReSendSms}
+                        onClick={() => getOtp()}
+                      >
+                        Отправить повторно
+                      </BccButton>
+                    </Grid>
+                  )}
+                  </Grid>
+              ) : (
+                <Grid item>
+                  <div className={classes.successForm}>
+                    <img
+                      src="/img/success.svg"
+                      alt=""
+                    />
+                    <BccTypography type="h6" color="#1F7042" mb="16px">
+                      Заявка успешно отправлена
+                    </BccTypography>
+                    <BccTypography type="p2" color="#1F7042">
+                      В ближайшее время с Вами свяжется наш специалист для информирования о дальнейших действиях.
+                    </BccTypography>
+                  </div>
                 </Grid>
-                <Grid item className={classes.btnWrap}>
-                  <BccButton
-                    variant="contained"
-                    disabled={!isValid()}
-                    color="primary"
-                  >
-                    Отправить заявку
-                  </BccButton>
-                </Grid>
-              </Grid>
-            </Grid>
+              )
+            }
+            </BlockUi>
           </Grid>
         </div>
       </div>

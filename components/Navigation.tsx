@@ -813,14 +813,14 @@ const Navigation = (props: NavigationProps) => {
                     weight="medium"
                     block
                   >
-                    Простой под залог
+                    7-20-25
                   </BccTypography>
                   <BccTypography type="p4" color="#4D565F" mb="16px" block>
-                    Получите деньги под залог в тенге или долларах США
+                    Покупка первичного жилья в Казахстане
                   </BccTypography>
                   <BccButton variant="outlined" color="secondary">
                     <BccLink
-                      href="https://www.bcc.kz/product/security-loan/"
+                      href="/mortgage/7-20-25"
                     >
                       Узнать больше
                     </BccLink>

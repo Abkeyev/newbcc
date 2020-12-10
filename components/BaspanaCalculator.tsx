@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
           backgroundColor: "#FAFAFA",
           padding: 20,
           borderRadius: 8,
+          height: 'fit-content'
         },
       },
       input: {
@@ -204,12 +205,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const BaspanaCalculator = () => {
   const classes = useStyles({});
   const [sum, setSum] = React.useState(1500000);
+  const [hSum, setHSum] = React.useState(10000000);
   const [period, setPeriod] = React.useState(24);
+  const Q = 0.1075/12
   return (
-    <div className={classes.outerContainer}>
+    <div className={classes.outerContainer} id="calc">
       <div className={classes.container}>
         <div className={classes.calc}>
-          <BccTypography type="h2" block className={classes.calcTitle}>
+          <BccTypography type="h4" block className={classes.calcTitle}>
             Калькулятор
           </BccTypography>
           <Grid
@@ -217,9 +220,51 @@ const BaspanaCalculator = () => {
             justify="space-between"
             wrap="nowrap"
             className={classes.calcContent}
-            alignItems="center"
           >
             <Grid item>
+              <div className={classes.paymentWrap}>
+                <div className={classes.sliderWrap}>
+                  <BccInput
+                    label="Стоимость жилья"
+                    key="hSum"
+                    value={hSum + " ₸"}
+                    variant="filled"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={(e: any) =>
+                      +e.target.value.slice(0, -2) > 5000000
+                        ? setHSum(5000000)
+                        : setHSum(e.target.value.slice(0, -2))
+                    }
+                    className={classes.input}
+                  />
+                  <BccSlider
+                    style={{
+                      left: 6,
+                      right: 6,
+                      width: "calc(100% - 12px)",
+                      bottom: -1,
+                      padding: 0,
+                      position: "absolute",
+                    }}
+                    min={10000000}
+                    max={50000000}
+                    step={500000}
+                    value={hSum}
+                    valueLabelDisplay="off"
+                    defaultValue={hSum}
+                    onChange={(e: any, val: any) => {
+                      console.log(e);
+                      setHSum(val instanceof Array ? val[1] : val);
+                    }}
+                  />
+                  <div className={classes.sliderRange}>
+                    <span>10 000 000</span>
+                    <span>50 000 000</span>
+                  </div>
+                </div>
+              </div>
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
@@ -266,7 +311,7 @@ const BaspanaCalculator = () => {
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
-                    label="Выберите срок"
+                    label="Срок займа"
                     key="period"
                     value={period + " мес."}
                     variant="filled"
@@ -320,16 +365,16 @@ const BaspanaCalculator = () => {
                   <BccTypography type="p4" block>
                     Ежемесячный платёж
                   </BccTypography>
-                  <BccTypography type="p4" weight="medium" block>
-                    100 000 ₸
+                  <BccTypography type="p3" weight="medium" block>
+                    ~ {Math.round((hSum - sum)*((Q * Math.pow((1+Q), 120))/(Math.pow((1+Q), 120) - 1)))} ₸
                   </BccTypography>
                 </Grid>
                 <Grid item>
                   <BccTypography type="p4" block>
-                    Общая сумма
+                    Ствка
                   </BccTypography>
-                  <BccTypography type="p4" weight="medium" block>
-                    3 011 000 ₸
+                  <BccTypography type="p3" weight="medium" block>
+                    10.75%
                   </BccTypography>
                 </Grid>
               </Grid>
@@ -338,8 +383,9 @@ const BaspanaCalculator = () => {
                 fullWidth
                 color="primary"
                 className={classes.calcBtn}
+                href="#order"
               >
-                Оформить кредит
+                Оформить ипотеку
               </BccButton>
               <BccTypography type="p4" block>
                 *Данные предварительные

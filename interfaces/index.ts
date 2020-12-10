@@ -40,6 +40,17 @@ export interface TabsProps {
   tabs: TabProps[];
 }
 
+export interface OrderProps {
+  id: number;
+  productName: string;
+  productCode: string;
+  processDefinitionKey: string;
+  actionCategory: string;
+  actionAction: string;
+  afterActionCategory: string;
+  afterActionAction: string;
+}
+
 export interface BenefitItemProps {
   id: number;
   title: string;

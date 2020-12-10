@@ -44,6 +44,7 @@ class MyDocument extends Document<Props> {
       <Html>
         <Head>
           <meta charSet="utf-8" />
+          <link rel="shortcut icon" href="/img/favicon.ico" />
         </Head>
         <body>
           <Main />

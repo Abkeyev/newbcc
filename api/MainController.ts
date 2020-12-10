@@ -1,55 +1,61 @@
 import { server } from "./axios";
 var qs = require('qs');
+const baseURL = "http://188.227.84.200:3005"
 
 export class MainController {
   async getMenu(): Promise<any> {
     return server.get(`/content/nav`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL,
     });
   }
-   getSlider(path: string): Promise<any> {
+  async getSlider(path: string): Promise<any> {
     return server.get(`/content/slider${path}`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
+    });
+  }
+  async getOrder(path: string): Promise<any> {
+    return server.get(`/v1/request/data/${path}`, {
+      baseURL
     });
   }
   async getCallCenter(): Promise<any> {
     return server.get(`/content/callcenter`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
   async getBenefits(path: string): Promise<any> {
     return server.get(`/content/benefits${path}`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
   async getTabs(path: string): Promise<any> {
     return server.get(`/content/tabs${path}`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
   async getFaq(): Promise<any> {
     return server.get(`/content/faq`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
   async getCardsFull(path: string): Promise<any> {
     return server.get(`/content/cardfull${path}`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
-  getCards(path: string): Promise<any> {
+  async getCards(path: string): Promise<any> {
     return server.get(`/content/cards${path}`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
   async getNewsShort(): Promise<any> {
     return server.get(`/content/news/short`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
   async getNews(page: number): Promise<any> {
     return server.get(`/content/news/${page}`, {
-      baseURL: "http://188.227.84.200:3005",
+      baseURL
     });
   }
   async getBranches(type: 'atms' | 'branches'): Promise<any> {
@@ -75,5 +81,28 @@ export class MainController {
           Authorization: "Bearer " + token
         }
       });
+  }
+  async sendOtp(phone: string): Promise<any> {
+    return await server.post(
+      `/v1/request/send-sms`,
+      {
+        phone,
+      },
+      {
+        baseURL
+      }
+    );
+  }
+
+  async sendOrder(request: any): Promise<any> {
+    return await server.post(
+      `/v1/request/approve`,
+      {
+        ...request,
+      },
+      {
+        baseURL
+      }
+    );
   }
 }

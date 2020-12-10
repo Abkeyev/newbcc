@@ -11,7 +11,7 @@ import {
   BccTypography,
   BccCardFull
 } from "../../../components/BccComponents";
-import { SliderProps, MenuProps, BenefitsProps, TabsProps } from '../../../interfaces';
+import { SliderProps, MenuProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
 import api from '../../../api/Api';
 import { NextPageContext } from 'next';
 
@@ -20,10 +20,11 @@ interface MortgageBiGroupPageProps {
   nav: MenuProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
+  order: OrderProps[];
 }
 
 const MortgageBiGroupPage = (props: MortgageBiGroupPageProps) => {
-  const { slider, nav, benefits, tabs } = props
+  const { slider, nav, benefits, tabs, order } = props
   return (
     <Layout title="Потреб.займы BI Group" nav={nav}>
       <div className="main-page">
@@ -35,7 +36,7 @@ const MortgageBiGroupPage = (props: MortgageBiGroupPageProps) => {
             ]}/>
           <Benefits benefits={benefits} />
           <BaspanaCalculator />
-          <Order title="Оформить ипотеку" />
+          <Order order={order} />
           <BccCardFull
             chips={[
               {
@@ -68,9 +69,10 @@ MortgageBiGroupPage.getInitialProps = async (ctx: NextPageContext) => {
   let path: any = ctx.pathname
   path = path.split('/')
   path = '/' + path[path.length - 1]
-  const slider = await api.main.getSlider(path).catch(err => console.error(err))
-  const benefits = await api.main.getBenefits(path).catch(err => console.error(err))
-  const tabs = await api.main.getTabs(path).catch(err => console.error(err))
+  const slider = await api.main.getSlider(path)
+  const benefits = await api.main.getBenefits(path)
+  const tabs = await api.main.getTabs(path)
+  const order = await api.main.getOrder(path)
   let nav
   if(ctx.req) {
     nav = await api.main.getMenu()
@@ -79,7 +81,7 @@ MortgageBiGroupPage.getInitialProps = async (ctx: NextPageContext) => {
       nav = JSON.parse(localStorage.getItem("menu") || "{}")
     else nav = await api.main.getMenu()
   }
-  return { slider, benefits, tabs, nav }
+  return { slider, benefits, tabs, nav, order }
 }
 
 export default MortgageBiGroupPage;

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     [theme.breakpoints.between("md", "xl")]: {
       outerContainer: {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#FAFAFA",
       },
       container: {
         maxWidth: 1280,
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: "0 auto",
       },
       calc: {
+        padding: 20,
         backgroundColor: "#FFFFFF",
         borderRadius: 8,
       },
@@ -67,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
           backgroundColor: "#FAFAFA",
           padding: 20,
           borderRadius: 8,
+          height: 'fit-content'
         },
       },
       input: {
@@ -99,15 +101,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("sm")]: {
       outerContainer: {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#FAFAFA",
       },
       container: {
         maxWidth: 1280,
-        padding: 24,
+        padding: 20,
         boxSizing: "border-box",
         margin: "0 auto",
       },
       calc: {
+        padding: 20,
         backgroundColor: "#FFFFFF",
         borderRadius: 8,
       },
@@ -147,10 +150,10 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       calcContent: {
         "& > div:first-child": {
-          width: "calc(65% - 12px)",
+          width: "calc(50% - 12px)",
         },
         "& > div:last-child": {
-          width: "calc(35% - 12px)",
+          width: "calc(50% - 12px)",
           backgroundColor: "#FAFAFA",
           padding: 20,
           borderRadius: 8,
@@ -177,7 +180,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       calcBtn: {
         marginBottom: 12,
-        lineHeight: "normal",
       },
       checkboxText: {
         "& > div": {
@@ -200,10 +202,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CarCreditCalculator = () => {
+const MortgageCalculator = () => {
   const classes = useStyles({});
-  const [sum, setSum] = React.useState(1500000);
-  const [period, setPeriod] = React.useState(24);
+  const [sum, setSum] = React.useState(5000000);
+  const [hSum, setHSum] = React.useState(25000000);
+  const [period, setPeriod] = React.useState(25);
+  const Q = 0.072/12
   return (
     <div className={classes.outerContainer} id="calc">
       <div className={classes.container}>
@@ -216,9 +220,51 @@ const CarCreditCalculator = () => {
             justify="space-between"
             wrap="nowrap"
             className={classes.calcContent}
-            alignItems="center"
           >
             <Grid item>
+              <div className={classes.paymentWrap}>
+                <div className={classes.sliderWrap}>
+                  <BccInput
+                    label="Стоимость жилья"
+                    key="hSum"
+                    value={hSum + " ₸"}
+                    variant="filled"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={(e: any) =>
+                      +e.target.value.slice(0, -2) > 25000000
+                        ? setHSum(25000000)
+                        : setHSum(e.target.value.slice(0, -2))
+                    }
+                    className={classes.input}
+                  />
+                  <BccSlider
+                    style={{
+                      left: 6,
+                      right: 6,
+                      width: "calc(100% - 12px)",
+                      bottom: -1,
+                      padding: 0,
+                      position: "absolute",
+                    }}
+                    min={0}
+                    max={25000000}
+                    step={100000}
+                    value={hSum}
+                    valueLabelDisplay="off"
+                    defaultValue={hSum}
+                    onChange={(e: any, val: any) => {
+                      console.log(e);
+                      setHSum(val instanceof Array ? val[1] : val);
+                    }}
+                  />
+                  <div className={classes.sliderRange}>
+                    <span>0</span>
+                    <span>25 000 000</span>
+                  </div>
+                </div>
+              </div>
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
@@ -245,9 +291,9 @@ const CarCreditCalculator = () => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={0}
-                    max={3000000}
-                    step={1000}
+                    min={5000000}
+                    max={25000000}
+                    step={50000}
                     value={sum}
                     valueLabelDisplay="off"
                     defaultValue={sum}
@@ -258,14 +304,14 @@ const CarCreditCalculator = () => {
                   />
                   <div className={classes.sliderRange}>
                     <span>0</span>
-                    <span>3 000 000</span>
+                    <span>25 000 000</span>
                   </div>
                 </div>
               </div>
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
-                    label="Выберите срок"
+                    label="Срок займа"
                     key="period"
                     value={period + " мес."}
                     variant="filled"
@@ -288,8 +334,8 @@ const CarCreditCalculator = () => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={0}
-                    max={48}
+                    min={12}
+                    max={300}
                     step={1}
                     value={period}
                     valueLabelDisplay="off"
@@ -300,8 +346,8 @@ const CarCreditCalculator = () => {
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>0</span>
-                    <span>48</span>
+                    <span>12</span>
+                    <span>300</span>
                   </div>
                 </div>
               </div>
@@ -319,16 +365,16 @@ const CarCreditCalculator = () => {
                   <BccTypography type="p4" block>
                     Ежемесячный платёж
                   </BccTypography>
-                  <BccTypography type="p4" weight="medium" block>
-                    100 000 ₸
+                  <BccTypography type="p3" weight="medium" block>
+                    ~ {Math.round((hSum - sum)*((Q * Math.pow((1+Q), 120))/(Math.pow((1+Q), 120) - 1)))} ₸
                   </BccTypography>
                 </Grid>
                 <Grid item>
                   <BccTypography type="p4" block>
-                    Общая сумма
+                    Ствка
                   </BccTypography>
-                  <BccTypography type="p4" weight="medium" block>
-                    3 011 000 ₸
+                  <BccTypography type="p3" weight="medium" block>
+                    7.2%
                   </BccTypography>
                 </Grid>
               </Grid>
@@ -337,8 +383,9 @@ const CarCreditCalculator = () => {
                 fullWidth
                 color="primary"
                 className={classes.calcBtn}
+                href="#order"
               >
-                Оформить кредит
+                Оформить ипотеку
               </BccButton>
               <BccTypography type="p4" block>
                 *Данные предварительные
@@ -351,4 +398,4 @@ const CarCreditCalculator = () => {
   );
 };
 
-export default CarCreditCalculator;
+export default MortgageCalculator;

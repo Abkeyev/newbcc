@@ -56,7 +56,7 @@ const CreditingPage = (props: CreditingPageProps) => {
   const classes = useStyles({});
 
   return (
-    <Layout title="Business" nav={nav}>
+    <Layout title="Оформить кредит в Казахстане в Банке центркредит" nav={nav}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: null, isExternal: false}]} />
