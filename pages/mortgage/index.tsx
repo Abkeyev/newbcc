@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import { Slider, Best, BaspanaCalculator, Tabs } from "../../components";
+import { Slider, Best, Tabs } from "../../components";
 import { BccCardFullImg, BccTypography, BccButton, BccCardFull } from '../../components/BccComponents'
 import api from "../../api/Api";
 import { NextPageContext } from 'next';
@@ -70,13 +70,13 @@ const MortgagePage = (props: BusinessPageProps) => {
                   variant="outlined"
                   color="secondary"
                   className={classes.readMore}
+                  href="https://www.bcc.kz/product/the-state-program-for-refinancing-of-mortgage-loans/"
                 >
                   Подробнее
                 </BccButton>
               </>
             }
           />
-          <BaspanaCalculator />
           <BccCardFull
             chips={[
               {
