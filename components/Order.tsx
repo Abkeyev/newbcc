@@ -328,7 +328,7 @@ const Order = (props: OrderPageProps) => {
         },
         productCode: order[0] && order[0].productCode,
         secretSms: code,
-        markId: 1
+        markId: -1
       })
       .then(() => {
         scrollToOrderRef()
