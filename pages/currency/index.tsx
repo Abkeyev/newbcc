@@ -14,9 +14,6 @@ import {
   BccTableBody,
   BccCardFull,
 } from "../../components/BccComponents";
-import { NextPageContext } from 'next';
-import { MenuProps } from '../../interfaces';
-import api from '../../api/Api';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -123,18 +120,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const currencies = ["Доллар США", "Тенге", "Евро", "Рубль"];
 
-interface CurrencyPageProps {
-    nav: MenuProps[];
-}
-
-const CurrencyPage = (props: CurrencyPageProps) => {
-    const { nav } = props
+const CurrencyPage = () => {
   const classes = useStyles({});
   const [cur1, setCur1] = React.useState("");
   const [cur2, setCur2] = React.useState("");
 
   return (
-    <Layout title="Курсы валют" nav={nav}>
+    <Layout title="Курсы валют" >
       <div className="main-page">
         <div className="container">
           <div className={classes.contents}>
@@ -402,17 +394,5 @@ const CurrencyPage = (props: CurrencyPageProps) => {
     </Layout>
   );
 };
-
-CurrencyPage.getInitialProps = async (ctx: NextPageContext) => {
-    let nav
-    if(ctx.req) {
-      nav = await api.main.getMenu()
-    }else {
-      if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-        nav = JSON.parse(localStorage.getItem("menu") || "{}")
-      else nav = await api.main.getMenu()
-    }
-    return { nav }
-  }
 
 export default CurrencyPage;

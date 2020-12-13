@@ -15,7 +15,7 @@ const BccSlider = withStyles({
       borderRadius: '50%',
     },
     '& .MuiSlider-mark.MuiSlider-markActive': {
-      backgroundColor: '#27AE60',
+      backgroundColor: '#00A755',
       opacity: 1,
     },
     '& .MuiSlider-thumb': {
@@ -23,7 +23,7 @@ const BccSlider = withStyles({
       height: 14,
       border: '2px solid white',
       marginTop: -6,
-      backgroundColor: '#27AE60',
+      backgroundColor: '#00A755',
     },
     '& .MuiSlider-rail': {
       height: 2,
@@ -31,7 +31,7 @@ const BccSlider = withStyles({
     },
     '& .MuiSlider-track': {
       height: 2,
-      backgroundColor: '#27AE60',
+      backgroundColor: '#00A755',
     },
     '& .Mui-focusVisible, & .MuiSlider-thumb:hover, & .MuiSlider-active': {
       boxShadow: 'none',

@@ -19,7 +19,7 @@ const BccAlert = withStyles({
     },
   },
   standardSuccess: {
-    color: "#27AE60",
+    color: "#00A755",
   },
 })((props: any) => <MuiAlert {...props} />);
 

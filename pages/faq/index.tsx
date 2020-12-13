@@ -2,7 +2,7 @@ import Layout from "../../components/Layout";
 import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { MenuItem } from "@material-ui/core";
-import { FaqProps, FaqsProps, FaqCatProps, MenuProps } from "../../interfaces";
+import { FaqProps, FaqsProps, FaqCatProps } from "../../interfaces";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   BccTypography,
@@ -11,7 +11,6 @@ import {
   BccCollapsePanel,
   BccCollapseDetails,
 } from "../../components/BccComponents";
-import { NextPageContext } from 'next';
 import api from "../../api/Api";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA" },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         padding: "32px 48px 128px",
         position: "relative",
@@ -86,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA" },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         padding: "32px 20px",
         position: "relative",
@@ -110,16 +109,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface FaqPageProps {
   faqs: FaqProps[];
-  nav: MenuProps[];
+  
 }
 
 const FaqPage = (props: FaqPageProps) => {
-  const { faqs, nav } = props
+  const { faqs } = props
   const classes = useStyles({});
   const [faqCategory, setFaqCategory] = React.useState(0);
 
   return (
-    <Layout title="Часто задаваемые вопросы" nav={nav}>
+    <Layout title="Часто задаваемые вопросы" >
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -197,17 +196,9 @@ const FaqPage = (props: FaqPageProps) => {
   );
 };
 
-FaqPage.getInitialState = async (ctx: NextPageContext) => {
+FaqPage.getInitialState = async () => {
   const faqs = await api.main.getFaq()
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { faqs, nav }
+  return { faqs }
 }
 
 

@@ -13,8 +13,7 @@ import {
 } from "../../components/BccComponents";
 import CloseIcon from "@material-ui/icons/Close";
 import api from "../../api/Api";
-import { NewsProps, MenuProps } from "../../interfaces";
-import { NextPageContext } from 'next';
+import { NewsProps } from "../../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA" },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         padding: "32px 48px 64px",
         position: "relative",
@@ -158,7 +157,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA" },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         padding: "0 20px 32px",
         position: "relative",
@@ -186,18 +185,17 @@ const Icon = withStyles({})((props: any) => (
 
 interface NewsPageProps {
   news: NewsProps[];
-  nav: MenuProps[];
+  
 }
 
 const NewsPage = (props: NewsPageProps) => {
-  const { news, nav } = props
+  const { news } = props
   const classes = useStyles({});
   const [period, setPeriod] = React.useState("0");
   const [selected, setSelected] = React.useState<NewsProps | null>(null);
 
   const readMore = (item: NewsProps) => {
     document.body.style.overflowY = "hidden";
-    console.log(item)
     setSelected(item);
   };
 
@@ -208,7 +206,7 @@ const NewsPage = (props: NewsPageProps) => {
 
   return (
     <>
-    <Layout title="Новости" nav={nav}>
+    <Layout title="Новости" >
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -314,17 +312,10 @@ const NewsPage = (props: NewsPageProps) => {
   );
 };
 
-NewsPage.getInitialProps = async (ctx: NextPageContext) => {
+NewsPage.getInitialProps = async () => {
   const news = await api.main.getNews(0)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { news, nav }
+  
+  return { news }
 }
 
 export default NewsPage;

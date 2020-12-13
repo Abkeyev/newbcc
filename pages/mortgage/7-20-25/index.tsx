@@ -11,22 +11,22 @@ import {
   BccTypography,
   BccCardFull
 } from "../../../components/BccComponents";
-import { SliderProps, MenuProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
+import { SliderProps, CalcProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
 import api from '../../../api/Api';
 import { NextPageContext } from 'next';
 
 interface Mortgage72025PageProps {
   slider: SliderProps[];
-  nav: MenuProps[];
+  calc: CalcProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
   order: OrderProps[];
 }
 
 const Mortgage72025Page = (props: Mortgage72025PageProps) => {
-  const { slider, nav, benefits, tabs, order } = props
+  const { slider, benefits, tabs, order, calc } = props
   return (
-    <Layout title="Ипотека “7-20-25”" nav={nav}>
+    <Layout title="Ипотека “7-20-25”" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -35,7 +35,7 @@ const Mortgage72025Page = (props: Mortgage72025PageProps) => {
               {title: "Ипотека “7-20-25”", link: null, isExternal: false}
             ]}/>
           <Benefits benefits={benefits} />
-          <MortgageCalculator />
+          <MortgageCalculator calc={calc} />
           <Order order={order} />
           <BccCardFull
             chips={[
@@ -73,15 +73,9 @@ Mortgage72025Page.getInitialProps = async (ctx: NextPageContext) => {
   const benefits = await api.main.getBenefits(path)
   const tabs = await api.main.getTabs(path)
   const order = await api.main.getOrder(path)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, benefits, tabs, order, nav }
+  const calc = await api.main.getCalc(path)
+  
+  return { slider, benefits, tabs, order, calc }
 }
 
 export default Mortgage72025Page;

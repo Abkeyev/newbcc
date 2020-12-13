@@ -1,28 +1,27 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import { Slider, Best, BaspanaCalculator, Benefits, Tabs } from "../../components";
+import { Slider, Best, Benefits, Tabs } from "../../components";
 import { BccCardFull, BccTypography } from '../../components/BccComponents'
 import api from "../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, TabsProps, CardsPageProps, BenefitsProps, MenuProps } from "../../interfaces";
+import { SliderProps, TabsProps, CardsPageProps, BenefitsProps } from "../../interfaces";
 
 interface BusinessPageProps {
   slider: SliderProps[];
   benefits: BenefitsProps[];
   cards: CardsPageProps;
   tabs: TabsProps[];
-  nav: MenuProps[];
+  
 }
 
 const DepositesPage = (props: BusinessPageProps) => {
-  const { slider, tabs, cards, benefits, nav } = props
+  const { slider, tabs, cards, benefits } = props
   return (
-    <Layout title="Депозиты" nav={nav}>
+    <Layout title="Депозиты" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
           <Best title="Депозиты" cards={cards} />
-          <BaspanaCalculator />
           <Benefits benefits={benefits} />
           <BccCardFull
             chips={[
@@ -57,15 +56,8 @@ DepositesPage.getInitialProps = async (ctx: NextPageContext) => {
   const cards = await api.main.getCards(ctx.pathname)
   const benefits = await api.main.getBenefits(ctx.pathname)
   const tabs = await api.main.getTabs(ctx.pathname)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, cards, benefits, tabs, nav }
+  
+  return { slider, cards, benefits, tabs }
 }
 
 export default DepositesPage;

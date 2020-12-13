@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { BccTypography, BccChip, BccButton, BccLink } from "./BccComponents";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { CardsFullProps, ChipProps, ButtonProps } from "../interfaces";
+import { CardsFullProps, ChipProps, ButtonProps, imgURL } from "../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -367,7 +367,7 @@ const BusinessCards = (props: BusinessCardsProps) => {
                     <Grid item>
                       <img
                         src={
-                          "http://188.227.84.200:3005/images/" + c.card.image
+                          imgURL + encodeURIComponent(c.card.image)
                         }
                         alt={c.card.title}
                       />

@@ -1,28 +1,88 @@
-import Link from "next/link";
+import Layout from "../components/Layout";
+import React from "react";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import {
+  BccTypography,
+  BccButton,
+} from "../components/BccComponents";
 
-export default function Custom404() {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    [theme.breakpoints.between("md", "xl")]: {
+      img: {
+        maxWidth: 350,
+        marginBottom: 48,
+        margin: '0 auto',
+        display: 'block',
+      },
+      btn: {
+        display: 'inline-block',
+        marginBottom: 64
+      },
+      block404: {
+        maxWidth: 500,
+        margin: '0 auto',
+        textAlign: 'center'
+      }
+    },
+    [theme.breakpoints.down("sm")]: {
+      img: {
+        maxWidth: 350,
+        marginBottom: 48,
+        margin: '0 auto',
+        display: 'block',
+      },
+      btn: {
+        margin: '0 auto',
+        marginBottom: 64
+      },
+      block404: {
+        maxWidth: 500,
+        margin: '56px auto 0',
+        textAlign: 'center'
+      }
+    },
+    [theme.breakpoints.down("xs")]: {
+      img: {
+        width: '100%',
+        padding: '0 12px'
+      },
+      btn: {
+        display: 'block',
+        width: 'auto',
+        margin: '0 12px 56px'
+      },
+      block404: {
+        width: '100%',
+      }
+    },
+  })
+);
+
+const Custom404 = () => {
+  const classes = useStyles({});
+
   return (
-      <section
-        className="flex flex-row items-center justify-center px-4 py-12 text-center"
-        style={{ minHeight: "calc(100vh - 150px)" }}
-      >
-        <div>
-          <img
-            className="mx-auto max-w-auto md:max-w-sm"
-            src="/images/error.svg"
-            alt="Page not found"
-          />
-          <h2 className="mt-8 mb-2 text-5xl font-heading">Page not found</h2>
-          <p className="mb-6 text-xl">Error 404</p>
-          <Link href="/">
-            <a
-              className="inline-block px-8 py-4 leading-none text-white rounded shadow bg-primary-500 hover:bg-green-400"
-              href="#"
+    <Layout title="Страница не найдена" >
+      <div className="main-page">
+        <div className="container">
+          <div className={classes.block404}>
+            <img src="/img/404.svg" className={classes.img} />
+            <BccTypography align="center" mb="12px" type="h6" block>Страница не найдена</BccTypography>
+            <BccTypography align="center" mb="48px" type="p2l" block>Попробуйте вернуться на предыдущую страницу или перейдите на главную.</BccTypography>
+            <BccButton
+              variant="contained"
+              color="primary"
+              className={classes.btn}
+              href="/"
             >
-              Return to the homepage
-            </a>
-          </Link>
+              На главную
+            </BccButton>
+          </div>
         </div>
-      </section>
+      </div>
+    </Layout>
   );
-}
+};
+
+export default Custom404;

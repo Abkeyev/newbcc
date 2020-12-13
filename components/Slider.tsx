@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { BccButton, BccTypography, BccBreadcrumbs } from "../components/BccComponents";
-import { SliderPageProps, SliderProps, Breadcrumbs } from "../interfaces";
+import { SliderPageProps, SliderProps, Breadcrumbs, imgURL } from "../interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from "next/link";
 
@@ -87,13 +87,13 @@ const useStyles = makeStyles((theme: Theme) =>
         height: 10,
         borderRadius: "50%",
         boxSizing: "border-box",
-        border: "1px solid #27AE60",
+        border: "1px solid #00A755",
         "&:hover": {
-          backgroundColor: "#27AE60",
+          backgroundColor: "#00A755",
         },
       },
       active: {
-        backgroundColor: "#27AE60",
+        backgroundColor: "#00A755",
       },
       slideLeft: {
         marginRight: 64,
@@ -191,13 +191,13 @@ const useStyles = makeStyles((theme: Theme) =>
         height: 10,
         borderRadius: "50%",
         boxSizing: "border-box",
-        border: "1px solid #27AE60",
+        border: "1px solid #00A755",
         "&:hover": {
-          backgroundColor: "#27AE60",
+          backgroundColor: "#00A755",
         },
       },
       active: {
-        backgroundColor: "#27AE60",
+        backgroundColor: "#00A755",
       },
       slideLeft: {
         marginRight: 64,
@@ -350,12 +350,12 @@ const Slider = (props: SliderPageProps) => {
   if(slider && slider[slideIndex]) {
     if(small){
       bgSmallStyle = {
-        background: `url(http://188.227.84.200:3005/images/${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat right center`,
+        background: `url(${imgURL}${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat right center`,
       }
     }else{
       if(slider[slideIndex].slider.isFull) {
         bgStyle = {
-          background: `url(http://188.227.84.200:3005/images/${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat ${slider[slideIndex].slider.backgroundColor}`,
+          background: `url(${imgURL}${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat ${slider[slideIndex].slider.backgroundColor}`,
         }
       }else {
         bgStyle = {
@@ -462,7 +462,7 @@ const Slider = (props: SliderPageProps) => {
                       </Grid>
                       {!slide.slider.isFull && !small && (<Grid item>
                         <img
-                          src={`http://188.227.84.200:3005/images/${slide.slider.image}`}
+                          src={`${imgURL}${encodeURIComponent(slide.slider.image)}`}
                           alt="slide1"
                         />
                       </Grid>)}

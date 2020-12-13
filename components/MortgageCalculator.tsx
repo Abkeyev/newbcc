@@ -7,6 +7,7 @@ import {
   BccSlider,
   BccButton,
 } from "./BccComponents";
+import { CalcProps } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       calc: {
         padding: 20,
         backgroundColor: "#FFFFFF",
+        boxShadow: '0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)',
         borderRadius: 8,
       },
       chip: {
@@ -112,6 +114,7 @@ const useStyles = makeStyles((theme: Theme) =>
       calc: {
         padding: 20,
         backgroundColor: "#FFFFFF",
+        boxShadow: '0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 10px 20px rgba(0, 0, 0, 0.04)',
         borderRadius: 8,
       },
       chip: {
@@ -202,12 +205,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const MortgageCalculator = () => {
+interface MortgageCalculatorProps {
+  calc: CalcProps[];
+}
+
+const MortgageCalculator = (props: MortgageCalculatorProps) => {
+  const { calc } = props;
   const classes = useStyles({});
-  const [sum, setSum] = React.useState(5000000);
-  const [hSum, setHSum] = React.useState(25000000);
-  const [period, setPeriod] = React.useState(25);
-  const Q = 0.072/12
+  const [sum, setSum] = React.useState("");
+  const [hSum, setHSum] = React.useState("");
+  const [period, setPeriod] = React.useState("");
+  const [rate, setRate] = React.useState(0);
+  React.useEffect(() => {
+    if(calc.length > 0 && calc[0]) {
+      setSum(calc[0].firstPayDefault.toString())
+      setHSum(calc[0].sumDefault.toString())
+      setPeriod(calc[0].periodDefault.toString())
+      setRate(calc[0].rate/100)
+    }
+  }, [])
   return (
     <div className={classes.outerContainer} id="calc">
       <div className={classes.container}>
@@ -227,16 +243,20 @@ const MortgageCalculator = () => {
                   <BccInput
                     label="Стоимость жилья"
                     key="hSum"
-                    value={hSum + " ₸"}
+                    value={`${hSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${hSum !== "" ? " ₸" : ""}`}
                     variant="filled"
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    onChange={(e: any) =>
-                      +e.target.value.slice(0, -2) > 25000000
-                        ? setHSum(25000000)
-                        : setHSum(e.target.value.slice(0, -2))
-                    }
+                    onChange={(e: any) => {
+                      const s = +e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      if (s > calc[0].sumMax) setHSum(calc[0].sumMax.toString())
+                      else setHSum(s.toString())
+                    }}
+                    onFocus={() => setHSum("")}
                     className={classes.input}
                   />
                   <BccSlider
@@ -248,20 +268,20 @@ const MortgageCalculator = () => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={0}
-                    max={25000000}
-                    step={100000}
-                    value={hSum}
+                    min={calc[0].sumMin}
+                    max={calc[0].sumMax}
+                    step={500000}
+                    value={+hSum}
                     valueLabelDisplay="off"
-                    defaultValue={hSum}
+                    defaultValue={calc[0].sumDefault}
                     onChange={(e: any, val: any) => {
                       console.log(e);
                       setHSum(val instanceof Array ? val[1] : val);
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>0</span>
-                    <span>25 000 000</span>
+                    <span>{calc[0].sumMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0].sumMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -270,16 +290,20 @@ const MortgageCalculator = () => {
                   <BccInput
                     label="Первоначальный взнос"
                     key="sum"
-                    value={sum + " ₸"}
+                    value={`${sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${sum !== "" ? " ₸" : ""}`}
                     variant="filled"
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    onChange={(e: any) =>
-                      +e.target.value.slice(0, -2) > 5000000
-                        ? setSum(5000000)
-                        : setSum(e.target.value.slice(0, -2))
-                    }
+                    onChange={(e: any) => {
+                      const s = +e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      if (s > calc[0].firstPayMax) setSum(calc[0].firstPayMax.toString())
+                      else setSum(s.toString())
+                    }}
+                    onFocus={() => setSum("")}
                     className={classes.input}
                   />
                   <BccSlider
@@ -291,20 +315,20 @@ const MortgageCalculator = () => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={5000000}
-                    max={25000000}
+                    min={calc[0].firstPayMin}
+                    max={calc[0].firstPayMax}
                     step={50000}
-                    value={sum}
+                    value={+sum}
                     valueLabelDisplay="off"
-                    defaultValue={sum}
+                    defaultValue={calc[0].firstPayDefault}
                     onChange={(e: any, val: any) => {
                       console.log(e);
                       setSum(val instanceof Array ? val[1] : val);
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>0</span>
-                    <span>25 000 000</span>
+                    <span>{calc[0].firstPayMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0].firstPayMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -313,16 +337,20 @@ const MortgageCalculator = () => {
                   <BccInput
                     label="Срок займа"
                     key="period"
-                    value={period + " мес."}
                     variant="filled"
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    onChange={(e: any) =>
-                      +e.target.value.slice(0, -5) > 48
-                        ? setPeriod(48)
-                        : setPeriod(+e.target.value.slice(0, -5))
-                    }
+                    value={`${period}${period !== "" ? " мес." : ""}`}
+                    onChange={(e: any) => {
+                      const s = +e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      if (s > calc[0].periodMax) setPeriod(calc[0].periodMax.toString())
+                      else setPeriod(s.toString())
+                    }}
+                    onFocus={() => setPeriod("")}
                     className={classes.input}
                   />
                   <BccSlider
@@ -334,20 +362,20 @@ const MortgageCalculator = () => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={12}
-                    max={300}
+                    min={calc[0].periodMin}
+                    max={calc[0].periodMax}
                     step={1}
-                    value={period}
+                    value={+period}
                     valueLabelDisplay="off"
-                    defaultValue={sum}
+                    defaultValue={calc[0].periodDefault}
                     onChange={(e: any, val: any) => {
                       console.log(e);
                       setPeriod(val instanceof Array ? val[1] : val);
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>12</span>
-                    <span>300</span>
+                    <span>{calc[0].periodMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0].periodMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -366,7 +394,12 @@ const MortgageCalculator = () => {
                     Ежемесячный платёж
                   </BccTypography>
                   <BccTypography type="p3" weight="medium" block>
-                    ~ {Math.round((hSum - sum)*((Q * Math.pow((1+Q), 120))/(Math.pow((1+Q), 120) - 1)))} ₸
+                    {console.log(+hSum, 'hs')}
+                    {console.log(+sum, 's')}
+                    {console.log(rate, 'r')}
+                    {console.log(period, 'p')}
+                    {console.log(Math.round((+hSum - +sum)*(((rate/12) * Math.pow((1+(rate/12)), +period))/(Math.pow((1+(rate/12)), +period) - 1))), 'f')}
+                    ~ {Math.round((+hSum - +sum)*(((rate/12) * Math.pow((1+(rate/12)), +period))/(Math.pow((1+(rate/12)), +period) - 1)))} ₸
                   </BccTypography>
                 </Grid>
                 <Grid item>
@@ -374,7 +407,7 @@ const MortgageCalculator = () => {
                     Ствка
                   </BccTypography>
                   <BccTypography type="p3" weight="medium" block>
-                    7.2%
+                    {calc[0].rate}%
                   </BccTypography>
                 </Grid>
               </Grid>

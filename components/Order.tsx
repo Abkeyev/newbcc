@@ -14,6 +14,8 @@ import "react-block-ui/style.css";
 import api from "../api/Api";
 import { animateScroll } from "react-scroll";
 import { OrderProps } from '../interfaces';
+import ReactGA from 'react-ga';
+import { useRouter } from "next/router"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -214,6 +216,7 @@ const BccMaskedInput = (props: TextMaskCustomProps) => {
       {...other}
       ref={(ref: any) => inputRef(ref ? ref.inputElement : null)}
       mask="+7(999) 999 99 99"
+      maskChar=""
       placeholder={"+7(707) 707 77 77"}
     />
   );
@@ -226,6 +229,7 @@ const BccMaskedIinInput = (props: TextMaskCustomProps) => {
       {...other}
       ref={(ref: any) => inputRef(ref ? ref.inputElement : null)}
       mask="999 999 999 999"
+      maskChar=""
       placeholder={"000 000 000 000"}
     />
   );
@@ -256,7 +260,7 @@ interface OrderPageProps {
 }
 
 const Order = (props: OrderPageProps) => {
-  const { order } = props
+  const { order } = props;
   const classes = useStyles({});
   const [step, setStep] = React.useState(0);
   const [timer, setTimer] = React.useState(0);
@@ -269,6 +273,7 @@ const Order = (props: OrderPageProps) => {
   const [phoneError, setPhoneError] = React.useState<boolean>(false);
   const [iinError] = React.useState<boolean>(false);
   const [isLoading, setLoading] = React.useState(false);
+  const router = useRouter();
 
   const orderRef: any = React.useRef(null);
   const scrollToOrderRef = () => {
@@ -279,6 +284,15 @@ const Order = (props: OrderPageProps) => {
     return fio.length > 1 && city.length > 1 && iin.replace(/ /g, "").length === 12 && 
             phone.replace("_", "").length === 17 && agree;
   };
+
+  const getUTM = (mark: boolean = false) => {
+    const path = router.asPath.split('?')
+    if(path.length > 1 && path[1]) {
+      if(mark){
+        return path[1].split('@')[1] ? path[1].split('@')[1] : path[1].split('@')[0]
+      }else path[1].split('@')[0]
+    }else return ""
+  }
 
   React.useEffect(() => {
     let timeOut = setInterval(() => {
@@ -300,6 +314,10 @@ const Order = (props: OrderPageProps) => {
       setPhoneError(true);
       return;
     } else setPhoneError(false);
+    ReactGA.event({
+      category: order[0] && order[0].actionCategory,
+      action: order[0] && order[0].actionAction,
+    });
     setLoading(true);
     setTimer(60);
     api.main
@@ -318,6 +336,10 @@ const Order = (props: OrderPageProps) => {
 
   const onSubmitOtp = () => {
     setLoading(true);
+    ReactGA.event({
+      category: order[0] && order[0].afterActionCategory,
+      action: order[0] && order[0].afterActionAction,
+    });
     api.main
       .sendOrder({
         client: {
@@ -328,7 +350,8 @@ const Order = (props: OrderPageProps) => {
         },
         productCode: order[0] && order[0].productCode,
         secretSms: code,
-        markId: -1
+        markId: getUTM(true)?.startsWith('/') ? -1 : getUTM(true),
+        params: getUTM()
       })
       .then(() => {
         scrollToOrderRef()

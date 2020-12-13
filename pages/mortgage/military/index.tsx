@@ -4,29 +4,27 @@ import {
   Slider,
   Benefits,
   Order,
-  BaspanaCalculator,
   Tabs,
 } from "../../../components";
 import {
   BccTypography,
   BccCardFull
 } from "../../../components/BccComponents";
-import { SliderProps, MenuProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
+import { SliderProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
 import api from '../../../api/Api';
 import { NextPageContext } from 'next';
 
 interface MortgageMilitaryPageProps {
   slider: SliderProps[];
-  nav: MenuProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
   order: OrderProps[];
 }
 
 const MortgageMilitaryPage = (props: MortgageMilitaryPageProps) => {
-  const { slider, nav, benefits, tabs, order } = props
+  const { slider, benefits, tabs, order } = props
   return (
-    <Layout title="Ипотека для военных" nav={nav}>
+    <Layout title="Ипотека для военных" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -35,7 +33,6 @@ const MortgageMilitaryPage = (props: MortgageMilitaryPageProps) => {
               {title: "Ипотека для военных", link: null, isExternal: false}
             ]}/>
           <Benefits benefits={benefits} />
-          <BaspanaCalculator />
           <Order order={order} />
           <BccCardFull
             chips={[
@@ -73,15 +70,8 @@ MortgageMilitaryPage.getInitialProps = async (ctx: NextPageContext) => {
   const benefits = await api.main.getBenefits(path)
   const tabs = await api.main.getTabs(path)
   const order = await api.main.getOrder(path)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, benefits, tabs, order, nav }
+  
+  return { slider, benefits, tabs, order }
 }
 
 export default MortgageMilitaryPage;

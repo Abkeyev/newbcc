@@ -24,7 +24,7 @@ const BccButton = withStyles({
     },
     "&.MuiButton-containedPrimary": {
       color: "white",
-      backgroundColor: "#27AE60",
+      backgroundColor: "#00A755",
       fontWeight: 500,
       ["@media (max-width:600px)"]: {
         height: 48,
@@ -95,7 +95,7 @@ const BccButton = withStyles({
     },
     "&.MuiButton-text": {
       textTransform: "uppercase",
-      color: "#27AE60",
+      color: "#00A755",
       "&:hover": {
         background: "none",
         color: "#1F7042",

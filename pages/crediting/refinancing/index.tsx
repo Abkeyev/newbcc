@@ -7,21 +7,20 @@ import {
 } from "../../../components/BccComponents";
 import api from '../../../api/Api'
 import { NextPageContext } from 'next'
-import { MenuProps, SliderProps, TabsProps, BenefitsProps, OrderProps } from '../../../interfaces'
+import { SliderProps, TabsProps, BenefitsProps, OrderProps } from '../../../interfaces'
 
 interface RefinancingPageProps {
   slider: SliderProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
-  nav: MenuProps[];
   order: OrderProps[];
 }
 
 const RefinancingPage = (props: RefinancingPageProps) => {
-  const { slider, benefits, tabs, nav, order } = props
+  const { slider, benefits, tabs, order } = props
   
   return (
-    <Layout title="Рефинансирование кредитов" nav={nav}>
+    <Layout title="Рефинансирование кредитов" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -68,15 +67,7 @@ RefinancingPage.getInitialProps = async (ctx: NextPageContext) => {
     const benefits = await api.main.getBenefits(path)
     const tabs = await api.main.getTabs(path)
     const order = await api.main.getOrder(path)
-    let nav
-    if(ctx.req) {
-        nav = await api.main.getMenu()
-    }else {
-        if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-        nav = JSON.parse(localStorage.getItem("menu") || "{}")
-        else nav = await api.main.getMenu()
-    }
-    return { slider, tabs, benefits, order, nav }
+    return { slider, tabs, benefits, order }
 }
 
 export default RefinancingPage;

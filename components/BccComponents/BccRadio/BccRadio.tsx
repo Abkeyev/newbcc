@@ -5,7 +5,7 @@ const BccRadio = withStyles({
   root: {
     color: '#4D565F',
     '&.Mui-checked': {
-      color: '#27AE60',
+      color: '#00A755',
     },
     '& .MuiSvgIcon-root': {
       fontSize: 24,

@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import { BccButton } from "./BccComponents";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
+import { FooterProps } from '../interfaces'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -213,7 +214,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Footer = () => {
+interface FooterPageProps {
+  footer: FooterProps[];
+}
+
+const Footer = (props: FooterPageProps) => {
+  const { footer } = props;
   const classes = useStyles({});
 
   return (
@@ -328,53 +334,20 @@ const Footer = () => {
               className={classes.footLinks}
             >
               <Grid item>
-                <a href="https://www.bcc.kz/about/o-banke/">
-                  О банке
-                </a>
-                <a href="https://www.bcc.kz/about/aktsii/">
-                  Акции
-                </a>
-                <a href="https://www.bcc.kz/fizical/tarify/">
-                  Тарифы
-                </a>
-                <a href="https://www.bcc.kz/about/vakansii/">
-                  Вакансии
-                </a>
-                <Link href="/details">Реквизиты</Link>
-                <a
-                  href="https://www.bcc.kz/about/zalogbase/catalog/"
-                >
-                  Залоговая база
-                </a>
-                <a
-                  href="https://www.bcc.kz/about/a-collection-of-forms-of-contracts/"
-                >
-                  Сборник форм договоров
-                </a>
+                {
+                  footer.length > 0 && footer.slice(0,footer.length/2).map(f => f.isexternal ? 
+                  <a href={f.link}>
+                    {f.title}
+                  </a> : <Link href={f.link}>{f.title}</Link>)
+                }
               </Grid>
               <Grid item>
-                <a
-                  href="https://www.bcc.kz/about/press-sluzhba/kontakty/"
-                >
-                  Пресс-служба
-                </a>
-                <Link href="/faq">Вопросы-ответы</Link>
-                <Link href="/call-center">Центр обслуживания вызовов</Link>
-                <a
-                  href="https://www.bcc.kz/about/compliance-control/"
-                >
-                  Комплаенс-контроль
-                </a>
-                <a
-                  href="https://www.bcc.kz/about/informaciya_dlya_investorov/"
-                >
-                  Информация для инвесторов
-                </a>
-                <a
-                  href="https://www.bcc.kz/about/informatsiya-aktsioneram/"
-                >
-                  Информация акционерам
-                </a>
+                {
+                  footer.length > 0 && footer.slice(footer.length/2, footer.length-1).map(f => f.isexternal ? 
+                  <a href={f.link}>
+                    {f.title}
+                  </a> : <Link href={f.link}>{f.title}</Link>)
+                }
               </Grid>
             </Grid>
           </Grid>

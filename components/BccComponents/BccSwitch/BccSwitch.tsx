@@ -25,13 +25,13 @@ const BccSwitch = withStyles((theme: Theme) =>
         transform: 'translateX(20px)',
         color: 'white',
         '& + $track': {
-          backgroundColor: '#27AE60',
+          backgroundColor: '#00A755',
           opacity: 1,
           border: 'none',
         },
       },
       '&$focusVisible $thumb': {
-        color: '#27AE60',
+        color: '#00A755',
         border: '6px solid #fff',
       },
     },

@@ -12,7 +12,7 @@ const BccCheckbox = withStyles({
       },
     },
     "&.Mui-checked": {
-      color: "#27AE60",
+      color: "#00A755",
       "&:hover": {
         background: "none",
       },
@@ -22,7 +22,7 @@ const BccCheckbox = withStyles({
     },
     "&:hover": {
       background: "none",
-      color: "#27AE60",
+      color: "#00A755",
     },
   },
   checked: {},

@@ -6,8 +6,7 @@ import {
   BccTypography
 } from "../../components/BccComponents";
 import api from '../../api/Api'
-import { NextPageContext } from 'next';
-import { CallCenterProps, MenuProps } from '../../interfaces';
+import { CallCenterProps } from '../../interfaces';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -118,13 +117,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
-interface CallCenterPageProps {
-  nav: MenuProps[]
-}
-
-const CallCenterPage = (props: CallCenterPageProps) => {
-  const { nav } = props
+const CallCenterPage = () => {
   const classes = useStyles({});
   const [active, setActive] = React.useState(0);
   const [callCenter, setCallCenter] = React.useState<CallCenterProps[] | []>([]);
@@ -136,7 +129,7 @@ const CallCenterPage = (props: CallCenterPageProps) => {
   }, [])
 
   return (
-    <Layout title="Центр обслуживания вызовов" nav={nav}>
+    <Layout title="Центр обслуживания вызовов" >
       <div className="main-page">
         <div className="container">
           <div className={classes.contents}>
@@ -176,17 +169,5 @@ const CallCenterPage = (props: CallCenterPageProps) => {
     </Layout>
   );
 };
-
-CallCenterPage.getInitialProps = async (ctx: NextPageContext) => {
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { nav }
-}
 
 export default CallCenterPage;

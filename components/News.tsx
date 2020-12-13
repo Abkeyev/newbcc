@@ -266,7 +266,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     allNewsBtn: {
       textDecoration: "underline",
-      color: "#27AE60",
+      color: "#00A755",
       cursor: "pointer",
     },
   })

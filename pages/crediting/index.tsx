@@ -9,7 +9,7 @@ import {
 } from "../../components/BccComponents";
 import api from '../../api/Api'
 import { NextPageContext } from 'next';
-import { MenuProps, CardsPageProps, SliderProps, TabsProps } from '../../interfaces'
+import { CardsPageProps, SliderProps, TabsProps } from '../../interfaces'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -48,15 +48,15 @@ interface CreditingPageProps {
   slider: SliderProps[];
   cards: CardsPageProps;
   tabs: TabsProps[];
-  nav: MenuProps[];
+  
 }
 
 const CreditingPage = (props: CreditingPageProps) => {
-  const { slider, cards, tabs, nav } = props
+  const { slider, cards, tabs } = props
   const classes = useStyles({});
 
   return (
-    <Layout title="Оформить кредит в Казахстане в Банке центркредит" nav={nav}>
+    <Layout title="Оформить кредит в Казахстане в Банке центркредит" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: null, isExternal: false}]} />
@@ -116,15 +116,8 @@ CreditingPage.getInitialProps = async (ctx: NextPageContext) => {
   const slider = await api.main.getSlider(ctx.pathname)
   const cards = await api.main.getCards(ctx.pathname)
   const tabs = await api.main.getTabs(ctx.pathname)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, tabs, cards, nav }
+  
+  return { slider, tabs, cards }
 }
 
 export default CreditingPage;

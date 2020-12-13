@@ -13,7 +13,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
-    "@types/react-input-mask": "^3.0.0",
+    "@types/react-input-mask": "^2.0.5",
     "@types/react-maskedinput": "^4.0.4",
     "@types/react-scroll": "^1.8.2",
     "@types/react-select": "^3.0.22",

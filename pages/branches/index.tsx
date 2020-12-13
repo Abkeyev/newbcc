@@ -19,8 +19,6 @@ import {
   FullscreenControl,
 } from "react-yandex-maps";
 import api from '../../api/Api'
-import { NextPageContext } from 'next'
-import { MenuProps } from '../../interfaces'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA", marginLeft: 16 },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         position: "relative",
         margin: "0 auto",
@@ -90,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA" },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         position: "relative",
         margin: "0 auto",
@@ -225,11 +223,10 @@ interface ATMProps {
 interface BranchesPageProps {
   branches: any;
   atms: any;
-  nav: MenuProps[];
 }
 
 const BranchesPage = (props: BranchesPageProps) => {
-  let { branches, atms, nav } = props
+  let { branches, atms } = props
   branches = branches.Data && branches.Data
   atms = atms.Data && atms.Data
   const [index, setIndex] = React.useState<number>(0);
@@ -238,7 +235,7 @@ const BranchesPage = (props: BranchesPageProps) => {
   const [switchBtn, setSwitchBtn] = React.useState(true);
   const classes = useStyles({});
   return (
-    <Layout title="Офисы и банкоматы" nav={nav}>
+    <Layout title="Офисы и банкоматы">
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -360,19 +357,11 @@ const BranchesPage = (props: BranchesPageProps) => {
   );
 };
 
-BranchesPage.getInitialProps = async (ctx: NextPageContext) => {
+BranchesPage.getInitialProps = async () => {
   const branches = await api.main.getBranches('branches')
-  console.log(ctx)
   const atms = await api.main.getBranches('atms')
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { branches, atms, nav }
+  
+  return { branches, atms }
 }
 
 export default BranchesPage;

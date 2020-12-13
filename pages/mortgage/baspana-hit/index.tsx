@@ -4,34 +4,34 @@ import {
   Slider,
   Benefits,
   Order,
-  BaspanaCalculator,
+  MortgageCalculator,
   Tabs,
 } from "../../../components";
 import {
   BccTypography,
   BccCardFull
 } from "../../../components/BccComponents";
-import { SliderProps, MenuProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
+import { SliderProps, CalcProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
 import api from '../../../api/Api';
 import { NextPageContext } from 'next';
 
 interface BaspanaHitPageProps {
   slider: SliderProps[];
-  nav: MenuProps[];
+  calc: CalcProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
   order: OrderProps[];
 }
 
 const BaspanaHitPage = (props: BaspanaHitPageProps) => {
-  const { slider, nav, benefits, tabs, order } = props
+  const { slider, benefits, tabs, order, calc } = props
   return (
-    <Layout title="Баспана Хит" nav={nav}>
+    <Layout title="Баспана Хит" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Ипотека", link: "https://www.bcc.kz/fizical/kreditovanie/ipotechnoe-kreditovanie", isExternal: true}]} />
           <Benefits benefits={benefits} />
-          <BaspanaCalculator />
+          <MortgageCalculator calc={calc} />
           <Order order={order} />
           <BccCardFull
             chips={[
@@ -69,15 +69,9 @@ BaspanaHitPage.getInitialProps = async (ctx: NextPageContext) => {
   const benefits = await api.main.getBenefits(path)
   const tabs = await api.main.getTabs(path)
   const order = await api.main.getOrder(path)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, benefits, tabs, order, nav }
+  const calc = await api.main.getCalc(path)
+  
+  return { slider, benefits, tabs, order, calc }
 }
 
 export default BaspanaHitPage;

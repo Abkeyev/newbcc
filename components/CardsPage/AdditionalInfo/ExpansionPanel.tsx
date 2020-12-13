@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "#5B5B5B"
       },
       link: {
-        color: '#27AE60',
+        color: '#00A755',
         textDecoration: 'none'
       }
     }

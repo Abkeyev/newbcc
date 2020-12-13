@@ -20,7 +20,7 @@ const useStyles = makeStyles(() =>
     outlined: {},
     fPrimary: {
       color: "white",
-      backgroundColor: "#27AE60",
+      backgroundColor: "#00A755",
     },
     fSecondary: {
       color: "white",
@@ -31,8 +31,8 @@ const useStyles = makeStyles(() =>
       backgroundColor: "#E3266A",
     },
     oPrimary: {
-      color: "#27AE60",
-      border: "1px solid #27AE60",
+      color: "#00A755",
+      border: "1px solid #00A755",
     },
     oSecondary: {
       color: "#4D565F",

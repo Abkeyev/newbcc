@@ -15,7 +15,7 @@ const BccStepConnector = withStyles({
   },
   completed: {
     '& .MuiStepConnector-line': {
-      borderColor: '#27AE60',
+      borderColor: '#00A755',
     },
   },
 })((props: any) => <StepConnector {...props} />)

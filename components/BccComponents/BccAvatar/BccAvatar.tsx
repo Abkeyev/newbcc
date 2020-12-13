@@ -10,7 +10,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     green: {
       color: 'white!important',
-      backgroundColor: '#27AE60!important',
+      backgroundColor: '#00A755!important',
     },
   })
 )

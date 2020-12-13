@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { BccTypography, BccChip, BccCard } from "./BccComponents";
-import { CategoryProps, CardsProps, CardsPageProps } from "../interfaces";
+import { CategoryProps, CardsProps, CardsPageProps, imgURL } from "../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
       link: {
-        color: "#27AE60",
+        color: "#00A755",
         textDecoration: "none",
       },
     },
@@ -151,7 +151,7 @@ const Best = (props: BestProps) => {
                   title={cc.card.title}
                   btn={cc.buttons}
                   variant={cc.card.cardType}
-                  img={`http://188.227.84.200:3005/images/${cc.card.image}`}
+                  img={`${imgURL}${encodeURIComponent(cc.card.image)}`}
                   chips={cc.chips}
                   text={cc.card.content}
                 />
@@ -163,7 +163,7 @@ const Best = (props: BestProps) => {
                     title={cc.card.title}
                     btn={cc.buttons}
                     variant={cc.card.cardType}
-                    img={`http://188.227.84.200:3005/images/${cc.card.image}`}
+                    img={`${imgURL}${encodeURIComponent(cc.card.image)}`}
                     chips={cc.chips}
                     text={cc.card.content}
                   />

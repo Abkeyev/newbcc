@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { BccTypography } from "./BccComponents";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { BenefitsProps, BenefitItemProps } from '../interfaces';
+import { BenefitsProps, BenefitItemProps, imgURL } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -179,7 +179,7 @@ const Benefits = (props: BenefitsComponentProps) => {
             >
               {i.image && (
                 <Grid item>
-                  <img src={"http://188.227.84.200:3005/images/" + i.image} />
+                  <img src={imgURL + encodeURIComponent(i.image)} />
                 </Grid>
               )}
               <Grid item>

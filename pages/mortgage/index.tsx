@@ -4,7 +4,7 @@ import { Slider, Best, Tabs } from "../../components";
 import { BccCardFullImg, BccTypography, BccButton, BccCardFull } from '../../components/BccComponents'
 import api from "../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, NewsProps, CardsPageProps, TabsProps, MenuProps } from "../../interfaces";
+import { SliderProps, NewsProps, CardsPageProps, TabsProps } from "../../interfaces";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() =>
@@ -38,16 +38,16 @@ interface BusinessPageProps {
   slider: SliderProps[];
   news: NewsProps[];
   cards: CardsPageProps;
-  nav: MenuProps[];
+  
   tabs: TabsProps[];
 }
 
 const MortgagePage = (props: BusinessPageProps) => {
-  const { slider, tabs, cards, nav } = props
+  const { slider, tabs, cards } = props
   
   const classes = useStyles({});
   return (
-    <Layout title="Ипотека" nav={nav}>
+    <Layout title="Ипотека" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -110,15 +110,8 @@ MortgagePage.getInitialProps = async (ctx: NextPageContext) => {
   const news = await api.main.getNewsShort()
   const cards = await api.main.getCards(ctx.pathname)
   const tabs = await api.main.getTabs(ctx.pathname)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, news, cards, nav, tabs }
+  
+  return { slider, news, cards, tabs }
 }
 
 export default MortgagePage;

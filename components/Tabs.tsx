@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
         minHeight: 150,
         fontSize: 16,
         "& > span": {
-          color: "#27AE60",
+          color: "#00A755",
         },
       },
       tab: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
         minHeight: 150,
         fontSize: 16,
         "& > span": {
-          color: "#27AE60",
+          color: "#00A755",
         },
       },
       tab: {

@@ -1,23 +1,23 @@
 import React from "react";
 import Layout from "../../../components/Layout";
-import { Slider, Tabs, BaspanaCalculator, Order, Benefits } from "../../../components";
+import { Slider, Tabs, Order, Benefits } from "../../../components";
 import { BccCardFull, BccTypography } from '../../../components/BccComponents'
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, TabsProps, MenuProps, BenefitsProps, OrderProps } from "../../../interfaces";
+import { SliderProps, TabsProps, BenefitsProps, OrderProps } from "../../../interfaces";
 
 interface RakhmetPlusPageProps {
   slider: SliderProps[];
   benefits: BenefitsProps[];
   tabs: TabsProps[];
-  nav: MenuProps[];
+  
   order: OrderProps[];
 }
 
 const RakhmetPlusPage = (props: RakhmetPlusPageProps) => {
-  const { slider, tabs, nav, benefits, order } = props
+  const { slider, tabs, benefits, order } = props
   return (
-    <Layout title="Депозит “Рахмет+”" nav={nav}>
+    <Layout title="Депозит “Рахмет+”" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -26,7 +26,6 @@ const RakhmetPlusPage = (props: RakhmetPlusPageProps) => {
               {title: "Депозит “Рахмет+”", link: null, isExternal: false}
             ]}/>
           <Benefits benefits={benefits} />
-          <BaspanaCalculator />
           <Order order={order} />
           <BccCardFull
             chips={[
@@ -64,15 +63,8 @@ RakhmetPlusPage.getInitialProps = async (ctx: NextPageContext) => {
   const benefits = await api.main.getBenefits(path)
   const tabs = await api.main.getTabs(path)
   const order = await api.main.getOrder(path)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, tabs, benefits, order, nav }
+  
+  return { slider, tabs, benefits, order }
 }
 
 export default RakhmetPlusPage;

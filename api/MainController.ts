@@ -1,6 +1,6 @@
 import { server } from "./axios";
+import { baseURL } from '../interfaces';
 var qs = require('qs');
-const baseURL = "http://188.227.84.200:3005"
 
 export class MainController {
   async getMenu(): Promise<any> {
@@ -8,8 +8,28 @@ export class MainController {
       baseURL,
     });
   }
+  async getFooter(): Promise<any> {
+    return server.get(`/content/footer`, {
+      baseURL,
+    });
+  }
+  async getUTMLink(code: string): Promise<any> {
+    return server.get(`/utm/~${code}`, {
+    baseURL,
+  });
+  }
+  async getTarifs(): Promise<any> {
+    return server.get(`/content/tabs/tariffs`, {
+      baseURL,
+    });
+  }
   async getSlider(path: string): Promise<any> {
     return server.get(`/content/slider${path}`, {
+      baseURL
+    });
+  }
+  async getCalc(path: string): Promise<any> {
+    return server.get(`/content/calc${path}`, {
       baseURL
     });
   }

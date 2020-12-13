@@ -1,3 +1,7 @@
+export const baseURL = "http://188.227.84.200:3005"
+export const imgURL = `${baseURL}/images/`;
+export const fileURL = `${baseURL}/files/`;
+
 export interface MenuProps {
   id: number;
   inverseParentHeadNavigation: MenuProps[];
@@ -7,10 +11,24 @@ export interface MenuProps {
   title: string;
 }
 
-export interface TarifsProps {
+export interface FooterProps {
+  id: number;
+  link: string;
   title: string;
-  date: string;
-  url: string;
+  isexternal: boolean;
+}
+
+export interface FileProps {
+  id: number;
+  title: string;
+  updateDate: string;
+  fileName: string;
+}
+
+export interface TarifsProps {
+  id: number;
+  title: string;
+  files: FileProps[];
 }
 
 export interface ButtonProps {
@@ -38,6 +56,24 @@ export interface TabsProps {
   title: string;
   color: string;
   tabs: TabProps[];
+}
+
+export interface CalcProps {
+  id: number;
+  title: string;
+  isMortgage: boolean;
+  isDeposit: boolean;
+  isCredit: boolean;
+  rate: number;
+  periodMin: number;
+  periodMax: number;
+  periodDefault: number;
+  sumMin: number,
+  sumMax: number;
+  sumDefault: number;
+  firstPayMax: number;
+  firstPayMin: number;
+  firstPayDefault: number;
 }
 
 export interface OrderProps {

@@ -12,8 +12,7 @@ import {
   BccTableBody,
 } from "../../components/BccComponents";
 import api from "../../api/Api";
-import { TarifsProps, MenuProps } from "../../interfaces";
-import { NextPageContext } from 'next'
+import { TarifsProps, FileProps, fileURL } from "../../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA" },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         padding: "32px 48px 64px",
         position: "relative",
@@ -157,7 +156,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottom: "1px dashed #4D565F",
       },
       switch: { color: "#B3B6BA" },
-      active: { color: "#27AE60" },
+      active: { color: "#00A755" },
       mapContainer: {
         padding: "0 20px 32px",
         position: "relative",
@@ -176,21 +175,24 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     [theme.breakpoints.down("xs")]: {},
+    link: {
+      cursor: 'pointer'
+    }
   })
 );
 
 interface TarifsPageProps {
-  tarifs: TarifsProps[];
-  nav: MenuProps[];
+  tarifs: any[];
+  
 }
 
 const TarifsPage = (props: TarifsPageProps) => {
-  const { tarifs, nav } = props
+  const { tarifs } = props
   const classes = useStyles({});
   const [index, setIndex] = React.useState<number>(0);
 
   return (
-    <Layout title="Тарифы" nav={nav}>
+    <Layout title="Тарифы" >
       <div className="main-page">
         <div className="container">
           <div className={classes.outerContent}>
@@ -209,9 +211,11 @@ const TarifsPage = (props: TarifsPageProps) => {
               }}
               className={classes.tab}
             >
-              <BccTab label="Общие тарифы" />
-              <BccTab label="Тарифы по картам" />
-              <BccTab label="Общие положения" />
+              {
+                tarifs && tarifs.length > 0 && tarifs[0] && (tarifs[0].tabs as TarifsProps[]).map((n: TarifsProps, i: number) => (
+                  <BccTab value={i} label={n.title} />
+                ))
+              }
             </BccTabs>
           </div>
           <div className={classes.outerContent}>
@@ -220,7 +224,10 @@ const TarifsPage = (props: TarifsPageProps) => {
                 <BccTable className={classes.table}>
                   <BccTableBody>
                     {
-                      tarifs && tarifs.length > 0 && (tarifs as TarifsProps[]).map((n: TarifsProps) => (
+                      tarifs && tarifs.length > 0 && 
+                      tarifs[0] && tarifs[0].tabs && 
+                      tarifs[0].tabs[index] && 
+                      tarifs[0].tabs[index].files && (tarifs[0].tabs[index].files as FileProps[]).map((n: FileProps) => (
                         <BccTableRow>
                           <BccTableCell>
                             <BccTypography
@@ -230,14 +237,15 @@ const TarifsPage = (props: TarifsPageProps) => {
                               mt="4px"
                               mb="12px"
                             >
-                              {new Date(n.date).toLocaleString().substring(0, 17).replace(/,/, '') }
+                              {new Date(n.updateDate).toLocaleString().substring(0, 17).replace(/,/, '') }
                             </BccTypography>
                             <BccTypography
                               type="p2"
                               block
                               mb="12px"
                               weight="medium"
-                              onClick={() => window.open(n.url, '_blank')}
+                              className={classes.link}
+                              onClick={() => window.open(`${fileURL}${encodeURIComponent(n.fileName)}`, '_blank')}
                             >
                               {n.title}
                             </BccTypography>
@@ -259,17 +267,10 @@ const TarifsPage = (props: TarifsPageProps) => {
   );
 };
 
-TarifsPage.getInitialProps = async (ctx: NextPageContext) => {
+TarifsPage.getInitialProps = async () => {
   const news = await api.main.getNews(0)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { news, nav }
+  const tarifs = await api.main.getTarifs()
+  return { news, tarifs }
 }
 
 export default TarifsPage;

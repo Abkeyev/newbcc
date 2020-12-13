@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { BccTypography, BccCard } from "./BccComponents";
-import { CardsPageProps, CardsProps } from "../interfaces";
+import { CardsPageProps, CardsProps, imgURL } from "../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -87,7 +87,7 @@ const Crediting = (props: CreditingProps) => {
                   title={card.card.title}
                   btn={card.buttons}
                   variant={card.card.cardType}
-                  img={`http://188.227.84.200:3005/images/${card.card.image}`}
+                  img={`${imgURL}${encodeURIComponent(card.card.image)}`}
                   chips={card.chips}
                   text={card.card.content}
                   />

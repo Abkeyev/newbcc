@@ -22,7 +22,7 @@ const BccSelect = (props: any) => {
   const customStyles = {
     option: (provided: any, state: any) => ({
       ...provided,
-      color: state.isSelected ? "#27AE60" : "#000D1A",
+      color: state.isSelected ? "#00A755" : "#000D1A",
       padding: "16px 20px",
       backgroundColor: state.isFocused ? "#E9F7EF" : "",
     }),
@@ -31,7 +31,7 @@ const BccSelect = (props: any) => {
       // none of react-select's styles are passed to <Control />
       minHeight: 56,
       border: state.isFocused
-        ? "1px solid #27AE60"
+        ? "1px solid #00A755"
         : props.error
         ? "1px solid #C84F4F"
         : state.isDisabled

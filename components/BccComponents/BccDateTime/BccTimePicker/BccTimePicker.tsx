@@ -11,7 +11,7 @@ const BccTimePicker = withStyles({
       borderColor: '#80868C',
     },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#27AE60',
+      borderColor: '#00A755',
       borderWidth: 1,
     },
   },

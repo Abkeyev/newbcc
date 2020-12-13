@@ -4,21 +4,19 @@ import { Slider, Featured, Widgets, Useful, News } from "../components";
 import { BccCardFull, BccTypography } from "../components/BccComponents";
 import api from "../api/Api";
 import { NextPageContext } from 'next';
-import { CardsPageProps, SliderProps, NewsProps, MenuProps } from "../interfaces";
+import { CardsPageProps, SliderProps, NewsProps } from "../interfaces";
 
 interface IndexPageProps {
   cards: CardsPageProps;
   slider: SliderProps[];
   currency: any;
   news: NewsProps[];
-  nav: MenuProps[];
 }
 
 const IndexPage = (props: IndexPageProps) => {
-  const { cards, slider, currency, news, nav } = props
-  console.log(props)
+  const { cards, slider, currency, news } = props
   return (
-    <Layout title={'АО "Банк ЦентрКредит"'} nav={nav}>
+    <Layout title={'АО "Банк ЦентрКредит"'}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
@@ -59,15 +57,8 @@ IndexPage.getInitialProps = async (ctx: NextPageContext) => {
   const c = await api.main.getToken()
   const currency = await api.main.getCurrency(c.access_token)
   const news = await api.main.getNewsShort()
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { cards, slider, currency, news, nav }
+  
+  return { cards, slider, currency, news }
 }
 
 export default IndexPage;

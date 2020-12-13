@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme: Theme) =>
           }
       },
       button: {
-        background: '#27AE60',
+        background: '#00A755',
         borderRadius: 4,
         fontWeight: 'normal',
         fontSize: 14,
@@ -145,7 +145,7 @@ const useStyles = makeStyles((theme: Theme) =>
         '&:hover': {
             borderColor: '#ecf1f7',
             backgroundColor: '#ecf1f7',
-            color: '#27AE60'
+            color: '#00A755'
         }
       },
       iron: {
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme: Theme) =>
           }
       },
       btnGreen: {
-          color: '#27AE60',
+          color: '#00A755',
           '&:hover': {
               color: '#52BE80'
           }
@@ -165,13 +165,13 @@ const useStyles = makeStyles((theme: Theme) =>
         border: '1px solid #E8E8E8',
         boxSizing: 'border-box',
         borderRadius: 4,
-        color: '#27AE60',
+        color: '#00A755',
         padding: '15px 30px',
         cursor: 'pointer',
         fontSize: 14,
         backgroundColor: '#ffffff',
         '&:hover': {
-            backgroundColor: '#27AE60',
+            backgroundColor: '#00A755',
             color: 'white'
         },
         '&:focus': {

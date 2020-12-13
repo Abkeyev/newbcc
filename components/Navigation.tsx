@@ -116,13 +116,13 @@ const useStyles = makeStyles((theme: Theme) =>
         opacity: 0.5,
       },
       customBtn: {
-        borderColor: "#27AE60!important",
-        color: "#27AE60!important",
+        borderColor: "#00A755!important",
+        color: "#00A755!important",
         whiteSpace: "nowrap",
         "&:hover": {
-          borderColor: "#27AE60!important",
+          borderColor: "#00A755!important",
           color: "white!important",
-          backgroundColor: "#27AE60!important",
+          backgroundColor: "#00A755!important",
         },
       },
       mobileContainer: {
@@ -234,12 +234,12 @@ const useStyles = makeStyles((theme: Theme) =>
         opacity: 0.5,
       },
       customBtn: {
-        borderColor: "#27AE60!important",
-        color: "#27AE60!important",
+        borderColor: "#00A755!important",
+        color: "#00A755!important",
         "&:hover": {
-          borderColor: "#27AE60!important",
+          borderColor: "#00A755!important",
           color: "white!important",
-          backgroundColor: "#27AE60!important",
+          backgroundColor: "#00A755!important",
         },
       },
       mobileContainer: {

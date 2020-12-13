@@ -13,7 +13,7 @@ const BccInput = withStyles({
       marginLeft: 0,
     },
     "& label.Mui-focused": {
-      color: "#27AE60",
+      color: "#00A755",
     },
     "& .MuiInputLabel-outlined": {
       color: "#4D565F",
@@ -41,14 +41,14 @@ const BccInput = withStyles({
     },
     "& .MuiInput-underline:hover": {
       "&:before": {
-        borderBottomColor: "#27AE60",
+        borderBottomColor: "#00A755",
       },
     },
     "& .MuiInput-underline:before": {
-      borderBottomColor: "#27AE60",
+      borderBottomColor: "#00A755",
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#27AE60",
+      borderBottomColor: "#00A755",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
@@ -58,7 +58,7 @@ const BccInput = withStyles({
         borderColor: "#80868C",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#27AE60",
+        borderColor: "#00A755",
         borderWidth: 1,
       },
       "&.Mui-disabled fieldset": {
@@ -84,7 +84,7 @@ const BccInput = withStyles({
         borderColor: "#80868C",
       },
       "&.Mui-focused": {
-        borderColor: "#27AE60",
+        borderColor: "#00A755",
       },
       "&.Mui-disabled": {
         backgroundColor: "#E6E7E8",

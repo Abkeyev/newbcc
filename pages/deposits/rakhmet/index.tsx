@@ -1,23 +1,22 @@
 import React from "react";
 import Layout from "../../../components/Layout";
-import { Slider, Tabs, BaspanaCalculator, Order, Benefits } from "../../../components";
+import { Slider, Tabs, Order, Benefits } from "../../../components";
 import { BccCardFull, BccTypography } from '../../../components/BccComponents'
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, TabsProps, MenuProps, BenefitsProps, OrderProps } from "../../../interfaces";
+import { SliderProps, TabsProps, BenefitsProps, OrderProps } from "../../../interfaces";
 
 interface RakhmetPageProps {
   slider: SliderProps[];
   tabs: TabsProps[];
-  nav: MenuProps[];
   benefits: BenefitsProps[];
   order: OrderProps[];
 }
 
 const RakhmetPage = (props: RakhmetPageProps) => {
-  const { slider, order, tabs, nav, benefits } = props
+  const { slider, order, tabs, benefits } = props
   return (
-    <Layout title="Депозит “Рахмет”" nav={nav}>
+    <Layout title="Депозит “Рахмет”" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -26,7 +25,6 @@ const RakhmetPage = (props: RakhmetPageProps) => {
               {title: "Депозит “Рахмет””", link: null, isExternal: false}
             ]}/>
           <Benefits benefits={benefits} />
-          <BaspanaCalculator />
           <Order order={order} />
           <BccCardFull
             chips={[
@@ -64,15 +62,8 @@ RakhmetPage.getInitialProps = async (ctx: NextPageContext) => {
   const tabs = await api.main.getTabs(path)
   const benefits = await api.main.getBenefits(path)
   const order = await api.main.getOrder(path)
-  let nav
-  if(ctx.req) {
-    nav = await api.main.getMenu()
-  }else {
-    if(Object.keys(JSON.parse(localStorage.getItem("menu") || "{}")).length > 0)
-      nav = JSON.parse(localStorage.getItem("menu") || "{}")
-    else nav = await api.main.getMenu()
-  }
-  return { slider, tabs, benefits, order, nav }
+  
+  return { slider, tabs, benefits, order }
 }
 
 export default RakhmetPage;
