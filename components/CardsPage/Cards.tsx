@@ -9,7 +9,10 @@ const useStyles = makeStyles((theme: Theme) =>
       main: {
           padding: '32px 52px',
           maxWidth: 1280,
-          margin: '0 auto'
+          margin: '0 auto',
+          [theme.breakpoints.down('xs')]: {
+            padding: '72px 20px 32px',
+          },
       },
       title: {
           fontSize: 48,
@@ -35,6 +38,10 @@ const useStyles = makeStyles((theme: Theme) =>
           },
           [theme.breakpoints.down('md')]: {
             padding: '30px',
+          },
+          [theme.breakpoints.down('xs')]: {
+              marginBottom: 20,
+              padding: '30px',
           },
           color: '#141414',
           '& > div > img': {
@@ -136,7 +143,8 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '12px 14px',
         },
         [theme.breakpoints.down('sm')]: {
-            width: 'auto'
+            width: '100%',
+            margin: '0 0 12px'
         },
       },
       buttonSecond: {
@@ -266,7 +274,7 @@ const Cards = () => {
         <Grid item xl={12} lg={12} md={12}>
             <Grid container direction="row" justify="space-between" className={`${classes.card} ${classes.cardIron}`}>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-                    <img src="/img/ironcard.svg" alt=""/>
+                    <img src="/img/ironcard.svg" alt="Карта IronCard"/>
                 </Grid>
                 <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
                     <h1>#IronCard<span className="chip iron">Премиум</span></h1>
@@ -293,7 +301,7 @@ const Cards = () => {
         <Grid item xl={12} lg={12} md={12}>
             <Grid container direction="row" justify="space-between" className={`${classes.card} ${classes.cardTravel}`}>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-                    <img src="/img/travelcard.png" alt=""/>
+                    <img src="/img/travelcard.png" alt="Карта TravelCard"/>
                 </Grid>
                 <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
                     <h1>#TravelCard<span className="chip travel">Премиум</span><span className="chip travel">Путешествия</span></h1>
@@ -320,7 +328,7 @@ const Cards = () => {
         <Grid item xl={12} lg={12} md={12}>
             <Grid container direction="row" justify="space-between" className={classes.card}>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-                    <img src="/img/cardcard.svg" alt=""/>
+                    <img src="/img/cardcard.svg" alt="КартаКарта"/>
                 </Grid>
                 <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
                     <h1>#картакарта<span className="chip hit">хит продаж</span><span className="chip">карта рассрочки</span><span className="chip">кредитная карта</span><span className="chip">дебетовая карта</span></h1>
@@ -347,7 +355,7 @@ const Cards = () => {
         <Grid item xl={12} lg={12} md={12}>
             <Grid container direction="row" justify="space-between" className={classes.card}>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-                    <img src="/img/fiol-card.svg" alt=""/>
+                    <img src="/img/fiol-card.svg" alt="Карта МнеФиолетово"/>
                 </Grid>
                 <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
                     <h1>#мнефиолетово зарплатная</h1>
@@ -373,7 +381,7 @@ const Cards = () => {
         <Grid item xl={12} lg={12} md={12}>
             <Grid container direction="row" justify="space-between" className={classes.card} style={{marginBottom: 24}}>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-                    <img src="/img/fiol-card.svg" alt=""/>
+                    <img src="/img/fiol-card.svg" alt="Карта МнеФиолетово"/>
                 </Grid>
                 <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
                     <h1>#мнефиолетово пенсионная<span className="chip">для социальных отчислений/алиментов</span></h1>
@@ -399,7 +407,7 @@ const Cards = () => {
         <Grid item xl={12} lg={12} md={12}>
             <Grid container direction="row" justify="space-between" className={classes.card} style={{marginBottom: 24}}>
                 <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-                    <img src="/img/juniorcard.svg" alt=""/>
+                    <img src="/img/juniorcard.svg" alt="Карта Juniorbank"/>
                 </Grid>
                 <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
                     <h1>#juniorbank<span className="chip">от 6 до 18 лет</span></h1>

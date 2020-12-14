@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
       outerContainer: {
         backgroundColor: "#FAFAFA",
       },
+      zpMob: {
+        disaply: 'none'
+      },
       container: {
         maxWidth: 1280,
         padding: "48px",
@@ -187,6 +190,13 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.down("sm")]: {
       container: {
         padding: "0 48px 32px",
+      },
+      checkboxText: {
+        display: 'none'
+      },
+      zpMob: {
+        display: 'flex',
+        marginBottom: 24
       },
       widgetContainer: {
         flexWrap: "wrap",
@@ -426,6 +436,26 @@ const Calulator = () => {
               </div>
             </div>
           </div>
+        </Grid>
+        <Grid item className={classes.zpMob}>
+          <Grid
+            container
+            justify="flex-start"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            <Grid item>
+              <BccCheckbox
+                value="remember"
+                color="primary"
+                checked={agree}
+                onChange={() => setAgree(!agree)}
+              />
+            </Grid>
+            <Grid item>
+              <BccTypography type="p3">Получаю ЗП на карту БЦК</BccTypography>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item>
           <BccTypography type="h5" block className={classes.calcTitleCount}>

@@ -17,7 +17,10 @@ interface BusinessPageProps {
 const DepositesPage = (props: BusinessPageProps) => {
   const { slider, tabs, cards, benefits } = props
   return (
-    <Layout title="Депозиты" >
+    <Layout
+      title="Депозиты - Банк ЦентрКредит"
+      description="Открыть депозит на любую сумму онлайн. Казахстанский фонд гарантирования депозитов – государственная гарантия банковских сбережений"
+      keywords="депозиты, онлайн депозит, открыт депозиты, депозиты застрахованные, открыть депозит, выгодные ставки по депозитам" >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
@@ -38,8 +41,8 @@ const DepositesPage = (props: BusinessPageProps) => {
                   Управляй банковскими счетами онлайн через браузер или
                   приложение
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} />
-                <img src={"/img/gp.svg"} />
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

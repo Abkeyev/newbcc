@@ -17,7 +17,7 @@ interface EtalonPlusPageProps {
 const EtalonPlusPage = (props: EtalonPlusPageProps) => {
   const { slider, tabs, benefits, order } = props
   return (
-    <Layout title="Депозит “Эталон+”" >
+    <Layout title="Депозит «Эталон+» - Банк ЦентрКредит" description="Депозит «Эталон+» — калькулятор доходности, условия, сроки и процентные ставки">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -42,8 +42,8 @@ const EtalonPlusPage = (props: EtalonPlusPageProps) => {
                   Управляй банковскими счетами онлайн через браузер или
                   приложение
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} />
-                <img src={"/img/gp.svg"} />
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

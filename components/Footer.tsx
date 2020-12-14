@@ -321,7 +321,7 @@ const Footer = (props: FooterPageProps) => {
                   color="primary"
                   onClick={() => window.open("https://wa.me/77012230228", "_blank")}
                 >
-                  Отправить сообщение
+                  <img src="/img/wp.svg" style={{ marginRight: 4 }}/>Отправить сообщение
                 </BccButton>
               </Grid>
             </Grid>
@@ -368,12 +368,12 @@ const Footer = (props: FooterPageProps) => {
                 <a
                   href="https://apps.apple.com/kz/app/starbusiness/id1452748006"
                 >
-                  <img src={"/img/as.svg"} />
+                  <img src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore" />
                 </a>
                 <a
                   href="https://play.google.com/store/apps/details?id=bcc.sapphire&hl=ru"
                 >
-                  <img src={"/img/gp.svg"} />
+                  <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
                 </a>
               </Grid>
             </Grid>

@@ -184,6 +184,9 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     [theme.breakpoints.down("xs")]: {
+      container: {
+        paddingTop: 56
+      },
       orderForm: {
         width: "100%",
         maxWidth: "100%",

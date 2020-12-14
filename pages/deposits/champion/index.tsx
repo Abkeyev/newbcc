@@ -17,7 +17,9 @@ interface ChampionPageProps {
 const ChampionPage = (props: ChampionPageProps) => {
   const { slider, tabs, benefits, order } = props
   return (
-    <Layout title="Депозит “Чемпион”" >
+    <Layout 
+      title="Депозит «Чемпион» - Банк ЦентрКредит"
+      description="Депозит сочетает в себе максимально удобные и выгодные условия для Вас. Условия депозита. Сроки">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -42,8 +44,8 @@ const ChampionPage = (props: ChampionPageProps) => {
                   Управляй банковскими счетами онлайн через браузер или
                   приложение
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} />
-                <img src={"/img/gp.svg"} />
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

@@ -26,7 +26,9 @@ interface Mortgage72025PageProps {
 const Mortgage72025Page = (props: Mortgage72025PageProps) => {
   const { slider, benefits, tabs, order, calc } = props
   return (
-    <Layout title="Ипотека “7-20-25”" >
+    <Layout title="Ипотека 7-20-25 - Банк ЦентрКредит"
+      description="Преимущества: 7% ставка, 20% первоначальный взнос, до 25 млн. тенге. Калькулятор ипотеки, онлайн заявка"
+      keywords="ипотека, оформить ипотеку, ипотека 7-20-25, 7-20-25 оформить, ипотека 72025, ипотека 7 20, онлайн 7 20 25">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
@@ -52,8 +54,8 @@ const Mortgage72025Page = (props: Mortgage72025PageProps) => {
                   Управляй банковскими счетами онлайн через браузер или
                   приложение
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} />
-                <img src={"/img/gp.svg"} />
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

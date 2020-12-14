@@ -26,7 +26,10 @@ interface BaspanaHitPageProps {
 const BaspanaHitPage = (props: BaspanaHitPageProps) => {
   const { slider, benefits, tabs, order, calc } = props
   return (
-    <Layout title="Баспана Хит" >
+    <Layout 
+      title="Ипотека «Баспана Хит» - Банк ЦентрКредит"
+      description="Преимущества программы Ипотека «Баспана Хит»: Быстрое рассмотрение заявки; Возможность приобретения жилья в любом городе Казахстана"
+      keywords="ипотека, оформить ипотеку, ипотека баспана хит, баспана хит оформить">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Ипотека", link: "https://www.bcc.kz/fizical/kreditovanie/ipotechnoe-kreditovanie", isExternal: true}]} />
@@ -48,8 +51,8 @@ const BaspanaHitPage = (props: BaspanaHitPageProps) => {
                   Управляй банковскими счетами онлайн через браузер или
                   приложение
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} />
-                <img src={"/img/gp.svg"} />
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

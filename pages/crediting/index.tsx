@@ -56,7 +56,7 @@ const CreditingPage = (props: CreditingPageProps) => {
   const classes = useStyles({});
 
   return (
-    <Layout title="Оформить кредит в Казахстане в Банке центркредит" >
+    <Layout title="Оформить кредит онлайн - Банк ЦентрКредит" keywords="кредит, кредит онлайн, калькулятор кредита, кредит без справок, кредит без подтверждения дохода, кредит без поручителей, оформить кредит, получить кредит, взять кредит">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: null, isExternal: false}]} />
@@ -99,8 +99,8 @@ const CreditingPage = (props: CreditingPageProps) => {
                   Управляй банковскими счетами онлайн через браузер или
                   приложение
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} />
-                <img src={"/img/gp.svg"} />
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

@@ -16,7 +16,10 @@ interface IndexPageProps {
 const IndexPage = (props: IndexPageProps) => {
   const { cards, slider, currency, news } = props
   return (
-    <Layout title={'АО "Банк ЦентрКредит"'}>
+    <Layout 
+      title={'Банк ЦентрКредит — Кредиты, депозиты и карты'}
+      description="Оставить онлайн заявку на кредит, карты, ипотеку, открытие депозита и другие услуги для физических лиц"
+      keywords="Бцк, bcc, онлайн банк, лучший банк, кредит, оформить кредит, кредит онлайн, кредитная карта, оформить кредитную карту, кредитная карта по интернету, кредитная карта онлайн, кредит наличными, кредит наличными онлайн, дебетовая карта, перевод с карты на карту">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
@@ -38,8 +41,8 @@ const IndexPage = (props: IndexPageProps) => {
                   Управляй банковскими счетами онлайн через браузер или
                   приложение
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} />
-                <img src={"/img/gp.svg"} />
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

@@ -599,7 +599,7 @@ const Navigation = (props: NavigationProps) => {
                         <img
                           className={classes.logo}
                           src={"/img/logo.svg"}
-                          alt="logo"
+                          alt="Банк ЦентрКредит"
                         />
                       </a>
                     </Link>
@@ -844,7 +844,7 @@ const Navigation = (props: NavigationProps) => {
             <div>
               <Link shallow href="/">
                 <a>
-                  <img className={classes.logoMob} src={"/img/logo.svg"} />
+                  <img className={classes.logoMob} src={"/img/logo.svg"} alt="Банк ЦентрКредит"/>
                 </a>
               </Link>
             </div>
@@ -1196,7 +1196,7 @@ const Navigation = (props: NavigationProps) => {
                 <Grid item>
                   <BccTypography type="h4" ml="16px" block mb="8px">
                     <a
-                      href="tel:77012230228"
+                      onClick={() => window.open("https://wa.me/77012230228", "_blank")}
                       className={classes.footLink}
                     >
                       +7 (701) 223-02-28
@@ -1219,8 +1219,9 @@ const Navigation = (props: NavigationProps) => {
                 <img
                   style={{ marginLeft: 8, marginRight: 8 }}
                   src={"/img/as.svg"}
+                  alt="Приложение BCC.kz в AppStore"
                 />
-                <img src={"/img/gp.svg"} />
+                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
               </BccTypography>
               <BccTypography type="p1" mr="20px">
                 <BccLink
