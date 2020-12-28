@@ -1463,6 +1463,11 @@
   dependencies:
     "@types/react" "*"
 
+"@types/use-position@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@types/use-position/-/use-position-0.0.0.tgz#d9e11b04201a67ff2b7f1ba1051a0b9bab39d9d2"
+  integrity sha512-mhpUxCnmEtsH6y+FY5um4O0kpTnoeNQd5BXboBBRiBs5a1B3UF4lgci94iNmqdxudzO2T2C8HHdiZZymxjZB7w==
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"

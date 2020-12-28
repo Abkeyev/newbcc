@@ -27,9 +27,12 @@ const FinancingPage = (props: FinancingPageProps) => {
 };
 
 FinancingPage.getInitialProps = async (ctx: NextPageContext) => {
-  const slider = await api.main.getSlider(ctx.pathname)
-  const benefits = await api.main.getBenefits(ctx.pathname)
-  const tabs = await api.main.getTabs(ctx.pathname)
+  let path: any = ctx.pathname
+  path = path.split('/')
+  path = '/' + path[path.length - 1]
+  const slider = await api.main.getSlider(path)
+  const benefits = await api.main.getBenefits(path)
+  const tabs = await api.main.getTabs(path)
   
   return { slider, benefits, tabs }
 }
