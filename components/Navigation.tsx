@@ -532,10 +532,17 @@ const Navigation = (props: NavigationProps) => {
     }]
   const [index, setIndex] = React.useState(0);
   const [menu, openMenu] = React.useState(false);
+  const [menuIndex, setMenuIndex] = React.useState(-1);
   const [subMenuIndex, setSubMenuIndex] = React.useState(-1);
-  const [subSubSubMenuIndex, setSubSubSubMenuIndex] = React.useState(-1);
   const classes = useStyles({});
   const router = useRouter();
+
+  React.useEffect(() => {
+    if(!menu) {
+      setMenuIndex(-1)
+      setSubMenuIndex(-1)
+    }
+  }, [menu])
   
   const getSubmenu = (): MenuProps => {
     const sub = nav && nav.find((n: MenuProps) => n.link === router.pathname);
@@ -550,14 +557,14 @@ const Navigation = (props: NavigationProps) => {
       isexternal: false,
       link: "",
       title: "",
-  }
+    }
   };
 
   const goToLink = (index: number, isSub: boolean) => {
+    setMenuIndex(-1);
     setSubMenuIndex(-1);
-    setSubSubSubMenuIndex(-1);
     if (isSub) {
-      setSubMenuIndex(index);
+      setMenuIndex(index);
     } else {
       setIndex(index);
     }
@@ -589,13 +596,13 @@ const Navigation = (props: NavigationProps) => {
                   wrap="nowrap"
                   alignItems="center"
                   onMouseEnter={() => {
+                    setMenuIndex(-1);
                     setSubMenuIndex(-1);
-                    setSubSubSubMenuIndex(-1);
                   }}
                 >
                   <Grid item>
                     <Link shallow href="/">
-                      <a>
+                      <a onClick={() => openMenu(false)}>
                         <img
                           className={classes.logo}
                           src={"/img/logo.svg"}
@@ -612,7 +619,7 @@ const Navigation = (props: NavigationProps) => {
                             <BccTab
                               label={
                                 <Link shallow href={n.link}>
-                                  <a>{n.title}</a>
+                                <a onClick={() => openMenu(false)}>{n.title}</a>
                                 </Link>
                               }
                               value={i}
@@ -677,7 +684,7 @@ const Navigation = (props: NavigationProps) => {
                             label={
                               !n.isexternal ? (
                                 <Link shallow href={n.link}>
-                                  <a>{n.title}</a>
+                                <a onClick={() => openMenu(false)}>{n.title}</a>
                                 </Link>
                               ) : (
                                 <BccLink href={n.link}>
@@ -687,8 +694,8 @@ const Navigation = (props: NavigationProps) => {
                             }
                             onMouseEnter={() => {
                               if (n.isdropdown) {
-                                setSubMenuIndex(i);
-                              }else setSubMenuIndex(-1)
+                                setMenuIndex(i);
+                              }else setMenuIndex(-1)
                             }}
                             value={i}
                           />
@@ -717,25 +724,25 @@ const Navigation = (props: NavigationProps) => {
       </div>
       <div
         onMouseLeave={() => {
+          setMenuIndex(-1);
           setSubMenuIndex(-1);
-          setSubSubSubMenuIndex(-1);
         }}
         className={`${classes.innerSubContainerContent} ${
-          subMenuIndex === -1 ? classes.none : ""
+          menuIndex === -1 ? classes.none : ""
         }`}
       >
           <Grid container justify="space-between" wrap="nowrap">
             <Grid item container direction="column" wrap="nowrap">
-              {getSubmenu().inverseParentHeadNavigation[subMenuIndex] &&
+              {getSubmenu().inverseParentHeadNavigation[menuIndex] &&
                 getSubmenu().inverseParentHeadNavigation[
-                  subMenuIndex
+                  menuIndex
                 ].inverseParentHeadNavigation.map((nip: any) => {
                   return (
                     <Grid item>
                       <BccTypography color="#4D565F" type="p2" mb="20px" block>
                         {!nip.isexternal ? (
                           <Link shallow href={nip.link}>
-                            <a>{nip.title}</a>
+                          <a onClick={() => openMenu(false)}>{nip.title}</a>
                           </Link>
                         ) : (
                           <BccLink href={nip.link}>
@@ -749,8 +756,8 @@ const Navigation = (props: NavigationProps) => {
             </Grid>
             <Grid item>
 
-            {getSubmenu().inverseParentHeadNavigation[subMenuIndex] &&
-              getSubmenu().inverseParentHeadNavigation[subMenuIndex].title === "Карты" ? (
+            {getSubmenu().inverseParentHeadNavigation[menuIndex] &&
+              getSubmenu().inverseParentHeadNavigation[menuIndex].title === "Карты" ? (
               <Grid item className={classes.creditCard}>
                 <img src={"/img/travel-card.png"} />
                 <BccTypography
@@ -776,8 +783,8 @@ const Navigation = (props: NavigationProps) => {
                   </BccLink>
                 </BccButton>
               </Grid>
-            ) : getSubmenu().inverseParentHeadNavigation[subMenuIndex] &&
-              getSubmenu().inverseParentHeadNavigation[subMenuIndex].title ===
+            ) : getSubmenu().inverseParentHeadNavigation[menuIndex] &&
+              getSubmenu().inverseParentHeadNavigation[menuIndex].title ===
                 "Кредиты" ? (
                 <Grid item className={classes.creditCard}>
                   <img src={"/img/zalog.png"} />
@@ -801,8 +808,8 @@ const Navigation = (props: NavigationProps) => {
                     </BccLink>
                   </BccButton>
                 </Grid>
-              ) : getSubmenu().inverseParentHeadNavigation[subMenuIndex] &&
-                getSubmenu().inverseParentHeadNavigation[subMenuIndex].title ===
+              ) : getSubmenu().inverseParentHeadNavigation[menuIndex] &&
+                getSubmenu().inverseParentHeadNavigation[menuIndex].title ===
                   "Ипотека" ? (
                 <Grid item className={classes.creditCard}>
                   <img src={"/img/zalog2.png"} />
@@ -843,7 +850,7 @@ const Navigation = (props: NavigationProps) => {
             </div>
             <div>
               <Link shallow href="/">
-                <a>
+                <a onClick={() => openMenu(false)}>
                   <img className={classes.logoMob} src={"/img/logo.svg"} alt="Банк ЦентрКредит"/>
                 </a>
               </Link>
@@ -915,7 +922,7 @@ const Navigation = (props: NavigationProps) => {
                         label={
                           !n.isexternal ? (
                             <Link shallow href={n.link}>
-                              <a>{n.title}</a>
+                              <a onClick={() => openMenu(false)}>{n.title}</a>
                             </Link>
                           ) : (
                             <BccLink href={n.link}>
@@ -940,21 +947,21 @@ const Navigation = (props: NavigationProps) => {
                         className={classes.subMenu}
                         style={{
                           borderBottom:
-                            ii === subMenuIndex ? "none" : "1px solid #F3F3F3",
+                            ii === menuIndex ? "none" : "1px solid #F3F3F3",
                         }}
                         alignItems="center"
                         wrap="nowrap"
                         onClick={() =>
-                          subMenuIndex === ii
-                            ? setSubMenuIndex(-1)
-                            : setSubMenuIndex(ii)
+                          menuIndex === ii
+                            ? setMenuIndex(-1)
+                            : setMenuIndex(ii)
                         }
                       >
                         <Grid item>
                           <BccTypography type="h6" block>
                             {!nn.isexternal ? (
                               <Link shallow href={nn.link}>
-                                <a>{nn.title}</a>
+                                <a onClick={() => openMenu(false)}>{nn.title}</a>
                               </Link>
                             ) : (
                               <BccLink href={nn.link}>
@@ -967,15 +974,15 @@ const Navigation = (props: NavigationProps) => {
                           {nn.isdropdown && (
                             <img
                               src={`/img/menu-arrow${
-                                ii === subMenuIndex ? "-open" : ""
+                                ii === menuIndex ? "-open" : ""
                               }.svg`}
                             />
                           )}
                         </Grid>
                       </Grid>
-                      {ii === subMenuIndex &&
+                      {ii === menuIndex &&
                         getSubmenu().inverseParentHeadNavigation[
-                          subMenuIndex
+                          menuIndex
                         ].inverseParentHeadNavigation.map(
                           (subSubMenu: any, ssmi: number) => {
                             return (
@@ -986,11 +993,11 @@ const Navigation = (props: NavigationProps) => {
                                   className={classes.subSubMenu}
                                   style={{
                                     borderBottom:
-                                      ii === subMenuIndex &&
+                                      ii === menuIndex &&
                                       ssmi ===
                                         getSubmenu()
                                           .inverseParentHeadNavigation[
-                                          subMenuIndex
+                                          menuIndex
                                         ].inverseParentHeadNavigation.length -
                                           1
                                         ? "1px solid #F3F3F3"
@@ -1006,7 +1013,7 @@ const Navigation = (props: NavigationProps) => {
                                     >
                                       {!subSubMenu.isexternal ? (
                                         <Link shallow href={subSubMenu.link}>
-                                          <a>{subSubMenu.title}</a>
+                                        <a onClick={() => openMenu(false)}>{subSubMenu.title}</a>
                                         </Link>
                                       ) : (
                                         <BccLink
@@ -1023,7 +1030,7 @@ const Navigation = (props: NavigationProps) => {
                                           return (
                                             <div
                                               onClick={() =>
-                                                setSubSubSubMenuIndex(index)
+                                                setSubMenuIndex(index)
                                               }
                                             >
                                               <BccTypography
@@ -1044,7 +1051,7 @@ const Navigation = (props: NavigationProps) => {
                                                   <Link
                                                     href={subSubSubMenu.link}
                                                   >
-                                                    <a>{subSubSubMenu.title}</a>
+                                                  <a onClick={() => openMenu(false)}>{subSubSubMenu.title}</a>
                                                   </Link>
                                                 ) : (
                                                   <BccLink
@@ -1065,7 +1072,7 @@ const Navigation = (props: NavigationProps) => {
                                                         process.env.PUBLIC_URL +
                                                         `/img/submenu-arrow${
                                                           index ===
-                                                          subSubSubMenuIndex
+                                                          subMenuIndex
                                                             ? "-open"
                                                             : ""
                                                         }.svg`
@@ -1073,7 +1080,7 @@ const Navigation = (props: NavigationProps) => {
                                                     />
                                                   )}
                                               </BccTypography>
-                                              {subSubSubMenuIndex === index &&
+                                              {subMenuIndex === index &&
                                                 subSubSubMenu.inverseParentHeadNavigation.map(
                                                   (
                                                     sssn: any,
@@ -1104,7 +1111,7 @@ const Navigation = (props: NavigationProps) => {
                                                           <Link
                                                             href={sssn.link}
                                                           >
-                                                            <a>{sssn.title}</a>
+                                                          <a onClick={() => openMenu(false)}>{sssn.title}</a>
                                                           </Link>
                                                         ) : (
                                                           <BccLink
@@ -1121,35 +1128,6 @@ const Navigation = (props: NavigationProps) => {
                                           );
                                         }
                                       )}
-
-                                    {nn.link === "/crediting" &&
-                                    ssmi ===
-                                      getSubmenu().inverseParentHeadNavigation[
-                                        subMenuIndex
-                                      ].inverseParentHeadNavigation.length -
-                                        1 ? (
-                                      <div className={classes.creditCard}>
-                                        {/* <BccCard
-                                          title="Залоговый кредит"
-                                          btnText="Узнать больше"
-                                          variant="vertical"
-                                          fullImg
-                                          img="zalog.svg"
-                                          text={
-                                            <BccTypography
-                                              type="p4"
-                                              block
-                                              color="#4D565F"
-                                            >
-                                              Получите деньги под залог в тенге
-                                              или долларах США
-                                            </BccTypography>
-                                          }
-                                        /> */}
-                                      </div>
-                                    ) : (
-                                      <></>
-                                    )}
                                   </Grid>
                                 </Grid>
                               </>
@@ -1217,11 +1195,15 @@ const Navigation = (props: NavigationProps) => {
               >
                 Доступно в{" "}
                 <img
-                  style={{ marginLeft: 8, marginRight: 8 }}
+                  style={{ marginLeft: 8, marginRight: 8, cursor: 'pointer' }}
+                  onClick={() => window.open("https://apps.apple.com/kz/app/starbanking/id743617904", "_blank")}
                   src={"/img/as.svg"}
                   alt="Приложение BCC.kz в AppStore"
                 />
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img src={"/img/gp.svg"}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => window.open("https://play.google.com/store/apps/details?id=kz.bcc.starbanking&hl=ru", "_blank")}
+                   alt="Приложение BCC.kz в GooglePlay"/>
               </BccTypography>
               <BccTypography type="p1" mr="20px">
                 <BccLink

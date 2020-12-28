@@ -109,7 +109,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface FaqPageProps {
   faqs: FaqProps[];
-  
 }
 
 const FaqPage = (props: FaqPageProps) => {
@@ -196,7 +195,7 @@ const FaqPage = (props: FaqPageProps) => {
   );
 };
 
-FaqPage.getInitialState = async () => {
+FaqPage.getInitialProps = async () => {
   const faqs = await api.main.getFaq()
   return { faqs }
 }

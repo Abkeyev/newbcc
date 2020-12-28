@@ -154,7 +154,10 @@ const useStyles = makeStyles((theme: Theme) =>
             borderColor: '#ecf1f7',
             backgroundColor: '#ecf1f7',
             color: '#00A755'
-        }
+        },
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: 0
+        },
       },
       iron: {
           '&:hover': {

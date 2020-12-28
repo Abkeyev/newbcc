@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: "#FAFAFA",
       },
       zpMob: {
-        disaply: 'none'
+        display: 'none'
       },
       container: {
         maxWidth: 1280,
@@ -329,9 +329,9 @@ const data = [{
 
 const Calulator = () => {
   const classes = useStyles({});
-  const [sum, setSum] = React.useState(5000000);
+  const [sum, setSum] = React.useState("5000000");
   const [agree, setAgree] = React.useState(true);
-  const [period, setPeriod] = React.useState(0);
+  const [period, setPeriod] = React.useState("0");
   function calculateRate(period: number) {
     const rate = data.filter(d => d.period === period).splice(0, 1)
     return (rate[0] && rate[0].percent && rate[0].percentZP) ? (agree ? rate[0].percentZP : rate[0].percent) : 0
@@ -354,16 +354,20 @@ const Calulator = () => {
               <BccInput
                 label="Выберите сумму"
                 key="sum"
-                value={sum + " ₸"}
+                value={`${sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${sum !== "" ? " ₸" : ""}`}
                 variant="filled"
                 InputLabelProps={{
                   shrink: true,
                 }}
-                onChange={(e: any) =>
-                  +e.target.value.slice(0, -2) > 7000000
-                    ? setSum(7000000)
-                    : setSum(e.target.value.slice(0, -2))
-                }
+                onChange={(e: any) =>{
+                  const s = +e.target.value.replace(
+                    /[^0-9]/g,
+                    ""
+                  );
+                  if (s > 7000000) setSum("7000000")
+                  else setSum(s.toString())
+                }}
+                onFocus={() => setSum("")}
                 className={classes.input}
               />
               <BccSlider
@@ -397,16 +401,20 @@ const Calulator = () => {
               <BccInput
                 label="Выберите срок"
                 key="period"
-                value={period + " мес."}
+                value={`${period}${period !== "" ? " мес." : ""}`}
                 variant="filled"
                 InputLabelProps={{
                   shrink: true,
                 }}
-                onChange={(e: any) =>
-                  +e.target.value.slice(0, -5) > 48
-                    ? setPeriod(48)
-                    : setPeriod(+e.target.value.slice(0, -5))
-                }
+                onChange={(e: any) => {
+                  const s = +e.target.value.replace(
+                    /[^0-9]/g,
+                    ""
+                  );
+                  if (s > 60) setPeriod('60')
+                  else setPeriod(s.toString())
+                }}
+                onFocus={() => setPeriod("")}
                 className={classes.input}
               />
               <BccSlider
@@ -467,7 +475,7 @@ const Calulator = () => {
                 Ежемесячный платёж
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
-                {period && sum ? `~ ${Math.round((((calculateRate(period) * sum) / 100) + sum) / period)}` : 0} ₸
+                {period && sum ? `~ ${Math.round((((calculateRate(+period) * +sum) / 100) + +sum) / +period)}` : 0} ₸
               </BccTypography>
             </Grid>
             <Grid item>
@@ -475,7 +483,7 @@ const Calulator = () => {
                 Ставка
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
-              {calculateRate(period)}%
+              {calculateRate(+period)}%
               </BccTypography>
             </Grid>
           </Grid>

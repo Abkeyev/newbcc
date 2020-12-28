@@ -366,12 +366,14 @@ const Footer = (props: FooterPageProps) => {
               </Grid>
               <Grid item className={classes.appLinks}>
                 <a
-                  href="https://apps.apple.com/kz/app/starbusiness/id1452748006"
+                  href="https://apps.apple.com/kz/app/starbanking/id743617904"
+                  target="_blank"
                 >
                   <img src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore" />
                 </a>
                 <a
-                  href="https://play.google.com/store/apps/details?id=bcc.sapphire&hl=ru"
+                  href="https://play.google.com/store/apps/details?id=kz.bcc.starbanking&hl=ru"
+                  target="_blank"
                 >
                   <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
                 </a>

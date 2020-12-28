@@ -176,7 +176,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     [theme.breakpoints.down("xs")]: {},
     link: {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      '& > img': {
+        marginRight: 8
+      }
     }
   })
 );
@@ -237,7 +242,7 @@ const TarifsPage = (props: TarifsPageProps) => {
                               mt="4px"
                               mb="12px"
                             >
-                              {new Date(n.updateDate).toLocaleString().substring(0, 17).replace(/,/, '') }
+                              Обновлено: {new Date(n.updateDate).toLocaleString().substring(0, 17).replace(/,/, '') }
                             </BccTypography>
                             <BccTypography
                               type="p2"
@@ -247,7 +252,7 @@ const TarifsPage = (props: TarifsPageProps) => {
                               className={classes.link}
                               onClick={() => window.open(`${fileURL}${encodeURIComponent(n.fileName)}`, '_blank')}
                             >
-                              {n.title}
+                              <img src="/img/pdf_w.svg" alt="pdf" />{n.title}
                             </BccTypography>
                           </BccTableCell>
                         </BccTableRow>
