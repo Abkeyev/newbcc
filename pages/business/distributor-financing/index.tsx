@@ -15,7 +15,7 @@ interface DistributorFinancingPageProps {
 const DistributorFinancingPage = (props: DistributorFinancingPageProps) => {
   const { slider, benefits, tabs, order } = props
   return (
-    <Layout title="Финансирование" >
+    <Layout title="Финансирование">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />

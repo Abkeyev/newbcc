@@ -154,14 +154,14 @@ const FaqPage = (props: FaqPageProps) => {
                 faqs[faqCategory].subcategories.map((f: FaqCatProps) => (
                   <BccCollapsePanel>
                     <BccCollapseTitle expandIcon={<ExpandMoreIcon />}>
-                      <BccTypography type="p2">{f.name}</BccTypography>
+                      <BccTypography type="p1">{f.name}</BccTypography>
                     </BccCollapseTitle>
                     <BccCollapseDetails style={{ display: 'block' }}>
                     {f.faqs.length > 0 &&
                     f.faqs.map((f: FaqsProps) => (
                       <BccCollapsePanel>
                         <BccCollapseTitle expandIcon={<ExpandMoreIcon />}>
-                          <BccTypography type="p2">{f.question}</BccTypography>
+                          <BccTypography type="p1">{f.question}</BccTypography>
                         </BccCollapseTitle>
                         <BccCollapseDetails>
                           <BccTypography type="p2">
@@ -177,7 +177,7 @@ const FaqPage = (props: FaqPageProps) => {
                 faqs[faqCategory].faqs.length > 0 && faqs[faqCategory].faqs.map((f: FaqsProps) => (
                   <BccCollapsePanel>
                         <BccCollapseTitle expandIcon={<ExpandMoreIcon />}>
-                          <BccTypography type="p2">{f.question}</BccTypography>
+                          <BccTypography type="p1">{f.question}</BccTypography>
                         </BccCollapseTitle>
                         <BccCollapseDetails>
                           <BccTypography type="p2">
