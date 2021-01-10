@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
         "& button > span > a": { padding: 0 },
       },
       innerSubContainerContent: {
-        minHeight: 325,
         position: "absolute",
         transition: "all .3s ease",
         backgroundColor: "white",
@@ -44,15 +43,16 @@ const useStyles = makeStyles((theme: Theme) =>
           boxSizing: "border-box",
           padding: "32px 48px",
           "& > div:first-child": {
-            width: "calc(100% - 300px)",
+            width: "100%",
             flexWrap: 'wrap',
-            height: 230,
+            flexDirection: 'row',
             '& > div': {
-              width: '40%'
+              width: '30%',
+              marginRight: '5%'
+            },
+            '& > div:nth-child(3n)': {
+              marginRight: '0'
             }
-          },
-          "& > div:last-child": {
-            width: "300px",
           },
         },
       },
@@ -144,7 +144,6 @@ const useStyles = makeStyles((theme: Theme) =>
         "& button > span > a": { padding: 0 },
       },
       innerSubContainerContent: {
-        minHeight: 325,
         position: "absolute",
         transition: "all .3s ease",
         backgroundColor: "white",
@@ -753,89 +752,6 @@ const Navigation = (props: NavigationProps) => {
                     </Grid>
                   );
                 })}
-            </Grid>
-            <Grid item>
-
-            {getSubmenu().inverseParentHeadNavigation[menuIndex] &&
-              getSubmenu().inverseParentHeadNavigation[menuIndex].title === "Карты" ? (
-              <Grid item className={classes.creditCard}>
-                <img src={"/img/travel-card.png"} />
-                <BccTypography
-                  type="p2"
-                  mb="8px"
-                  mt="16px"
-                  weight="medium"
-                  block
-                >
-                  #Travelcard
-                </BccTypography>
-                <BccTypography type="p4" color="#4D565F" mb="4px" block>
-                  - 7% кэшбек за авиа и ж/д билеты
-                </BccTypography>
-                <BccTypography type="p4" color="#4D565F" mb="16px" block>
-                  - Преимущества Visa Signature
-                </BccTypography>
-                <BccButton variant="outlined" color="secondary">
-                  <BccLink
-                    href="https://www.bcc.kz/travelcard/"
-                  >
-                    Узнать больше
-                  </BccLink>
-                </BccButton>
-              </Grid>
-            ) : getSubmenu().inverseParentHeadNavigation[menuIndex] &&
-              getSubmenu().inverseParentHeadNavigation[menuIndex].title ===
-                "Кредиты" ? (
-                <Grid item className={classes.creditCard}>
-                  <img src={"/img/zalog.png"} />
-                  <BccTypography
-                    type="p2"
-                    mb="8px"
-                    mt="16px"
-                    weight="medium"
-                    block
-                  >
-                    Простой под залог
-                  </BccTypography>
-                  <BccTypography type="p4" color="#4D565F" mb="16px" block>
-                    Получите деньги под залог в тенге или долларах США
-                  </BccTypography>
-                  <BccButton variant="outlined" color="secondary">
-                    <BccLink
-                      href="https://www.bcc.kz/product/security-loan/"
-                    >
-                      Узнать больше
-                    </BccLink>
-                  </BccButton>
-                </Grid>
-              ) : getSubmenu().inverseParentHeadNavigation[menuIndex] &&
-                getSubmenu().inverseParentHeadNavigation[menuIndex].title ===
-                  "Ипотека" ? (
-                <Grid item className={classes.creditCard}>
-                  <img src={"/img/zalog2.png"} />
-                  <BccTypography
-                    type="p2"
-                    mb="8px"
-                    mt="16px"
-                    weight="medium"
-                    block
-                  >
-                    7-20-25
-                  </BccTypography>
-                  <BccTypography type="p4" color="#4D565F" mb="16px" block>
-                    Покупка первичного жилья в Казахстане
-                  </BccTypography>
-                  <BccButton variant="outlined" color="secondary">
-                    <BccLink
-                      href="/mortgage/7-20-25"
-                    >
-                      Узнать больше
-                    </BccLink>
-                  </BccButton>
-                </Grid>
-              ) : (
-                ""
-              )}
             </Grid>
           </Grid>
       </div>
