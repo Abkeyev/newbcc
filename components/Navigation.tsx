@@ -47,11 +47,11 @@ const useStyles = makeStyles((theme: Theme) =>
             flexWrap: 'wrap',
             flexDirection: 'row',
             '& > div': {
-              width: '30%',
+              width: '20%',
               marginRight: '5%'
             },
             '& > div:nth-child(3n)': {
-              marginRight: '0'
+              marginRight: '30%'
             }
           },
         },

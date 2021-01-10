@@ -1,10 +1,8 @@
 import Layout from "../../components/Layout";
 import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { Grid, MenuItem } from "@material-ui/core";
 import {
   BccTypography,
-  BccInput,
   BccChip,
   BccTable,
   BccTableContainer,
@@ -14,6 +12,8 @@ import {
   BccTableBody,
   BccCardFull,
 } from "../../components/BccComponents";
+import { CurrencyProps } from '../../interfaces';
+import api from "../../api/Api";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       contents: {
         position: "relative",
         margin: "0 auto 64px",
-        padding: "80px 48px 0",
+        padding: "48px 48px 0",
         maxWidth: 1280,
         boxSizing: "border-box",
       },
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       chip: {
         width: "maxContent",
-        overflow: "scroll",
+        overflow: "hidden",
         flexWrap: "nowrap",
         display: "flex",
       },
@@ -118,12 +118,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const currencies = ["Доллар США", "Тенге", "Евро", "Рубль"];
+interface CurrencyPageProps {
+  currency: CurrencyProps[];
+}
 
-const CurrencyPage = () => {
+const CurrencyPage = (props: CurrencyPageProps) => {
+  const { currency } = props
   const classes = useStyles({});
-  const [cur1, setCur1] = React.useState("");
-  const [cur2, setCur2] = React.useState("");
+  const [isGold, setGold] = React.useState<boolean>(false)
+  
+  const formatDate = (date: string): string => {
+    const dateArr = date.substr(0,16).split(' ')
+    const dateArr2 = dateArr[0].split('-')
+    return `на ${dateArr2[2]}.${dateArr2[1]}.${dateArr2[0]} ${dateArr[1]}`
+  }
 
   return (
     <Layout title="Курсы валют" >
@@ -137,88 +145,17 @@ const CurrencyPage = () => {
               type="p1"
               block
               className={classes.date}
-              mb="64px"
+              mb="32px"
               color="#4D565F"
             >
-              на 18.03.2020
-            </BccTypography>
-            <Grid
-              container
-              justify="flex-start"
-              wrap="nowrap"
-              alignItems="center"
-              className={classes.cur}
-            >
-              <Grid item>
-                <BccInput
-                  fullWidth={true}
-                  label="Выберите валюту"
-                  id="cur1"
-                  name="cur1"
-                  value={cur1}
-                  onChange={(e: any) => setCur1(e.target.value)}
-                  variant="outlined"
-                  className={classes.input}
-                  margin="normal"
-                  select
-                >
-                  {currencies.map((c: string) => {
-                    return (
-                      c !== null && (
-                        <MenuItem key={c} value={c}>
-                          {c}
-                        </MenuItem>
-                      )
-                    );
-                  })}
-                </BccInput>
-              </Grid>
-              <Grid item className={classes.swap}>
-                <img src={"/img/swap.svg"} />
-              </Grid>
-              <Grid item>
-                <BccInput
-                  fullWidth={true}
-                  label="Выберите валюту"
-                  id="cur12"
-                  name="cur2"
-                  value={cur2}
-                  onChange={(e: any) => setCur2(e.target.value)}
-                  variant="outlined"
-                  className={classes.input}
-                  margin="normal"
-                  select
-                >
-                  {currencies.map((c: string) => {
-                    return (
-                      c !== null && (
-                        <MenuItem key={c} value={c}>
-                          {c}
-                        </MenuItem>
-                      )
-                    );
-                  })}
-                </BccInput>
-              </Grid>
-            </Grid>
-            <BccTypography
-              className={classes.ttle}
-              type="h2"
-              block
-              mt="72px"
-              mb="20px"
-            >
-              Курсы конвертации
+              {currency && currency.length > 0 && currency[0] && currency[5] && formatDate(isGold ? currency[0].dateTime : currency[5].dateTime)}
             </BccTypography>
             <div className={classes.chip}>
-              <BccChip type="contained" color="secondary" mr="16px">
-                По наличной валюте
+              <BccChip onClick={() => setGold(false)} type={!isGold ? "contained" : "outlined"} color="secondary" mr="16px">
+                Валюты
               </BccChip>
-              <BccChip type="outlined" color="secondary" mr="16px">
-                По безналичной валюте
-              </BccChip>
-              <BccChip type="outlined" color="secondary">
-                По платежным картам
+              <BccChip onClick={() => setGold(true)} type={isGold ? "contained" : "outlined"} color="secondary" mr="16px">
+                Золото
               </BccChip>
             </div>
             <BccTableContainer className={classes.tableOuter}>
@@ -232,10 +169,7 @@ const CurrencyPage = () => {
                         align="right"
                         weight="medium"
                       >
-                        Градации,{" "}
-                        <BccTypography type="p2" color="#B3B6BA">
-                          $
-                        </BccTypography>
+                        {isGold ? "Вес" : "Валюта"}
                       </BccTypography>
                     </BccTableCell>
                     <BccTableCell>
@@ -260,109 +194,87 @@ const CurrencyPage = () => {
                     </BccTableCell>
                   </BccTableRow>
                 </BccTableHead>
-                <BccTableBody>
-                  <BccTableRow>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        до 10 000
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        440
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        444
-                      </BccTypography>
-                    </BccTableCell>
-                  </BccTableRow>
-                  <BccTableRow>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        до 10 000
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        440
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        444
-                      </BccTypography>
-                    </BccTableCell>
-                  </BccTableRow>
-                  <BccTableRow>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        до 10 000
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        440
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        444
-                      </BccTypography>
-                    </BccTableCell>
-                  </BccTableRow>
-                  <BccTableRow>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        до 10 000
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        440
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        444
-                      </BccTypography>
-                    </BccTableCell>
-                  </BccTableRow>
-                  <BccTableRow>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        до 10 000
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        440
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        444
-                      </BccTypography>
-                    </BccTableCell>
-                  </BccTableRow>
-                  <BccTableRow>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        до 10 000
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        440
-                      </BccTypography>
-                    </BccTableCell>
-                    <BccTableCell>
-                      <BccTypography type="p2" align="right" block>
-                        444
-                      </BccTypography>
-                    </BccTableCell>
-                  </BccTableRow>
+                <BccTableBody>{
+                    isGold ? (
+                      <>
+                        {
+                          currency && currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps, index: number) => (
+                            <BccTableRow>
+                              <BccTableCell>
+                                <BccTypography type="p2" align="right" block>
+                                {index === 0 ? 1 : index === 1 ? 2 : index === 2 ? 4 : index === 3 ? 10 : index === 4 ? 20 : 0} грамм
+                                </BccTypography>
+                              </BccTableCell>
+                              <BccTableCell>
+                                <BccTypography type="p2" align="right" block>
+                                  {c.purchase.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+                                </BccTypography>
+                              </BccTableCell>
+                              <BccTableCell>
+                                <BccTypography type="p2" align="right" block>
+                                  {c.sell.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+                                </BccTypography>
+                              </BccTableCell>
+                            </BccTableRow>
+                          ))
+                        }
+                      </>
+                    ) : (
+                      <>
+                      <BccTableRow>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          USD
+                          </BccTypography>
+                        </BccTableCell>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.purchase}
+                          </BccTypography>
+                        </BccTableCell>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.sell}
+                          </BccTypography>
+                        </BccTableCell>
+                      </BccTableRow>
+                      <BccTableRow>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          EUR
+                          </BccTypography>
+                        </BccTableCell>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.purchase}
+                          </BccTypography>
+                        </BccTableCell>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "EUR"))?.sell}
+                          </BccTypography>
+                        </BccTableCell>
+                      </BccTableRow>
+                      <BccTableRow>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          RUB
+                          </BccTypography>
+                        </BccTableCell>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.purchase}
+                          </BccTypography>
+                        </BccTableCell>
+                        <BccTableCell>
+                          <BccTypography type="p2" align="right" block>
+                          {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "RUB"))?.sell}
+                          </BccTypography>
+                        </BccTableCell>
+                      </BccTableRow>
+                      </>
+                      )
+                  }
                 </BccTableBody>
               </BccTable>
             </BccTableContainer>
@@ -394,5 +306,13 @@ const CurrencyPage = () => {
     </Layout>
   );
 };
+
+CurrencyPage.getInitialProps = async () => {
+  const c = await api.main.getToken()
+  const cc = await api.main.getCurrency(c.access_token)
+  const currency = cc && cc.Rates
+  
+  return { currency }
+}
 
 export default CurrencyPage;
