@@ -268,20 +268,20 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={calc[0].sumMin}
-                    max={calc[0].sumMax}
+                    min={calc[0] && calc[0].sumMin}
+                    max={calc[0] && calc[0].sumMax}
                     step={500000}
                     value={+hSum}
                     valueLabelDisplay="off"
-                    defaultValue={calc[0].sumDefault}
+                    defaultValue={calc[0] && calc[0].sumDefault}
                     onChange={(e: any, val: any) => {
                       console.log(e);
                       setHSum(val instanceof Array ? val[1] : val);
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>{calc[0].sumMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
-                    <span>{calc[0].sumMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].sumMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].sumMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -315,20 +315,20 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={calc[0].firstPayMin}
-                    max={calc[0].firstPayMax}
+                    min={calc[0] && calc[0].firstPayMin}
+                    max={calc[0] && calc[0].firstPayMax}
                     step={50000}
                     value={+sum}
                     valueLabelDisplay="off"
-                    defaultValue={calc[0].firstPayDefault}
+                    defaultValue={calc[0] && calc[0].firstPayDefault}
                     onChange={(e: any, val: any) => {
                       console.log(e);
                       setSum(val instanceof Array ? val[1] : val);
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>{calc[0].firstPayMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
-                    <span>{calc[0].firstPayMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].firstPayMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].firstPayMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -362,20 +362,20 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={calc[0].periodMin}
-                    max={calc[0].periodMax}
+                    min={calc[0] && calc[0].periodMin}
+                    max={calc[0] && calc[0].periodMax}
                     step={1}
                     value={+period}
                     valueLabelDisplay="off"
-                    defaultValue={calc[0].periodDefault}
+                    defaultValue={calc[0] && calc[0].periodDefault}
                     onChange={(e: any, val: any) => {
                       console.log(e);
                       setPeriod(val instanceof Array ? val[1] : val);
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>{calc[0].periodMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
-                    <span>{calc[0].periodMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].periodMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].periodMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -407,7 +407,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
                     Ствка
                   </BccTypography>
                   <BccTypography type="p3" weight="medium" block>
-                    {calc[0].rate}%
+                    {calc[0] && calc[0].rate}%
                   </BccTypography>
                 </Grid>
               </Grid>

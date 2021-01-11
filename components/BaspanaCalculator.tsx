@@ -268,8 +268,8 @@ const BaspanaCalculator = (props: BaspanaCalculatorProps) => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={calc[0].sumMin}
-                    max={calc[0].sumMax}
+                    min={calc[0] && calc[0].sumMin}
+                    max={calc[0] && calc[0].sumMax}
                     step={500000}
                     value={+hSum}
                     valueLabelDisplay="off"
@@ -280,8 +280,8 @@ const BaspanaCalculator = (props: BaspanaCalculatorProps) => {
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>{calc[0].sumMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
-                    <span>{calc[0].sumMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].sumMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].sumMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -315,8 +315,8 @@ const BaspanaCalculator = (props: BaspanaCalculatorProps) => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={calc[0].firstPayMin}
-                    max={calc[0].firstPayMax}
+                    min={calc[0] && calc[0].firstPayMin}
+                    max={calc[0] && calc[0].firstPayMax}
                     step={50000}
                     value={+sum}
                     valueLabelDisplay="off"
@@ -327,8 +327,8 @@ const BaspanaCalculator = (props: BaspanaCalculatorProps) => {
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>{calc[0].firstPayMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
-                    <span>{calc[0].firstPayMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].firstPayMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].firstPayMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -362,8 +362,8 @@ const BaspanaCalculator = (props: BaspanaCalculatorProps) => {
                       padding: 0,
                       position: "absolute",
                     }}
-                    min={calc[0].periodMin}
-                    max={calc[0].periodMax}
+                    min={calc[0] && calc[0].periodMin}
+                    max={calc[0] && calc[0].periodMax}
                     step={1}
                     value={+period}
                     valueLabelDisplay="off"
@@ -374,8 +374,8 @@ const BaspanaCalculator = (props: BaspanaCalculatorProps) => {
                     }}
                   />
                   <div className={classes.sliderRange}>
-                    <span>{calc[0].periodMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
-                    <span>{calc[0].periodMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].periodMin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
+                    <span>{calc[0] && calc[0].periodMax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</span>
                   </div>
                 </div>
               </div>
@@ -402,7 +402,7 @@ const BaspanaCalculator = (props: BaspanaCalculatorProps) => {
                     Ствка
                   </BccTypography>
                   <BccTypography type="p3" weight="medium" block>
-                    {calc[0].rate}
+                    {calc[0] && calc[0].rate}
                   </BccTypography>
                 </Grid>
               </Grid>
