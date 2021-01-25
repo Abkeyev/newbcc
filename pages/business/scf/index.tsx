@@ -1,23 +1,25 @@
 import React from "react";
 import Layout from "../../../components/Layout";
-import { Slider, Order, Tabs } from "../../../components";
+import { Slider, Benefits, Order, Tabs } from "../../../components";
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
-import { SliderProps, OrderProps, TabsProps } from "../../../interfaces";
+import { SliderProps, OrderProps, TabsProps, BenefitsProps } from "../../../interfaces";
 
 interface ScfPageProps {
   slider: SliderProps[];
+  benefits: BenefitsProps[];
   order: OrderProps[];
   tabs: TabsProps[];
 }
 
 const ScfPage = (props: ScfPageProps) => {
-  const { slider, order, tabs } = props
+  const { slider, benefits, order, tabs } = props
   return (
     <Layout title="Финансирование цепочки поставок">
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
+          <Benefits benefits={benefits} />
           <Order order={order}/>
           <Tabs tabs={tabs} />
         </div>
@@ -31,10 +33,11 @@ ScfPage.getInitialProps = async (ctx: NextPageContext) => {
   path = path.split('/')
   path = '/' + path[path.length - 1]
   const slider = await api.main.getSlider(path)
+  const benefits = await api.main.getBenefits(path)
   const order = await api.main.getOrder(path)
   const tabs = await api.main.getTabs(path)
   
-  return { slider, order, tabs }
+  return { slider, benefits, order, tabs }
 }
 
 export default ScfPage;
