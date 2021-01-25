@@ -98,6 +98,7 @@ export interface BenefitsProps {
   id: number;
   color: string;
   title: string;
+  align?: 'left' | 'right' | 'center';
   benefitItems: BenefitItemProps[];
 }
 
@@ -118,6 +119,7 @@ export interface SlideProps {
   content: string;
   disabled: boolean;
   image: string;
+  imgLocal: boolean;
   subtitle: string;
   title: string;
   isFull: boolean;

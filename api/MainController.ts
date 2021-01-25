@@ -80,7 +80,7 @@ export class MainController {
   }
   async getBranches(type: 'atms' | 'branches'): Promise<any> {
     return server.get(`/${type}?client_id=3e7434c4-c80b-4c15-b288-438e10f1545a`, {
-      baseURL: "https://api-test.bcc.kz/bcc/production/open-banking/v1.0",
+      baseURL: "https://api.bcc.kz/bcc/production/open-banking/v1.0",
     });
   }
   async getToken(): Promise<any> {

@@ -158,7 +158,7 @@ const Featured = (props: FeaturedProps) => {
                 title={card.card.title}
                 btn={card.buttons}
                 variant={card.card.cardType}
-                img={`${imgURL}${encodeURIComponent(card.card.image)}`}
+                img={card.card.image.startsWith('/img/') ? card.card.image : `${imgURL}${encodeURIComponent(card.card.image)}`}
                 chips={card.chips}
                 text={card.card.content}
               />
@@ -177,7 +177,7 @@ const Featured = (props: FeaturedProps) => {
                 title={card.card.title}
                 btn={card.buttons}
                 variant={card.card.cardType}
-                img={`${imgURL}${encodeURIComponent(card.card.image)}`}
+                img={card.card.image.startsWith('/img/') ? card.card.image : `${imgURL}${encodeURIComponent(card.card.image)}`}
                 chips={card.chips}
                 text={card.card.content}
               />

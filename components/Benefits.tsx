@@ -158,7 +158,7 @@ const Benefits = (props: BenefitsComponentProps) => {
       <div style={{ backgroundColor: b.color }}>
       <div className={classes.innerContainer}>
         {b.title !== "" && (
-          <BccTypography type="h2" block mb="46px">
+          <BccTypography type="h2" block mb="46px" align={b.align}>
             {b.title}
           </BccTypography>
         )}
@@ -179,11 +179,11 @@ const Benefits = (props: BenefitsComponentProps) => {
             >
               {i.image && (
                 <Grid item>
-                  <img src={imgURL + encodeURIComponent(i.image)} />
+                  <img src={i.image.startsWith('/img/') ? i.image : imgURL + encodeURIComponent(i.image)} />
                 </Grid>
               )}
               <Grid item>
-                <BccTypography type="h4" block>
+                <BccTypography type="h5" block>
                   {i.title}
                 </BccTypography>
                 {i.image !== "" && (

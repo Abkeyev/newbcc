@@ -354,8 +354,16 @@ const Slider = (props: SliderPageProps) => {
       }
     }else{
       if(slider[slideIndex].slider.isFull) {
-        bgStyle = {
-          background: `url(${imgURL}${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat ${slider[slideIndex].slider.backgroundColor}`,
+        if(slider[slideIndex].slider.imgLocal) {
+          bgStyle = {
+            background: `url(${slider[slideIndex].slider.image}) no-repeat ${slider[slideIndex].slider.backgroundColor}`,
+            backgroundSize: 'contain!important',
+            backgroundPositionX: 'right'
+          }
+        }else {
+          bgStyle = {
+            background: `url(${imgURL}${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat ${slider[slideIndex].slider.backgroundColor}`,
+          }
         }
       }else {
         bgStyle = {
