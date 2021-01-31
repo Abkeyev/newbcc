@@ -83,8 +83,10 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: 40,
       },
       item: {
-        flexWrap: 'nowrap',
-        overflowX: 'scroll',
+        flexWrap: 'wrap',
+        '& > div:nth-child(2n)': {
+          marginRight: 0,
+        },
         "& > div": {
           background: "#FFFFFF",
           width: "calc(33.33% - 12px)",

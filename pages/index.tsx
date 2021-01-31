@@ -55,11 +55,11 @@ const IndexPage = (props: IndexPageProps) => {
 };
 
 IndexPage.getInitialProps = async (ctx: NextPageContext) => {
-  const cards = await api.main.getCards(ctx.pathname)
-  const slider = await api.main.getSlider(ctx.pathname)
+  const cards = await api.main.getCards(ctx.pathname).catch((err) => console.error(err))
+  const slider = await api.main.getSlider(ctx.pathname).catch((err) => console.error(err))
   const c = await api.main.getToken()
   const currency = await api.main.getCurrency(c.access_token)
-  const news = await api.main.getNewsShort()
+  const news = await api.main.getNewsShort().catch((err) => console.error(err))
   
   return { cards, slider, currency, news }
 }

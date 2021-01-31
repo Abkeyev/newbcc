@@ -162,7 +162,7 @@ const BccCard = (props: BccCardProps) => {
           {title}
         </BccTypography>
         <BccTypography
-          type="h5"
+          type="p2"
           block
           className={
             variant === "horizontal" ? classes.horizontalText : classes.text

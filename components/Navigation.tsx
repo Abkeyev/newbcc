@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
         boxSizing: "border-box",
       },
       logo: {
-        maxWidth: 170,
+        maxWidth: 120,
         position: "relative",
         bottom: -2,
         marginRight: 32,
@@ -178,13 +178,10 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: "white",
       },
       logo: {
-        maxWidth: 170,
+        maxWidth: 120,
         position: "relative",
         bottom: -2,
         marginRight: 20,
-        ["@media (max-width:1060px)"]: {
-          maxWidth: 150,
-        },
       },
       tab: {
         position: "relative",
@@ -248,6 +245,9 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.down("sm")]: {
       outerContainer: {
         display: "none",
+      },
+      logo: {
+        maxWidth: 120
       },
       select: {
         marginRight: 0,

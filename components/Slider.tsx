@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme: Theme) =>
     [theme.breakpoints.down("md")]: {
       outerContainer: {
         backgroundSize: "cover!important",
-        backgroundPositionX: "center!important",
+        backgroundPositionX: "center",
         paddingBottom: "20px"
       },
       mobileSliderImg: {
@@ -349,8 +349,14 @@ const Slider = (props: SliderPageProps) => {
   let bgSmallStyle = {}
   if(slider && slider[slideIndex]) {
     if(small){
-      bgSmallStyle = {
-        background: `url(${imgURL}${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat right center`,
+      if(slider[slideIndex].slider.imgLocal) {
+        bgSmallStyle = {
+          background: `url(${slider[slideIndex].slider.image}) no-repeat right center`,
+        }
+      }else {
+        bgSmallStyle = {
+          background: `url(${imgURL}${encodeURIComponent(slider[slideIndex].slider.image)}) no-repeat right center`,
+        }
       }
     }else{
       if(slider[slideIndex].slider.isFull) {
