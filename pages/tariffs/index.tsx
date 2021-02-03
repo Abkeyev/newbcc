@@ -262,8 +262,6 @@ const TarifsPage = (props: TarifsPageProps) => {
                 </BccTable>
               </BccTableContainer>
             </div>
-
-
           </div>
         </div>
       </div>

@@ -47,6 +47,7 @@ export interface TabProps {
   id: number;
   title: string;
   content: string;
+  files: FileProps[];
   image: string;
   link: string;
 }
