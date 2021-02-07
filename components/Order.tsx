@@ -292,7 +292,7 @@ const Order = (props: OrderPageProps) => {
     const path = router.asPath.split('?')
     if(path.length > 1 && path[1]) {
       if(mark){
-        return path[1].split('@')[1] ? path[1].split('@')[1] : path[1].split('@')[0]
+        return path[1].split('@')[1] ? path[1].split('@')[1] : "0"
       }else path[1].split('@')[0]
     }else return ""
   }
@@ -353,7 +353,7 @@ const Order = (props: OrderPageProps) => {
         },
         productCode: order[0] && order[0].productCode,
         secretSms: code,
-        markId: getUTM(true)?.startsWith('/') ? -1 : getUTM(true),
+        markId: getUTM(true) === "0" ? -1 : getUTM(true),
         params: getUTM()
       })
       .then(() => {

@@ -214,8 +214,10 @@ interface StandardAvailabilityProps {
 
 interface ATMProps {
   geolocation: GeographicCoordinatesProps;
-  atmId: number;
+  atmId: string;
+  branchId: string;
   type: string;
+  name: string;
   address: AddressProps;
   availability: StandardAvailabilityProps;
 }
@@ -230,7 +232,6 @@ const BranchesPage = (props: BranchesPageProps) => {
   branches = branches.Data && branches.Data
   atms = atms.Data && atms.Data
   const [index, setIndex] = React.useState<number>(0);
-  const [item, setItem] = React.useState<ATMProps | null>(null);
   const [city, setCity] = React.useState("Алматы")
   const [switchBtn, setSwitchBtn] = React.useState(true);
   const classes = useStyles({});
@@ -309,44 +310,30 @@ const BranchesPage = (props: BranchesPageProps) => {
                 controls: [],
                 center: city === 'Алматы' ? [43.2360659,76.893174] : city === 'Нур-Султан' ? [51.1480774,71.3393073] : [42.341926,69.5197658],
               }}
-              onClick={() => setItem(null)}
             >
               <FullscreenControl />
               <ZoomControl options={{ float: "right" }} />
               {(index === 0 && branches.length > 0 ? branches : atms as ATMProps[]).map((d: ATMProps) => (
                 <Placemark
                   geometry={[d.geolocation.geographicCoordinates.latitude, d.geolocation.geographicCoordinates.longitude]}
+                  modules={["geoObject.addon.hint"]}
+                  properties={{
+                    hintContent: `
+                      ${branches.length > 0 ? `<b>${d.name}</b><br/>` : `<b>${d.type } #${d.atmId}</b><br/>`}
+                      <i>${d.address.addressLine[0]}</i><br/>
+                      ${d.availability && d.availability && d.availability.standardAvailability && d.availability.standardAvailability.days ? 
+                        `<b>пн-пт:</b> ${d.availability.standardAvailability.days[0].openingTime ? d.availability.standardAvailability.days[0].openingTime.substr(0, 5) : ''}-${d.availability.standardAvailability.days[0].closingTime ? d.availability.standardAvailability.days[0].closingTime.substr(0, 5) : ''}<br/>
+                        <b>сб:</b> ${d.availability.standardAvailability.days[5].openingTime ? d.availability.standardAvailability.days[5].openingTime.substr(0, 5) : ''}-${d.availability.standardAvailability.days[5].closingTime ? d.availability.standardAvailability.days[5].closingTime.substr(0, 5) : ''}<br/>
+                        <b>вс:</b> ${d.availability.standardAvailability.days[6].openingTime ? d.availability.standardAvailability.days[6].openingTime.substr(0, 5) : ''}-${d.availability.standardAvailability.days[6].closingTime ? d.availability.standardAvailability.days[6].closingTime.substr(0, 5) : ''}` : ''}`,
+                    openHintOnHover: true
+                  }}
                   options={{
-                    iconImageHref:"/img/pin.png",
+                    iconImageHref: "/img/pin.png",
                     iconImageSize: [25, 39],
                     iconLayout: "default#image",
                   }}
-                  onClick={() => setItem(d)}
                 />
               ))}
-              {item !== null && (<div className={classes.info}>
-                <BccTypography type="h5" weight="bold" block mb="16px">
-                  {item.type} #{item.atmId}
-                </BccTypography>
-                <BccTypography type="p2" block mb="26px">
-                  {item.address.addressLine[0]}
-                </BccTypography>
-                {item.availability && item.availability && item.availability.standardAvailability && item.availability.standardAvailability.days && (
-                <Grid container>
-                  <Grid item><img src="/img/time.svg"/></Grid>
-                  <Grid item>
-                  <BccTypography type="p2" color="#4D565F" block ml="8px" mb="12px">
-                    пн-пт: {item.availability.standardAvailability.days[0].openingTime.substr(0, 5)}-{item.availability.standardAvailability.days[0].closingTime.substr(0, 5)}
-                    </BccTypography>
-                  <BccTypography type="p2" color="#4D565F" block ml="8px" mb="12px">
-                    сб: {item.availability.standardAvailability.days[5].openingTime.substr(0, 5)}-{item.availability.standardAvailability.days[5].closingTime.substr(0, 5)}<br/>
-                    </BccTypography>
-                  <BccTypography type="p2" color="#4D565F" block ml="8px" mb="12px">
-                    вс: {item.availability.standardAvailability.days[6].openingTime.substr(0, 5)}-{item.availability.standardAvailability.days[6].closingTime.substr(0, 5)}
-                  </BccTypography>
-                  </Grid>
-                </Grid>)}
-              </div>)}
               </Maps>
               </YMaps>
             </div>
