@@ -319,7 +319,7 @@ const BranchesPage = (props: BranchesPageProps) => {
                   modules={["geoObject.addon.hint"]}
                   properties={{
                     hintContent: `
-                      ${branches.length > 0 ? `<b>${d.name}</b><br/>` : `<b>${d.type } #${d.atmId}</b><br/>`}
+                      ${index === 0 ? `<b>${d.name}</b><br/>` : `<b>${d.type } #${d.atmId}</b><br/>`}
                       <i>${d.address.addressLine[0]}</i><br/>
                       ${d.availability && d.availability && d.availability.standardAvailability && d.availability.standardAvailability.days ? 
                         `<b>пн-пт:</b> ${d.availability.standardAvailability.days[0].openingTime ? d.availability.standardAvailability.days[0].openingTime.substr(0, 5) : ''}-${d.availability.standardAvailability.days[0].closingTime ? d.availability.standardAvailability.days[0].closingTime.substr(0, 5) : ''}<br/>
