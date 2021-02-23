@@ -293,7 +293,7 @@ const Order = (props: OrderPageProps) => {
     if(path.length > 1 && path[1]) {
       if(mark){
         return path[1].split('@')[1] ? path[1].split('@')[1] : "0"
-      }else path[1].split('@')[0]
+      }else return path[1].split('@')[0]
     }else return ""
   }
 
@@ -339,6 +339,7 @@ const Order = (props: OrderPageProps) => {
 
   const onSubmitOtp = () => {
     setLoading(true);
+
     ReactGA.event({
       category: order[0] && order[0].afterActionCategory,
       action: order[0] && order[0].afterActionAction,
@@ -353,7 +354,7 @@ const Order = (props: OrderPageProps) => {
         },
         productCode: order[0] && order[0].productCode,
         secretSms: code,
-        markId: getUTM(true) === "0" ? -1 : getUTM(true),
+        markId: getUTM(true) === "" ? -1 : getUTM(true),
         params: getUTM()
       })
       .then(() => {
