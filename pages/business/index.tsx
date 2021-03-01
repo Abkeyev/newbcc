@@ -4,6 +4,7 @@ import { Slider, Best, BusinessCards, News } from "../../components";
 import api from "../../api/Api";
 import { NextPageContext } from 'next';
 import { SliderProps, NewsProps, CardsPageProps, CardsFullProps } from "../../interfaces";
+import { useTranslation } from 'react-i18next';
 
 interface BusinessPageProps {
   slider: SliderProps[];
@@ -14,12 +15,13 @@ interface BusinessPageProps {
 
 const BusinessPage = (props: BusinessPageProps) => {
   const { slider, news, cards, cardsFull } = props
+  const { t } = useTranslation();
   return (
-    <Layout title="Бизнес клиентам" >
+    <Layout title={t('btitle')}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
-          <Best title="Лучшее от банка" cards={cards} />
+          <Best title={t('best')} cards={cards} />
           <BusinessCards cardsFull={cardsFull} />
           <News news={news} />
         </div>

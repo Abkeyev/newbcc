@@ -14,6 +14,7 @@ import {
 import { SliderProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
 import api from '../../../api/Api';
 import { NextPageContext } from 'next';
+import { useTranslation } from 'react-i18next';
 
 interface CarCreditPageProps {
   slider: SliderProps[];
@@ -25,14 +26,15 @@ interface CarCreditPageProps {
 
 const CarCreditPage = (props: CarCreditPageProps) => {
   const { slider, benefits, tabs, order } = props
+  const { t } = useTranslation();
   return (
-    <Layout title="Автокредитование" >
+    <Layout title={t('autocredit')}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider}  breadcrumbs={[
-            {title: "Частным лицам", link: "/", isExternal: false}, 
-            {title: "Кредиты", link: "/crediting", isExternal: false},
-            {title: "Автокредитование", link: null, isExternal: false}
+            {title: t('chl'), link: "/", isExternal: false}, 
+            {title: t('credits'), link: "/crediting", isExternal: false},
+            {title: t('autocredit'), link: null, isExternal: false}
           ]}/>
           <Benefits benefits={benefits} />
           <CarCreditCalculator />
@@ -40,7 +42,7 @@ const CarCreditPage = (props: CarCreditPageProps) => {
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -49,11 +51,10 @@ const CarCreditPage = (props: CarCreditPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

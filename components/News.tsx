@@ -10,6 +10,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import Link from "next/link";
 import { NewsProps } from "../interfaces";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -284,6 +285,7 @@ const News = (props: NewsPageProps) => {
   const { news } = props
   const classes = useStyles({});
   const [seleced, setSeleced] = React.useState<NewsProps | null>(null);
+  const { t } = useTranslation()
 
   const readMore = (item: any) => {
     document.body.style.overflowY = "hidden";
@@ -306,7 +308,7 @@ const News = (props: NewsPageProps) => {
         >
           <Grid item>
             <BccTypography type="h2" className={classes.title}>
-              Новости банка
+              {t('news')}
             </BccTypography>
           </Grid>
           <Grid item>
@@ -315,7 +317,7 @@ const News = (props: NewsPageProps) => {
               type="p1"
               className={classes.allNewsBtn}
             >
-              <Link href="/news">Все новости</Link>
+              <Link href="/news">{t('allnews')}</Link>
             </BccTypography>
           </Grid>
         </Grid>
@@ -343,7 +345,7 @@ const News = (props: NewsPageProps) => {
                 color="primary"
                 onClick={() => readMore(item)}
               >
-                Подробнее
+                {t('more')}
               </BccButton>
             </Grid>
           ))}

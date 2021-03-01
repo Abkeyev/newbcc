@@ -12,6 +12,11 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { MenuProps } from "../interfaces";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'universal-cookie';
+
+
+const cookies = new Cookies();
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -520,6 +525,7 @@ interface NavigationProps {
 
 const Navigation = (props: NavigationProps) => {
   let { nav } = props
+  const { t, i18n } = useTranslation();
   if(nav && nav.length === 0)
     nav = [{
         id: 0,
@@ -605,7 +611,7 @@ const Navigation = (props: NavigationProps) => {
                         <img
                           className={classes.logo}
                           src={"/img/logo.svg"}
-                          alt="Банк ЦентрКредит"
+                          alt={t('bcct')}
                         />
                       </a>
                     </Link>
@@ -638,7 +644,10 @@ const Navigation = (props: NavigationProps) => {
                   alignItems="center"
                 >
                   <Grid item>
-                    <Select className={classes.select} value="ru">
+                    <Select className={classes.select} value={i18n.language} onClick={(e: any) => {
+                      cookies.set('lang', e.target.value)
+                      i18n.changeLanguage(e.target.value)}
+                    }>
                       <MenuItem value="ru">РУС</MenuItem>
                       <MenuItem value="kz">ҚАЗ</MenuItem>
                       <MenuItem value="en">ENG</MenuItem>
@@ -646,7 +655,7 @@ const Navigation = (props: NavigationProps) => {
                   </Grid>
                   <Grid item>
                     <BccTypography className={classes.searchText} type="p2">
-                      Поиск
+                      {t('search')}
                     </BccTypography>
                   </Grid>
                   <Grid item>
@@ -713,7 +722,7 @@ const Navigation = (props: NavigationProps) => {
                     color="secondary"
                     className={classes.customBtn}
                   >
-                    Интернет–банк
+                    {t('ib')}
                   </BccButton>
                 </BccLink>
               </Grid>
@@ -767,7 +776,7 @@ const Navigation = (props: NavigationProps) => {
             <div>
               <Link shallow href="/">
                 <a onClick={() => openMenu(false)}>
-                  <img className={classes.logoMob} src={"/img/logo.svg"} alt="Банк ЦентрКредит"/>
+                  <img className={classes.logoMob} src={"/img/logo.svg"} alt={t('bcct')}/>
                 </a>
               </Link>
             </div>
@@ -777,7 +786,7 @@ const Navigation = (props: NavigationProps) => {
                 color="secondary"
                 size="small"
               >
-                Войти
+                {t('signin')}
               </BccButton>
             </div>
           </div>
@@ -1056,15 +1065,6 @@ const Navigation = (props: NavigationProps) => {
               )}
             </div>
             <div>
-              <BccTypography
-                type="p2"
-                weight="medium"
-                block
-                mt="12px"
-                mb="20px"
-              >
-                Частным лицам
-              </BccTypography>
               <Grid container wrap="nowrap" style={{ marginBottom: 16 }}>
                 <Grid item>
                   <img src={"/img/callus.svg"} />
@@ -1079,7 +1079,7 @@ const Navigation = (props: NavigationProps) => {
                     </a>
                   </BccTypography>
                   <BccTypography type="p3" ml="16px" block>
-                    Бесплатно с мобильного
+                    {t('free')}
                   </BccTypography>
                 </Grid>
               </Grid>
@@ -1109,17 +1109,17 @@ const Navigation = (props: NavigationProps) => {
                 mb="20px"
                 className={classes.mobileApps}
               >
-                Доступно в{" "}
+                {t('available')}{" "}
                 <img
                   style={{ marginLeft: 8, marginRight: 8, cursor: 'pointer' }}
                   onClick={() => window.open("https://apps.apple.com/kz/app/starbanking/id743617904", "_blank")}
                   src={"/img/as.svg"}
-                  alt="Приложение BCC.kz в AppStore"
+                  alt="AppStore"
                 />
                 <img src={"/img/gp.svg"}
                   style={{ cursor: 'pointer' }}
                   onClick={() => window.open("https://play.google.com/store/apps/details?id=kz.bcc.starbanking&hl=ru", "_blank")}
-                   alt="Приложение BCC.kz в GooglePlay"/>
+                   alt="GooglePlay"/>
               </BccTypography>
               <BccTypography type="p1" mr="20px">
                 <BccLink

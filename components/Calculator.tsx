@@ -8,6 +8,7 @@ import {
   BccButton,
   BccCheckbox,
 } from "./BccComponents";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -320,6 +321,7 @@ const Calculator = () => {
   const [sum, setSum] = React.useState(5000000);
   const [agree, setAgree] = React.useState(true);
   const [period, setPeriod] = React.useState(0);
+  const { t } = useTranslation();
   function calculateRate(period: number) {
     const rate = data.filter(d => d.period === period).splice(0, 1)
     return (rate[0] && rate[0].percent && rate[0].percentZP) ? (agree ? rate[0].percentZP : rate[0].percent) : 0
@@ -329,7 +331,7 @@ const Calculator = () => {
       <div className={classes.container}>
     <div className={classes.calc}>
       <BccTypography type="h4" block className={classes.calcTitle}>
-        Кредитный калькулятор
+        {t('calcred')}
       </BccTypography>
       <Grid
         container
@@ -342,7 +344,7 @@ const Calculator = () => {
           <div className={classes.paymentWrap}>
             <div className={classes.sliderWrap}>
               <BccInput
-                label="Выберите сумму"
+                label={t('chsum')}
                 key="sum"
                 value={sum + " ₸"}
                 variant="filled"
@@ -354,6 +356,7 @@ const Calculator = () => {
                     ? setSum(7000000)
                     : setSum(e.target.value.slice(0, -2))
                 }
+                onFocus={() => setSum(0)}
                 className={classes.input}
               />
               <BccSlider
@@ -385,7 +388,7 @@ const Calculator = () => {
           <div className={classes.paymentWrap}>
             <div className={classes.sliderWrap}>
               <BccInput
-                label="Выберите срок"
+                label={t('chper')}
                 key="period"
                 value={period + " мес."}
                 variant="filled"
@@ -398,6 +401,7 @@ const Calculator = () => {
                     : setPeriod(+e.target.value.slice(0, -5))
                 }
                 className={classes.input}
+                onFocus={() => setPeriod(0)}
               />
               <BccSlider
                 style={{
@@ -429,12 +433,12 @@ const Calculator = () => {
         </Grid>
         <Grid item>
           <BccTypography type="h5" block className={classes.calcTitleCount}>
-            Расчёт
+            {t('calculation')}
           </BccTypography>
           <Grid container justify="space-between" className={classes.cardsText}>
             <Grid item>
               <BccTypography type="p4" block>
-                Ежемесячный платёж
+                {t('weekpay')}
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
                 {period && sum ? `~ ${Math.round((((calculateRate(period) * sum) / 100) + sum) / period)}` : 0} ₸
@@ -442,7 +446,7 @@ const Calculator = () => {
             </Grid>
             <Grid item>
               <BccTypography type="p4" block>
-                Ставка
+                {t('bet')}
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
               {calculateRate(period)}%
@@ -456,10 +460,10 @@ const Calculator = () => {
             className={classes.calcBtn}
             onClick={() => window.open('https://www.bcc.kz/credit-loan/')}
           >
-            Оформить кредит
+            {t('credit')}
           </BccButton>
           <BccTypography type="p4" block>
-            *Данные предварительные
+            *{t('prime')}
           </BccTypography>
         </Grid>
       </Grid>
@@ -479,7 +483,7 @@ const Calculator = () => {
           />
         </Grid>
         <Grid item>
-          <BccTypography type="p3">Получаю ЗП на карту БЦК</BccTypography>
+          <BccTypography type="p3">{t('zp')}</BccTypography>
         </Grid>
       </Grid>
     </div>

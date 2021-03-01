@@ -14,6 +14,7 @@ import {
 } from "../../components/BccComponents";
 import { CurrencyProps } from '../../interfaces';
 import api from "../../api/Api";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -126,6 +127,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
   const { currency } = props
   const classes = useStyles({});
   const [isGold, setGold] = React.useState<boolean>(false)
+  const { t } = useTranslation();
   
   const formatDate = (date: string): string => {
     const dateArr = date.substr(0,16).split(' ')
@@ -134,7 +136,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
   }
 
   return (
-    <Layout title="Курсы валют" >
+    <Layout title={t('cv')} >
       <div className="main-page">
         <div className="container">
           <div className={classes.contents}>
@@ -152,10 +154,10 @@ const CurrencyPage = (props: CurrencyPageProps) => {
             </BccTypography>
             <div className={classes.chip}>
               <BccChip onClick={() => setGold(false)} type={!isGold ? "contained" : "outlined"} color="secondary" mr="16px">
-                Валюты
+                {t('currs')}
               </BccChip>
               <BccChip onClick={() => setGold(true)} type={isGold ? "contained" : "outlined"} color="secondary" mr="16px">
-                Золото
+                {t('gold')}
               </BccChip>
             </div>
             <BccTableContainer className={classes.tableOuter}>
@@ -169,7 +171,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
                         align="right"
                         weight="medium"
                       >
-                        {isGold ? "Вес" : "Валюта"}
+                        {isGold ? t('weight') : t('curr')}
                       </BccTypography>
                     </BccTableCell>
                     <BccTableCell>
@@ -179,7 +181,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
                         align="right"
                         weight="medium"
                       >
-                        Курс покупки
+                        {t('curpay')}
                       </BccTypography>
                     </BccTableCell>
                     <BccTableCell>
@@ -189,7 +191,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
                         align="right"
                         weight="medium"
                       >
-                        Курс продажи
+                        {t('cursell')}
                       </BccTypography>
                     </BccTableCell>
                   </BccTableRow>
@@ -202,7 +204,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
                             <BccTableRow>
                               <BccTableCell>
                                 <BccTypography type="p2" align="right" block>
-                                {index === 0 ? 1 : index === 1 ? 2 : index === 2 ? 4 : index === 3 ? 10 : index === 4 ? 20 : 0} грамм
+                                {index === 0 ? 1 : index === 1 ? 2 : index === 2 ? 4 : index === 3 ? 10 : index === 4 ? 20 : 0} {t('gr')}
                                 </BccTypography>
                               </BccTableCell>
                               <BccTableCell>
@@ -283,7 +285,7 @@ const CurrencyPage = (props: CurrencyPageProps) => {
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -292,11 +294,10 @@ const CurrencyPage = (props: CurrencyPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

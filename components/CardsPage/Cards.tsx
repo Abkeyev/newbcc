@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { BccTypography } from '../BccComponents';
-// import ReactGA from "react-ga";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -266,6 +266,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Cards = () => {
   const classes = useStyles({});
+  const { t } = useTranslation();
 
   return (
     <Grid
@@ -284,7 +285,7 @@ const Cards = () => {
                     <h2>Первая металлическая бесконтактная карта в Казахстане</h2>
                     <Grid container direction="row" justify="space-between">
                         <Grid item>
-                            <h3>15 грамм</h3>
+                            <h3>15 {t('gr')}</h3>
                             <h4>Нержавеющая сталь</h4>
                         </Grid>
                         <Grid item>

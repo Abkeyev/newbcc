@@ -5,6 +5,7 @@ import { BccCardFull, BccTypography } from '../../../components/BccComponents'
 import api from "../../../api/Api";
 import { NextPageContext } from 'next';
 import { SliderProps, TabsProps, BenefitsProps, OrderProps } from "../../../interfaces";
+import { useTranslation } from 'react-i18next';
 
 interface EtalonPageProps {
   slider: SliderProps[];
@@ -16,21 +17,24 @@ interface EtalonPageProps {
 
 const EtalonPage = (props: EtalonPageProps) => {
   const { slider, tabs, benefits, order } = props
+  const { t } = useTranslation();
   return (
-    <Layout title="Депозит «Эталон» - Банк ЦентрКредит" description="Депозит «Эталон» — калькулятор доходности, условия, сроки и процентные ставки" >
+    <Layout 
+      title={`${t('etdeposit')} - ${t('bcct')}`}
+      description={t('dedesc')}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
-              {title: "Частным лицам", link: "/", isExternal: false}, 
-              {title: "Депозиты", link: "/deposits", isExternal: false},
-              {title: "Депозит “Эталон”", link: null, isExternal: false}
+              {title: t('chl'), link: "/", isExternal: false}, 
+              {title: t('deposits'), link: "/deposits", isExternal: false},
+              {title: t('etdeposit'), link: null, isExternal: false}
             ]}/>
           <Benefits benefits={benefits} />
           <Order order={order} />
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -39,11 +43,10 @@ const EtalonPage = (props: EtalonPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

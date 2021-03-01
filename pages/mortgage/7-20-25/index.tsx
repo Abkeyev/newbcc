@@ -14,6 +14,7 @@ import {
 import { SliderProps, CalcProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
 import api from '../../../api/Api';
 import { NextPageContext } from 'next';
+import { useTranslation } from 'react-i18next';
 
 interface Mortgage72025PageProps {
   slider: SliderProps[];
@@ -25,16 +26,17 @@ interface Mortgage72025PageProps {
 
 const Mortgage72025Page = (props: Mortgage72025PageProps) => {
   const { slider, benefits, tabs, order, calc } = props
+  const { t } = useTranslation();
   return (
-    <Layout title="Ипотека 7-20-25 - Банк ЦентрКредит"
-      description="Преимущества: 7% ставка, 20% первоначальный взнос, до 25 млн. тенге. Калькулятор ипотеки, онлайн заявка"
-      keywords="ипотека, оформить ипотеку, ипотека 7-20-25, 7-20-25 оформить, ипотека 72025, ипотека 7 20, онлайн 7 20 25">
+    <Layout title={`${t('72025mort')} - ${t('bcct')}`}
+      description={t('72025mortdesc')}
+      keywords={t('77025mortkeywords')}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
-              {title: "Частным лицам", link: "/", isExternal: false}, 
-              {title: "Ипотека", link: "/mortgage", isExternal: false},
-              {title: "Ипотека “7-20-25”", link: null, isExternal: false}
+              {title: t('chl'), link: "/", isExternal: false}, 
+              {title: t('mortgage'), link: "/mortgage", isExternal: false},
+              {title: t('72025mort'), link: null, isExternal: false}
             ]}/>
           <Benefits benefits={benefits} />
           <MortgageCalculator calc={calc} />
@@ -42,7 +44,7 @@ const Mortgage72025Page = (props: Mortgage72025PageProps) => {
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -51,11 +53,10 @@ const Mortgage72025Page = (props: Mortgage72025PageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

@@ -1,4 +1,7 @@
 import axios from "axios";
+import Cookies from 'universal-cookie';
+ 
+const cookies = new Cookies();
 
 let webConfigEnv = { SERVER_URL: "" };
 
@@ -13,9 +16,7 @@ export class Server {
   public get(url: string, config = {} as any): any {
     config = config || {};
     config.headers = config.headers || {};
-    // var userContext = JSON.parse(localStorage && localStorage.getItem("userContext") || "{}");
-    // config.headers.Authorization =
-    //   "Bearer " + (userContext.token || {}).accessToken;
+    config.headers.lang = cookies.get('lang') ? cookies.get('lang') : 'ru'
     config.baseURL = config.baseURL || webConfigEnv.SERVER_URL;
     return axios.get(url, config).then((r) => r?.data);
   }
@@ -31,6 +32,7 @@ export class Server {
   public head(url: string, config = {} as any): any {
     config = config || {};
     config.headers = config.headers || {};
+    config.headers.lang = cookies.get('lang') ? cookies.get('lang') : 'ru'
     var userContext = JSON.parse(localStorage.getItem("userContext") || "{}");
     config.headers.Authorization =
       "Bearer " + (userContext.token || {}).accessToken;

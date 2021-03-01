@@ -12,6 +12,7 @@ import {
   BccTableRow,
   BccTableBody,
 } from "../../components/BccComponents";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -192,6 +193,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const FaqPage = () => {
   const classes = useStyles({});
+  const { t } = useTranslation();
 
   const openLink = () => {
     window.open('https://www.bcc.kz/documents/rekvizity-neobkhodimye-dlya-popolneniya-karti.pdf', '_blank')
@@ -225,7 +227,7 @@ const FaqPage = () => {
                     Наименование банка
                   </BccTypography>
                   <BccTypography type="p1" block mb="16px">
-                    АО “Банк ЦентрКредит”
+                    {t('bcct')}
                   </BccTypography>
                 </Grid>
                 <Grid item>

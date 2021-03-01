@@ -5,6 +5,7 @@ import { BccCardFull, BccTypography } from '../../components/BccComponents'
 import api from "../../api/Api";
 import { NextPageContext } from 'next';
 import { SliderProps, TabsProps, CardsPageProps, BenefitsProps } from "../../interfaces";
+import { useTranslation } from 'react-i18next';
 
 interface BusinessPageProps {
   slider: SliderProps[];
@@ -16,20 +17,21 @@ interface BusinessPageProps {
 
 const DepositesPage = (props: BusinessPageProps) => {
   const { slider, tabs, cards, benefits } = props
+  const { t } = useTranslation();
   return (
     <Layout
-      title="Депозиты - Банк ЦентрКредит"
-      description="Открыть депозит на любую сумму онлайн. Казахстанский фонд гарантирования депозитов – государственная гарантия банковских сбережений"
-      keywords="депозиты, онлайн депозит, открыт депозиты, депозиты застрахованные, открыть депозит, выгодные ставки по депозитам" >
+      title={`${t('deposits')} ${'bcct'}`}
+      description={t('ddesc')}
+      keywords={t('dkeywords')}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
-          <Best title="Депозиты" cards={cards} />
+          <Best title={t('deposits')} cards={cards} />
           <Benefits benefits={benefits} />
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -38,11 +40,10 @@ const DepositesPage = (props: BusinessPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

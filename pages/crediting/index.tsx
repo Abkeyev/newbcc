@@ -10,6 +10,7 @@ import {
 import api from '../../api/Api'
 import { NextPageContext } from 'next';
 import { CardsPageProps, SliderProps, TabsProps } from '../../interfaces'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -53,31 +54,32 @@ interface CreditingPageProps {
 
 const CreditingPage = (props: CreditingPageProps) => {
   const { slider, cards, tabs } = props
+  const { t } = useTranslation();
   const classes = useStyles({});
 
   return (
-    <Layout title="Оформить кредит онлайн - Банк ЦентрКредит" keywords="кредит, кредит онлайн, калькулятор кредита, кредит без справок, кредит без подтверждения дохода, кредит без поручителей, оформить кредит, получить кредит, взять кредит">
+    <Layout title={t('crtitle')} keywords={t('crkeywords')}>
       <div className="main-page">
         <div className="container">
-          <Slider slider={slider} breadcrumbs={[{title: "Частным лицам", link: "/", isExternal: false}, {title: "Кредиты", link: null, isExternal: false}]} />
-          <Crediting title="Кредитование частных лиц" cards={cards} />
+          <Slider slider={slider} breadcrumbs={[{title: t('chl'), link: "/", isExternal: false}, {title: t('credits'), link: null, isExternal: false}]} />
+          <Crediting title={t('chlcredit')} cards={cards} />
           <BccCardFull
             title={
               <BccTypography block type="h4" className={classes.ezT} mb="16px">
-                Рефинансирование кредитных займов
+                {t('ref')}
               </BccTypography>
             }
             text={
               <>
                 <BccTypography block type="p2" className={classes.ez} mb="65px">
-                  Смягчим условия кредитов любых банков
+                  {t('refcond')}
                 </BccTypography>
                 <BccButton
                   variant="outlined"
                   color="secondary"
                   className={classes.readMore}
                 >
-                  Подробнее
+                  {t('more')}
                 </BccButton>
               </>
             }
@@ -87,7 +89,7 @@ const CreditingPage = (props: CreditingPageProps) => {
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -96,11 +98,10 @@ const CreditingPage = (props: CreditingPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

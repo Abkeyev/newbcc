@@ -7,6 +7,7 @@ import {
   BccSlider,
   BccButton,
 } from "./BccComponents";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -204,12 +205,13 @@ const CarCreditCalculator = () => {
   const classes = useStyles({});
   const [sum, setSum] = React.useState(1500000);
   const [period, setPeriod] = React.useState(24);
+  const { t } = useTranslation();
   return (
     <div className={classes.outerContainer} id="calc">
       <div className={classes.container}>
         <div className={classes.calc}>
           <BccTypography type="h4" block className={classes.calcTitle}>
-            Калькулятор
+            {t('calc')}
           </BccTypography>
           <Grid
             container
@@ -222,7 +224,7 @@ const CarCreditCalculator = () => {
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
-                    label="Первоначальный взнос"
+                    label={t('firstpay')}
                     key="sum"
                     value={sum + " ₸"}
                     variant="filled"
@@ -265,7 +267,7 @@ const CarCreditCalculator = () => {
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
-                    label="Выберите срок"
+                    label={t('chper')}
                     key="period"
                     value={period + " мес."}
                     variant="filled"
@@ -308,7 +310,7 @@ const CarCreditCalculator = () => {
             </Grid>
             <Grid item>
               <BccTypography type="h5" block className={classes.calcTitleCount}>
-                Расчёт
+                {t('calculation')}
               </BccTypography>
               <Grid
                 container
@@ -317,7 +319,7 @@ const CarCreditCalculator = () => {
               >
                 <Grid item>
                   <BccTypography type="p4" block>
-                    Ежемесячный платёж
+                    {t('weekpay')}
                   </BccTypography>
                   <BccTypography type="p4" weight="medium" block>
                     100 000 ₸
@@ -338,10 +340,10 @@ const CarCreditCalculator = () => {
                 color="primary"
                 className={classes.calcBtn}
               >
-                Оформить кредит
+                {t('credit')}
               </BccButton>
               <BccTypography type="p4" block>
-                *Данные предварительные
+                *{t('prime')}
               </BccTypography>
             </Grid>
           </Grid>

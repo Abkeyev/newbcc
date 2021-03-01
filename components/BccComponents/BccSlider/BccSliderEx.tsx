@@ -2,6 +2,7 @@ import React from "react";
 import BccInput from "../BccInput/BccInput";
 import { BccSlider } from "../index";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -27,11 +28,12 @@ const BccSliderEx = () => {
   const [sum, setSum] = React.useState(0);
   const [period, setPeriod] = React.useState(0);
   const classes = useStyles();
+  const { t } = useTranslation();
   return (
     <div className={classes.wrap}>
       <div className={classes.bccSlider}>
         <BccInput
-          label="Выберите сумму"
+          label={t('chsum')}
           InputLabelProps={{
             shrink: true,
           }}

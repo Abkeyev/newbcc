@@ -8,7 +8,11 @@ import { MenuProps, FooterProps } from "../interfaces";
 import { Navigation, Footer } from "../components";
 import ReactGA from "react-ga";
 import api from "../api/Api";
+import '../i18n';
+import i18n from "../i18n";
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 const progress = new ProgressBar({
   size: 3,
   color: "#00A755",
@@ -53,7 +57,7 @@ function MyApp({Component, pageProps}: AppProps) {
       api.main.getMenu().then(r => {
         sessionStorage.setItem('menu', JSON.stringify(r))
         setNavi(r)
-      })
+      }).catch(err => console.error(err))
     }
     if(Object.keys(JSON.parse(sessionStorage.getItem("footer") || "{}")).length > 0){
       setFooter(JSON.parse(sessionStorage.getItem("footer") || "{}"))
@@ -61,8 +65,11 @@ function MyApp({Component, pageProps}: AppProps) {
       api.main.getFooter().then(r => {
         sessionStorage.setItem('footer', JSON.stringify(r))
         setFooter(r)
-      })
+      }).catch(err => console.error(err))
     }
+    if(Object.keys(JSON.parse(sessionStorage.getItem("lang") || "{}")).length > 0){
+      i18n.changeLanguage(cookies.get('lang'))
+    }else cookies.set('lang', 'ru')
   }, [])
 
   return (

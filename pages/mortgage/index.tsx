@@ -6,6 +6,7 @@ import api from "../../api/Api";
 import { NextPageContext } from 'next';
 import { SliderProps, NewsProps, CardsPageProps, TabsProps } from "../../interfaces";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -44,27 +45,28 @@ interface BusinessPageProps {
 
 const MortgagePage = (props: BusinessPageProps) => {
   const { slider, tabs, cards } = props
+  const { t } = useTranslation();
   
   const classes = useStyles({});
   return (
-    <Layout title="Ипотека" >
+    <Layout title={t('mortgage')} >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
-            {title: "Частным лицам", link: "/", isExternal: false}, 
-            {title: "Ипотека", link: null, isExternal: false}
+            {title: t('chl'), link: "/", isExternal: false}, 
+            {title: t('mortgage'), link: null, isExternal: false}
           ]} />
-          <Best title="Программы" cards={cards} />
+          <Best title={t('programs')} cards={cards} />
           <BccCardFullImg
             title={
               <BccTypography block type="h4" className={classes.ezT} mb="16px">
-                Рефинансирование ипотечных займов
+                {t('refmort')}
               </BccTypography>
             }
             text={
               <>
                 <BccTypography block type="p2" className={classes.ez} mb="65px">
-                  Смягчим условия кредитов любых банков
+                  {t('refcond')}
                 </BccTypography>
                 <BccButton
                   variant="outlined"
@@ -72,7 +74,7 @@ const MortgagePage = (props: BusinessPageProps) => {
                   className={classes.readMore}
                   href="https://www.bcc.kz/product/the-state-program-for-refinancing-of-mortgage-loans/"
                 >
-                  Подробнее
+                  {t('more')}
                 </BccButton>
               </>
             }
@@ -80,7 +82,7 @@ const MortgagePage = (props: BusinessPageProps) => {
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -89,11 +91,10 @@ const MortgagePage = (props: BusinessPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

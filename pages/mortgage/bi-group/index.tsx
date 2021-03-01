@@ -13,6 +13,7 @@ import {
 import { SliderProps, BenefitsProps, TabsProps, OrderProps } from '../../../interfaces';
 import api from '../../../api/Api';
 import { NextPageContext } from 'next';
+import { useTranslation } from 'react-i18next';
 
 interface MortgageBiGroupPageProps {
   slider: SliderProps[];
@@ -24,21 +25,22 @@ interface MortgageBiGroupPageProps {
 
 const MortgageBiGroupPage = (props: MortgageBiGroupPageProps) => {
   const { slider, benefits, tabs, order } = props
+  const { t } = useTranslation();
   return (
-    <Layout title="Потреб.займы BI Group" >
+    <Layout title={t('bimort')} >
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} breadcrumbs={[
-              {title: "Частным лицам", link: "/", isExternal: false}, 
-              {title: "Ипотека", link: "/mortgage", isExternal: false},
-              {title: "Потреб.займы BI Group", link: null, isExternal: false}
+              {title: t('chl'), link: "/", isExternal: false}, 
+              {title: t('mortgage'), link: "/mortgage", isExternal: false},
+              {title: t('bimort'), link: null, isExternal: false}
             ]}/>
           <Benefits benefits={benefits} />
           <Order order={order} />
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -47,11 +49,10 @@ const MortgageBiGroupPage = (props: MortgageBiGroupPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

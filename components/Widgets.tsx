@@ -10,6 +10,7 @@ import {
   BccChip
 } from "./BccComponents";
 import { CurrencyProps } from '../interfaces';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -329,9 +330,10 @@ const data = [{
 
 const Calulator = () => {
   const classes = useStyles({});
-  const [sum, setSum] = React.useState("5000000");
+  const [sum, setSum] = React.useState(5000000);
   const [agree, setAgree] = React.useState(true);
-  const [period, setPeriod] = React.useState("0");
+  const [period, setPeriod] = React.useState(0);
+  const { t } = useTranslation();
   function calculateRate(period: number) {
     const rate = data.filter(d => d.period === period).splice(0, 1)
     return (rate[0] && rate[0].percent && rate[0].percentZP) ? (agree ? rate[0].percentZP : rate[0].percent) : 0
@@ -339,7 +341,7 @@ const Calulator = () => {
   return (
     <div className={classes.calc}>
       <BccTypography type="h4" block className={classes.calcTitle}>
-        Кредитный калькулятор
+        {t('calcred')}
       </BccTypography>
       <Grid
         container
@@ -352,22 +354,19 @@ const Calulator = () => {
           <div className={classes.paymentWrap}>
             <div className={classes.sliderWrap}>
               <BccInput
-                label="Выберите сумму"
+                label={t('chsum')}
                 key="sum"
-                value={`${sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${sum !== "" ? " ₸" : ""}`}
+                value={sum + " ₸"}
                 variant="filled"
                 InputLabelProps={{
                   shrink: true,
                 }}
                 onChange={(e: any) =>{
-                  const s = +e.target.value.replace(
-                    /[^0-9]/g,
-                    ""
-                  );
-                  if (s > 7000000) setSum("7000000")
-                  else setSum(s.toString())
+                  +e.target.value.slice(0, -2) > 7000000
+                    ? setSum(7000000)
+                    : setSum(e.target.value.slice(0, -2))
                 }}
-                onFocus={() => setSum("")}
+                onFocus={() => setSum(0)}
                 className={classes.input}
               />
               <BccSlider
@@ -399,23 +398,20 @@ const Calulator = () => {
           <div className={classes.paymentWrap}>
             <div className={classes.sliderWrap}>
               <BccInput
-                label="Выберите срок"
+                label={t('chper')}
                 key="period"
-                value={`${period}${period !== "" ? " мес." : ""}`}
+                value={period + " мес."}
                 variant="filled"
                 InputLabelProps={{
                   shrink: true,
                 }}
                 onChange={(e: any) => {
-                  const s = +e.target.value.replace(
-                    /[^0-9]/g,
-                    ""
-                  );
-                  if (s > 60) setPeriod('60')
-                  else setPeriod(s.toString())
+                  +e.target.value.slice(0, -5) > 60
+                    ? setPeriod(60)
+                    : setPeriod(+e.target.value.slice(0, -5))
                 }}
-                onFocus={() => setPeriod("")}
                 className={classes.input}
+                onFocus={() => setPeriod(0)}
               />
               <BccSlider
                 style={{
@@ -461,18 +457,18 @@ const Calulator = () => {
               />
             </Grid>
             <Grid item>
-              <BccTypography type="p3">Получаю ЗП на карту БЦК</BccTypography>
+              <BccTypography type="p3">{t('zp')}</BccTypography>
             </Grid>
           </Grid>
         </Grid>
         <Grid item>
           <BccTypography type="h5" block className={classes.calcTitleCount}>
-            Расчёт
+            {t('calculation')}
           </BccTypography>
           <Grid container justify="space-between" className={classes.cardsText}>
             <Grid item>
               <BccTypography type="p4" block>
-                Ежемесячный платёж
+                {t('weekpay')}
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
                 {period && sum ? `~ ${Math.round((((calculateRate(+period) * +sum) / 100) + +sum) / +period)}` : 0} ₸
@@ -480,7 +476,7 @@ const Calulator = () => {
             </Grid>
             <Grid item>
               <BccTypography type="p4" block>
-                Ставка
+                {t('bet')}
               </BccTypography>
               <BccTypography type="p4" weight="medium" block>
               {calculateRate(+period)}%
@@ -494,10 +490,10 @@ const Calulator = () => {
             className={classes.calcBtn}
             onClick={() => window.open('https://www.bcc.kz/credit-loan/')}
           >
-            Оформить кредит
+            {t('credit')}
           </BccButton>
           <BccTypography type="p4" block>
-            *Данные предварительные
+            *{t('prime')}
           </BccTypography>
         </Grid>
       </Grid>
@@ -517,7 +513,7 @@ const Calulator = () => {
           />
         </Grid>
         <Grid item>
-          <BccTypography type="p3">Получаю ЗП на карту БЦК</BccTypography>
+          <BccTypography type="p3">{t('zp')}</BccTypography>
         </Grid>
       </Grid>
     </div>
@@ -532,6 +528,7 @@ const Currency = (props: CurrencyPageProps) => {
   const { currency } = props
   const classes = useStyles({});
   const [isGold, setGold] = React.useState<boolean>(false)
+  const { t } = useTranslation();
 
   const formatDate = (date: string): string => {
     const dateArr = date.substr(0,16).split(' ')
@@ -546,17 +543,17 @@ const Currency = (props: CurrencyPageProps) => {
         {currency && currency.length > 0 && currency[0] && currency[5] && formatDate(isGold ? currency[0].dateTime : currency[5].dateTime)}
       </BccTypography>
       <BccChip type={!isGold ? "contained" : "outlined"} onClick={() => setGold(false)} color="secondary" mb="16px" mr="16px">
-        Валюты
+        {t('currs')}
       </BccChip>
       <BccChip type={isGold ? "contained" : "outlined"} onClick={() => setGold(true)} mb="16px" color="secondary">
-        Золото
+        {t('gold')}
       </BccChip>
       <Grid container justify="space-between" wrap="nowrap">
       {!isGold ? (
         <>
         <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block>
-            Валюта
+            {t('curr')}
           </BccTypography>
           <BccTypography type="p2" block>
             USD
@@ -570,7 +567,7 @@ const Currency = (props: CurrencyPageProps) => {
         </Grid>
           <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block>
-            Покупка
+            {t('pay')}
           </BccTypography>
           <BccTypography type="p2" block>
             {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.purchase}
@@ -584,7 +581,7 @@ const Currency = (props: CurrencyPageProps) => {
         </Grid>
           <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block>
-            Продажа
+            {t('sell')}
           </BccTypography>
           <BccTypography type="p2" block>
             {currency && currency.length > 0 && currency.find((c: CurrencyProps) => (c.currency === "USD"))?.sell}
@@ -601,27 +598,27 @@ const Currency = (props: CurrencyPageProps) => {
         <>
         <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block>
-            Вес
+            {t('weight')}
           </BccTypography>
           <BccTypography type="p2" block>
-            1 грамм
+            1 {t('gr')}
           </BccTypography>
           <BccTypography type="p2" block>
-            2 грамм
+            2 {t('gr')}
           </BccTypography>
           <BccTypography type="p2" block>
-            4 грамм
+            4 {t('gr')}
           </BccTypography>
           <BccTypography type="p2" block>
-            10 грамм
+            10 {t('gr')}
           </BccTypography>
           <BccTypography type="p2" block>
-            20 грамм
+            20 {t('gr')}
           </BccTypography>
         </Grid>
         <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block align="right">
-            Покупка
+            {t('pay')}
           </BccTypography>
           {
             currency && currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
@@ -633,7 +630,7 @@ const Currency = (props: CurrencyPageProps) => {
         </Grid>
         <Grid item className={classes.currencyBlock}>
           <BccTypography type="p2" block align="right">
-            Продажа
+            {t('sell')}
           </BccTypography>
           {
             currency && currency.length > 0 && currency.filter((c: CurrencyProps) => c.currency === 'XAU').map((c: CurrencyProps) => (
@@ -646,7 +643,7 @@ const Currency = (props: CurrencyPageProps) => {
         </>
       )}</Grid>
     </div>
-    {!isGold && (<BccButton variant="outlined" color="secondary" onClick={() => window.open('https://www.bcc.kz/about/kursy-valyut/')}>Все валюты</BccButton>)}
+    {!isGold && (<BccButton variant="outlined" color="secondary" onClick={() => window.open('https://www.bcc.kz/about/kursy-valyut/')}>{t('allcurr')}</BccButton>)}
     </>
   );
 };
@@ -659,6 +656,7 @@ interface WidgetsPageProps {
 const Widgets = (props: WidgetsPageProps) => {
   const { currency } = props
   const classes = useStyles({});
+  const { t } = useTranslation();
   return (
     <div className={classes.outerContainer}>
       <div className={classes.container}>
@@ -675,7 +673,7 @@ const Widgets = (props: WidgetsPageProps) => {
             <div className={classes.card}>
               <div className={classes.contentCard}>
                 <BccTypography type="h5" block className={classes.title}>
-                  Курсы валют
+                  {t('cv')}
                 </BccTypography>
                 <Currency currency={currency} />
               </div>

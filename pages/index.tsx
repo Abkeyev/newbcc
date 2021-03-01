@@ -5,6 +5,7 @@ import { BccCardFull, BccTypography } from "../components/BccComponents";
 import api from "../api/Api";
 import { NextPageContext } from 'next';
 import { CardsPageProps, SliderProps, NewsProps } from "../interfaces";
+import { useTranslation } from 'react-i18next';
 
 interface IndexPageProps {
   cards: CardsPageProps;
@@ -15,21 +16,22 @@ interface IndexPageProps {
 
 const IndexPage = (props: IndexPageProps) => {
   const { cards, slider, currency, news } = props
+  const { t } = useTranslation();
   return (
     <Layout 
-      title={'Банк ЦентрКредит — Кредиты, депозиты и карты'}
-      description="Оставить онлайн заявку на кредит, карты, ипотеку, открытие депозита и другие услуги для физических лиц"
-      keywords="Бцк, bcc, онлайн банк, лучший банк, кредит, оформить кредит, кредит онлайн, кредитная карта, оформить кредитную карту, кредитная карта по интернету, кредитная карта онлайн, кредит наличными, кредит наличными онлайн, дебетовая карта, перевод с карты на карту">
+      title={t('title')}
+      description={t('desc')}
+      keywords={t('keywords')}>
       <div className="main-page">
         <div className="container">
           <Slider slider={slider} />
-          <Featured title="Лучшее от банка" cards={cards} />
+          <Featured title={t('best')} cards={cards} />
           <Widgets currency={currency && currency.Rates} />
           <Useful cards={cards} />
           <BccCardFull
             chips={[
               {
-                title: "Мобильный банкинг",
+                title: t('mb'),
                 type: "outlined",
                 color: "secondary",
               },
@@ -38,11 +40,10 @@ const IndexPage = (props: IndexPageProps) => {
             text={
               <>
                 <BccTypography align="left" block type="p2" mb="32px">
-                  Управляй банковскими счетами онлайн через браузер или
-                  приложение
+                  {t('mbt')}
                 </BccTypography>
-                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore"/>
-                <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                <img style={{ marginRight: 20 }} src={"/img/as.svg"} alt="AppStore"/>
+                <img src={"/img/gp.svg"} alt="GooglePlay"/>
               </>
             }
             bgImg="/img/mobile-app.svg"

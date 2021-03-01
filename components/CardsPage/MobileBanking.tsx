@@ -126,7 +126,7 @@ const MobileBanking = () => {
                 onClick={() => onClickAppStore()}
                 className={classes.googlePlayAppStore}
                 src="/img/as.svg"
-                alt="Приложение BCC.kz в AppStore"
+                alt="AppStore"
               />
             </Grid>
             <Grid item>
@@ -134,7 +134,7 @@ const MobileBanking = () => {
                 onClick={() => onClickGooglePlay()}
                 className={classes.googlePlayAppStore}
                 src="/img/gp.svg"
-                alt="Приложение BCC.kz в GooglePlay"
+                alt="GooglePlay"
               />
             </Grid>
           </Grid>

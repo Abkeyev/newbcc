@@ -4,6 +4,7 @@ import { BccButton } from "./BccComponents";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
 import { FooterProps } from '../interfaces'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -221,6 +222,7 @@ interface FooterPageProps {
 const Footer = (props: FooterPageProps) => {
   const { footer } = props;
   const classes = useStyles({});
+  const { t } = useTranslation();
 
   return (
     <div className={classes.container}>
@@ -247,7 +249,7 @@ const Footer = (props: FooterPageProps) => {
                       href="tel:505"
                       className={classes.footLink}
                     >
-                      <span>505</span> Бесплатно с мобильного
+                      <span>505</span> {t('free')}
                     </a>
                   </Grid>
                 </Grid>
@@ -321,7 +323,7 @@ const Footer = (props: FooterPageProps) => {
                   color="primary"
                   onClick={() => window.open("https://wa.me/77012230228", "_blank")}
                 >
-                  <img src="/img/wp.svg" style={{ marginRight: 4 }}/>Отправить сообщение
+                  <img src="/img/wp.svg" style={{ marginRight: 4 }}/>{t('sendsms')}
                 </BccButton>
               </Grid>
             </Grid>
@@ -362,28 +364,27 @@ const Footer = (props: FooterPageProps) => {
           <Grid item className={classes.footerOne}>
             <Grid container>
               <Grid item className={classes.mobileTitle}>
-                Мобильное приложение
+                {t('mobapp')}
               </Grid>
               <Grid item className={classes.appLinks}>
                 <a
                   href="https://apps.apple.com/kz/app/starbanking/id743617904"
                   target="_blank"
                 >
-                  <img src={"/img/as.svg"} alt="Приложение BCC.kz в AppStore" />
+                  <img src={"/img/as.svg"} alt="AppStore" />
                 </a>
                 <a
                   href="https://play.google.com/store/apps/details?id=kz.bcc.starbanking&hl=ru"
                   target="_blank"
                 >
-                  <img src={"/img/gp.svg"} alt="Приложение BCC.kz в GooglePlay"/>
+                  <img src={"/img/gp.svg"} alt="GooglePlay"/>
                 </a>
               </Grid>
             </Grid>
           </Grid>
           <Grid item className={classes.footerTwo}>
             <div className={classes.footLicen}>
-              Лицензия на проведение банковских и иных операций и деятельности
-              на рынке ценных бумаг №1.2.25/195/34 от 28.01.2015 выданная НБ РК.
+              {t('lic')}
             </div>
           </Grid>
         </Grid>

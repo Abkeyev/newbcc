@@ -9,6 +9,7 @@ import {
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { BccTypography, BccCard } from "./BccComponents";
 import { CardsPageProps, CardsProps, imgURL } from "../interfaces";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -301,6 +302,7 @@ const Useful = (props: UserfulProps) => {
   const small = useMediaQuery(theme.breakpoints.down("sm"));
   const vSmall = useMediaQuery(theme.breakpoints.down("xs"));
   const { cards } = props;
+  const { t } = useTranslation()
   
   const cardsList = () => {
     if (cards && cards.slider.length > 0) {
@@ -344,7 +346,7 @@ const Useful = (props: UserfulProps) => {
         >
           <Grid item>
             <BccTypography type="h2" block className={classes.title}>
-              Полезное
+              {t('useful')}
             </BccTypography>
           </Grid>
           <Grid item>

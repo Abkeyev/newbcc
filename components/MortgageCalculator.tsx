@@ -8,6 +8,7 @@ import {
   BccButton,
 } from "./BccComponents";
 import { CalcProps } from '../interfaces';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -216,6 +217,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
   const [hSum, setHSum] = React.useState("");
   const [period, setPeriod] = React.useState("");
   const [rate, setRate] = React.useState(0);
+  const { t } = useTranslation();
   React.useEffect(() => {
     if(calc.length > 0 && calc[0]) {
       setSum(calc[0].firstPayDefault.toString())
@@ -229,7 +231,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
       <div className={classes.container}>
         <div className={classes.calc}>
           <BccTypography type="h4" block className={classes.calcTitle}>
-            Калькулятор
+            {t('calc')}
           </BccTypography>
           <Grid
             container
@@ -241,7 +243,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
-                    label="Стоимость жилья"
+                    label={t('houseprice')}
                     key="hSum"
                     value={`${hSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${hSum !== "" ? " ₸" : ""}`}
                     variant="filled"
@@ -288,7 +290,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
-                    label="Первоначальный взнос"
+                    label={t('firstpay')}
                     key="sum"
                     value={`${sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${sum !== "" ? " ₸" : ""}`}
                     variant="filled"
@@ -335,7 +337,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
               <div className={classes.paymentWrap}>
                 <div className={classes.sliderWrap}>
                   <BccInput
-                    label="Срок займа"
+                    label={t('periodcredit')}
                     key="period"
                     variant="filled"
                     InputLabelProps={{
@@ -382,7 +384,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
             </Grid>
             <Grid item>
               <BccTypography type="h5" block className={classes.calcTitleCount}>
-                Расчёт
+                {t('calculation')}
               </BccTypography>
               <Grid
                 container
@@ -391,7 +393,7 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
               >
                 <Grid item>
                   <BccTypography type="p4" block>
-                    Ежемесячный платёж
+                    {t('weekpay')}
                   </BccTypography>
                   <BccTypography type="p3" weight="medium" block>
                     {console.log(+hSum, 'hs')}
@@ -418,10 +420,10 @@ const MortgageCalculator = (props: MortgageCalculatorProps) => {
                 className={classes.calcBtn}
                 href="#order"
               >
-                Оформить ипотеку
+                {t('applymorg')}
               </BccButton>
               <BccTypography type="p4" block>
-                *Данные предварительные
+                *{t('prime')}
               </BccTypography>
             </Grid>
           </Grid>
