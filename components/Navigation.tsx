@@ -14,8 +14,6 @@ import { useRouter } from "next/router";
 import { MenuProps } from "../interfaces";
 import { useTranslation } from 'react-i18next';
 import Cookies from 'universal-cookie';
-
-
 const cookies = new Cookies();
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -646,8 +644,9 @@ const Navigation = (props: NavigationProps) => {
                   <Grid item>
                     <Select className={classes.select} value={i18n.language} onClick={(e: any) => {
                       cookies.set('lang', e.target.value)
-                      i18n.changeLanguage(e.target.value)}
-                    }>
+                      i18n.changeLanguage(e.target.value)
+                      location.reload();
+                    }}>
                       <MenuItem value="ru">РУС</MenuItem>
                       <MenuItem value="kz">ҚАЗ</MenuItem>
                       <MenuItem value="en">ENG</MenuItem>

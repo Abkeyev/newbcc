@@ -67,7 +67,7 @@ function MyApp({Component, pageProps}: AppProps) {
         setFooter(r)
       }).catch(err => console.error(err))
     }
-    if(Object.keys(JSON.parse(sessionStorage.getItem("lang") || "{}")).length > 0){
+    if(cookies.get('lang')){
       i18n.changeLanguage(cookies.get('lang'))
     }else cookies.set('lang', 'ru')
   }, [])
