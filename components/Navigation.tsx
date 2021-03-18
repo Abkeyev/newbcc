@@ -643,9 +643,11 @@ const Navigation = (props: NavigationProps) => {
                 >
                   <Grid item>
                     <Select className={classes.select} value={i18n.language} onClick={(e: any) => {
-                      cookies.set('lang', e.target.value)
-                      i18n.changeLanguage(e.target.value)
-                      location.reload();
+                      if(e.target.value === 'ru' || e.target.value === 'kz' || e.target.value === 'en') {
+                        i18n.changeLanguage(e.target.value)
+                        cookies.set('lang', e.target.value)
+                        router.replace(router.asPath)
+                      }
                     }}>
                       <MenuItem value="ru">РУС</MenuItem>
                       <MenuItem value="kz">ҚАЗ</MenuItem>

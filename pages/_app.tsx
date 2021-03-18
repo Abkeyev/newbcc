@@ -50,8 +50,11 @@ function MyApp({Component, pageProps}: AppProps) {
     }
     const jssStyles = document.querySelector("#jss-server-side");
     jssStyles?.parentNode?.removeChild(jssStyles);
-    console.log(Object.keys(JSON.parse(sessionStorage.getItem("menu") || "{}")))
-    if(Object.keys(JSON.parse(sessionStorage.getItem("menu") || "{}")).length > 0){
+
+    if(cookies.get('lang')) i18n.changeLanguage(cookies.get('lang'))
+    else cookies.set('lang', 'ru')
+    
+    if(Object.keys(JSON.parse(sessionStorage.getItem("menu") || "{}")).length > 0 && cookies.get('lang') === 'ru'){
       setNavi(JSON.parse(sessionStorage.getItem("menu") || "{}"))
     }else {
       api.main.getMenu().then(r => {
@@ -59,7 +62,7 @@ function MyApp({Component, pageProps}: AppProps) {
         setNavi(r)
       }).catch(err => console.error(err))
     }
-    if(Object.keys(JSON.parse(sessionStorage.getItem("footer") || "{}")).length > 0){
+    if(Object.keys(JSON.parse(sessionStorage.getItem("footer") || "{}")).length > 0 && cookies.get('lang') === 'ru'){
       setFooter(JSON.parse(sessionStorage.getItem("footer") || "{}"))
     }else {
       api.main.getFooter().then(r => {
@@ -67,9 +70,6 @@ function MyApp({Component, pageProps}: AppProps) {
         setFooter(r)
       }).catch(err => console.error(err))
     }
-    if(cookies.get('lang')){
-      i18n.changeLanguage(cookies.get('lang'))
-    }else cookies.set('lang', 'ru')
   }, [])
 
   return (
