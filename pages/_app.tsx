@@ -53,7 +53,7 @@ function MyApp({Component, pageProps}: AppProps) {
 
     if(cookies.get('lang')) i18n.changeLanguage(cookies.get('lang'))
     else cookies.set('lang', 'ru')
-    
+
     if(Object.keys(JSON.parse(sessionStorage.getItem("menu") || "{}")).length > 0 && cookies.get('lang') === 'ru'){
       setNavi(JSON.parse(sessionStorage.getItem("menu") || "{}"))
     }else {

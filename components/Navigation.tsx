@@ -654,7 +654,7 @@ const Navigation = (props: NavigationProps) => {
                       <MenuItem value="en">ENG</MenuItem>
                     </Select>
                   </Grid>
-                  <Grid item>
+                  {/* <Grid item>
                     <BccTypography className={classes.searchText} type="p2">
                       {t('search')}
                     </BccTypography>
@@ -664,7 +664,7 @@ const Navigation = (props: NavigationProps) => {
                       className={classes.searchIcon}
                       src={"/img/search.svg"}
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Grid>
